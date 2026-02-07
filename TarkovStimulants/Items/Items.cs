@@ -41,8 +41,8 @@ namespace TarkovStimulants.Items
                 {
                     new FoodData
                     {
-                        energyValue = -30f,
-                        waterValue = -40f
+                        energyValue = -10f,
+                        waterValue = -20f
                     },
                     new QuackAddBuffData
                     {
