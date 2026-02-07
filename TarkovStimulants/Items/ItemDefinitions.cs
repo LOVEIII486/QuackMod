@@ -22,7 +22,7 @@ namespace TarkovStimulants.Items
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic", "Healing" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/eTG-c.png",
                 usages = new UsageData
                 {
@@ -84,7 +84,7 @@ namespace TarkovStimulants.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/SJ12.png",
                 usages = new UsageData
                 {
@@ -138,7 +138,7 @@ namespace TarkovStimulants.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/Propital.png",
                 usages = new UsageData
                 {
@@ -191,7 +191,7 @@ namespace TarkovStimulants.Items
                 quality = 3,
                 displayQuality = DisplayQuality.Blue,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/SJ6.png",
                 usages = new UsageData
                 {
@@ -230,7 +230,7 @@ namespace TarkovStimulants.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/MULE.png",
                 usages = new UsageData
                 {
@@ -249,7 +249,7 @@ namespace TarkovStimulants.Items
             Crafting = new QuackItemDefinition.CraftingConfig
             {
                 FormulaID = "formula_MULE_craft",
-                Materials = new List<(int itemId, long count)> { (136, 3L), (132, 3L) },
+                Materials = new List<(int itemId, long count)> { (136, 3L), (398, 2L), (84, 1L) },
                 ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true
@@ -269,7 +269,7 @@ namespace TarkovStimulants.Items
                 quality = 3,
                 displayQuality = DisplayQuality.Blue,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/Adrenaline.png",
                 usages = new UsageData
                 {
@@ -309,7 +309,7 @@ namespace TarkovStimulants.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 3,
-                tags = new List<string> { "Medic" },
+                tags = new List<string> { "Medic", "Injector" },
                 spritePath = "items/Meldonin.png",
                 usages = new UsageData
                 {
