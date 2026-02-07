@@ -58,10 +58,11 @@ namespace TarkovStimulants.Items
                 MoneyCost = 0L,
                 Materials = new List<(int itemId, long count)>
                 {
-                    (88, 2L),
-                    (84, 1L)
+                    (136, 3L),
+                    (875, 1L),
+                    (14, 1L)
                 },
-                ResultCount = 1,
+                ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true,
                 RequirePerk = "",
@@ -87,9 +88,9 @@ namespace TarkovStimulants.Items
                 localizationKey = "Stim_SJ12",
                 localizationDesc = "Stim_SJ12_Desc",
                 weight = 0.1f,
-                value = 800,
-                quality = 3,
-                displayQuality = DisplayQuality.Blue,
+                value = 1500,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
                 maxStackCount = 3,
                 tags = new List<string> { "Medic" },
                 spritePath = "items/SJ12.png",
@@ -108,8 +109,28 @@ namespace TarkovStimulants.Items
             Shop = new QuackItemDefinition.ShopConfig
             {
                 MerchantID = MerchantIDs.Mud,
-                MaxStock = 3
-            }
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = new QuackItemDefinition.CraftingConfig
+            {
+                FormulaID = "formula_SJ12_craft",
+                MoneyCost = 0L,
+                Materials = new List<(int itemId, long count)>
+                {
+                    (136, 3L),
+                    (428, 1L),
+                    (132, 1L)
+                },
+                ResultCount = 3,
+                Workbenches = new string[] { WorkbenchIDs.MedicStation },
+                UnlockByDefault = true,
+                RequirePerk = "",
+                HideInIndex = false,
+                LockInDemo = false
+            },
         };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
