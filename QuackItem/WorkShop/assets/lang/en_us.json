@@ -1,6 +1,6 @@
 {
-  "Cookie":"Cookie",
-  "Cookie_Desc":"Increases maximum health when used",
-  "QuackItem_QuackMaxHpBuff": "Sturdy Cookie",
-  "QuackItem_QuackMaxHpBuff_Desc": "Increases maximum health"
+  "Food_Cookie":"Cookie",
+  "Food_Cookie_Desc":"Increases maximum health when used",
+  "QuackItem_Cookie_Buff": "Sturdy Cookie",
+  "QuackItem_Cookie_Buff_Desc": "Increases maximum health"
 }

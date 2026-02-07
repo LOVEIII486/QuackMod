@@ -1,6 +1,6 @@
 {
-    "Cookie":"曲奇",
-    "Cookie_Desc":"使用后获得最大生命值提升",
-    "QuackItem_QuackMaxHpBuff":"健壮曲奇",
-    "QuackItem_QuackMaxHpBuff_Desc":"使用后获得最大生命值提升"
+    "Food_Cookie":"曲奇",
+    "Food_Cookie_Desc":"使用后获得最大生命值提升",
+    "QuackItem_Cookie_Buff":"健壮曲奇",
+    "QuackItem_Cookie_Buff_Desc":"使用后获得最大生命值提升"
 }

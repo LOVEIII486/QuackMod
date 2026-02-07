@@ -3,12 +3,10 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using QuackItem.Constants;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using FastModdingLib;
 using QuackItem.Buffs;
 using QuackItem.Items;
-using SodaCraft.Localizations;
 
 namespace QuackItem
 {
@@ -17,86 +15,102 @@ namespace QuackItem
         public static ModBehaviour Instance { get; private set; }
         
         private string _dllPath => Assembly.GetExecutingAssembly().Location;
-        
         private Harmony _harmony;
         private bool _isPatched = false;
-        private bool _sceneHooksInitialized = false;
-        private bool _isI18nInitialized = false;
+        private bool _hooksInitialized = false;
 
         #region Unity Lifecycle
 
         private void Awake()
         {
-            if (Instance != null) { Destroy(this); return; }
-            Instance = this;
-            
-            DontDestroyOnLoad(gameObject);
-            
-            if (IsAssemblyLoaded(ModConstant.FmlAssemblyName))
-            {
-                I18n.InitI18n(_dllPath);
-                ModLogger.Log("初始化FML本地化支持");
-            }
-            else
-            {
-                ModLogger.LogError("检测到缺失FML前置");
-            }
-            
-            ModLogger.Log($"{ModConstant.ModName} 模组初始化");
+            InitializeSingleton();
+            InitializeI18nCore();
         }
 
         private void OnEnable()
         {
-            if (HarmonyLoader.LoadHarmony(info.path) == null)
-            {
-                ModLogger.LogError("缺失 Harmony 依赖，模组已禁用。");
-                enabled = false;
-                return;
-            }
-
-            InitializeHarmony();
-            InitializeSceneHooks();
-
-            ModLogger.Log($"{ModConstant.ModName} 模组已启用。");
+            if (!ValidateDependencies()) return;
+            
+            ApplyHarmonyPatches();
+            ApplySceneHooks();
         }
 
         protected override void OnAfterSetup()
         {
             base.OnAfterSetup();
             
-            //必须手动加载一次
-            I18n.loadFileJson(_dllPath, $"/{I18n.localizedNames[SodaCraft.Localizations.LocalizationManager.CurrentLanguage]}");
-            
-            BuffRegistry.RegisterAll();
-            
-            RegisterItems();
-            RegisterQuests();
-            RegisterShopGoods();
-            RegisterFormulas();
-            
-            ModLogger.Log($"{ModConstant.ModName} 模组已准备就绪。");
+            LoadLocalization();
+            RegisterAllContent();
         }
 
         private void OnDisable()
         {
-            Cleanup();
-            ModLogger.Log($"{ModConstant.ModName} 已禁用。");
+            UnregisterAllContent();
+            RemoveSceneHooks();
+            RemoveHarmonyPatches();
         }
 
         private void OnDestroy()
         {
-            if (Instance == this)
+            DisposeSingleton();
+        }
+
+        #endregion
+
+        #region System & Initialization
+
+        private void InitializeSingleton()
+        {
+            if (Instance != null) { Destroy(this); return; }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            ModLogger.Log($"{ModConstant.ModName} 初始化开始...");
+        }
+
+        private void InitializeI18nCore()
+        {
+            if (IsAssemblyLoaded(ModConstant.FmlAssemblyName))
             {
-                Cleanup();
-                Instance = null;
+                I18n.InitI18n(_dllPath);
+            }
+        }
+
+        private bool ValidateDependencies()
+        {
+            if (HarmonyLoader.LoadHarmony(info.path) != null) return true;
+            
+            ModLogger.LogError("缺失 Harmony 依赖，模组停用。");
+            enabled = false;
+            return false;
+        }
+
+        private void DisposeSingleton()
+        {
+            if (Instance == this) Instance = null;
+        }
+
+        #endregion
+
+        #region 本地化
+
+        private void LoadLocalization()
+        {
+            try
+            {
+                var lang = SodaCraft.Localizations.LocalizationManager.CurrentLanguage;
+                I18n.loadFileJson(_dllPath, $"/{I18n.localizedNames[lang]}");
+            }
+            catch (Exception ex)
+            {
+                ModLogger.LogError($"本地化文件加载失败: {ex.Message}");
             }
         }
 
         #endregion
 
-        #region Core Logic
+        #region Harmony & Scene Hooks
 
-        private void InitializeHarmony()
+        private void ApplyHarmonyPatches()
         {
             if (_isPatched) return;
             try
@@ -104,82 +118,71 @@ namespace QuackItem
                 _harmony ??= new Harmony(ModConstant.ModId);
                 _harmony.PatchAll(GetType().Assembly);
                 _isPatched = true;
-                ModLogger.Log("Harmony 补丁注入成功。");
+                ModLogger.Log("Harmony 补丁已注入。");
             }
-            catch (Exception ex)
-            {
-                ModLogger.LogError($"Harmony 补丁注入失败: {ex.Message}");
-            }
+            catch (Exception ex) { ModLogger.LogError($"Patch 异常: {ex.Message}"); }
         }
 
-        private void InitializeSceneHooks()
+        private void RemoveHarmonyPatches()
         {
-            if (_sceneHooksInitialized) return;
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            _sceneHooksInitialized = true;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            ModLogger.Log($"场景载入完成: {scene.name}");
-        }
-
-        private void Cleanup()
-        {
-            // 清理 Harmony
             if (_isPatched && _harmony != null)
             {
                 _harmony.UnpatchAll(ModConstant.ModId);
                 _isPatched = false;
             }
+        }
 
-            // 清理场景钩子
-            if (_sceneHooksInitialized)
+        private void ApplySceneHooks()
+        {
+            if (_hooksInitialized) return;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            _hooksInitialized = true;
+        }
+
+        private void RemoveSceneHooks()
+        {
+            if (_hooksInitialized)
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
-                _sceneHooksInitialized = false;
+                _hooksInitialized = false;
             }
         }
 
-        private bool IsAssemblyLoaded(string name)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (string.IsNullOrEmpty(name)) return false;
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Any(a => a.GetName().Name.Contains(name));
+            ModLogger.LogDebug($"进入场景: {scene.name}");
         }
 
         #endregion
-        
-        #region Content Registration
 
-        private void RegisterItems()
+        #region 注册与卸载内容
+
+        private void RegisterAllContent()
         {
-            ItemUtils.CreateCustomItem(_dllPath, QuackItems.Cookie, "QuackItem");
-            string itemname =  SodaCraft.Localizations.LocalizationManager.GetPlainText("Cookie");
-            string itemdesc =  SodaCraft.Localizations.LocalizationManager.GetPlainText("Cookie_Desc");
-            ModLogger.LogDebug(itemname);
-            ModLogger.LogDebug(itemdesc);
+            RegisterBuffs();
+            RegisterItems();
+            RegisterQuests();
+            ModLogger.Log($"{ModConstant.ModName} 内容已注册。");
         }
 
-        private void RegisterQuests()
+        private void UnregisterAllContent()
         {
-            // 使用 QuestUtils 注册任务
-            // QuestUtils.RegisterQuest(MyQuests.FirstQuest);
+            ItemRegistry.UnregisterAll();
+            ModLogger.Log($"{ModConstant.ModName} 内容已卸载。");
         }
 
-        private void RegisterShopGoods()
-        {
-            // 使用 ShopUtils 添加商店物品
-            /*
-            ShopGoodsData goods = new ShopGoodsData { ... };
-            ShopUtils.AddGoods(goods);
-            */
-        }
+        private void RegisterBuffs() => BuffRegistry.RegisterAll();
 
-        private void RegisterFormulas()
-        {
-            // 使用 CraftingUtils 注册合成表
-        }
+        private void RegisterItems() => ItemRegistry.RegisterAll(_dllPath);
+
+        private void RegisterQuests() { }
+
+        #endregion
+
+        #region 辅助函数
+
+        private bool IsAssemblyLoaded(string name) => 
+            AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name.Contains(name));
 
         #endregion
     }

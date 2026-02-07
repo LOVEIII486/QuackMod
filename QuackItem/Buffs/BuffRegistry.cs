@@ -1,5 +1,4 @@
 ﻿using QuackCore.BuffSystem;
-using QuackItem.Buffs.Effects;
 
 namespace QuackItem.Buffs
 {
@@ -7,20 +6,11 @@ namespace QuackItem.Buffs
     {
         public static void RegisterAll()
         {
-            var config = new QuackBuffFactory.BuffConfig
+            foreach (var buff in BuffDefinitions.AllBuffs)
             {
-                ModID =  "QuackItem",
-                BuffName =  "QuackMaxHpBuff",
-                ID = 999001,
-                Duration = 10f,
-            };
-
-            var healthBuff = new QuackBuffDefinition(config)
-                .AddCustomLogic(new MaxHpLogic(50f));
-
-            QuackBuffRegistry.Instance.Register(healthBuff);
-            
-            ModLogger.Log("自定义 Buff 注册成功。");
+                QuackBuffRegistry.Instance.Register(buff);
+            }
+            ModLogger.Log($"成功注册了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
         }
     }
 }
