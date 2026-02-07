@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Duckov.Buffs;
+using System.Reflection;
 using HarmonyLib;
-using QuackCore.BuffSystem;
-using QuackCore.BuffSystem.Effects;
-using QuackCore.Constants;
 using QuackItem.Constants;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FastModdingLib;
+using QuackItem.Buffs;
+using QuackItem.Items;
+using SodaCraft.Localizations;
 
 namespace QuackItem
 {
@@ -15,9 +16,12 @@ namespace QuackItem
     {
         public static ModBehaviour Instance { get; private set; }
         
+        private string _dllPath => Assembly.GetExecutingAssembly().Location;
+        
         private Harmony _harmony;
         private bool _isPatched = false;
         private bool _sceneHooksInitialized = false;
+        private bool _isI18nInitialized = false;
 
         #region Unity Lifecycle
 
@@ -27,7 +31,17 @@ namespace QuackItem
             Instance = this;
             
             DontDestroyOnLoad(gameObject);
-            ModLogger.Log($"{ModConstant.ModName} 初始化");
+            
+            if (IsAssemblyLoaded(ModConstant.FmlAssemblyName))
+            {
+                I18n.InitI18n(_dllPath);
+            }
+            else
+            {
+                ModLogger.Log("检测到缺失 FML，跳过本地化初始化。");
+            }
+            
+            ModLogger.Log($"{ModConstant.ModName} 模组初始化中...");
         }
 
         private void OnEnable()
@@ -39,28 +53,26 @@ namespace QuackItem
                 return;
             }
 
-            if (!string.IsNullOrEmpty(ModConstant.FmlAssemblyName) && !IsAssemblyLoaded(ModConstant.FmlAssemblyName))
-            {
-                ModLogger.LogWarning($"未检测到 {ModConstant.FmlAssemblyName}，部分功能可能受限。");
-            }
-
             InitializeHarmony();
             InitializeSceneHooks();
+
+            ModLogger.Log($"{ModConstant.ModName} 模组已启用。");
         }
 
         protected override void OnAfterSetup()
         {
             base.OnAfterSetup();
-            
-            var config = new QuackBuffFactory.BuffConfig("QuackItem", "Berserk", 10f,"狂暴", "反应时间减半，移动速度提升。");
 
-            var berserkDef = new QuackBuffDefinition(config)
-                .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.WalkSpeed, 0.5f, true))
-                .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.RunSpeed, 0.5f, true));
-
-            QuackBuffRegistry.Instance.Register(berserkDef);
+            RegisterItems();
+            RegisterQuests();
+            RegisterShopGoods();
+            RegisterFormulas();
             
-            ModLogger.Log($"{ModConstant.ModName} 游戏数据已准备就绪。");
+            BuffRegistry.RegisterAll();
+            
+            ItemUtils.CreateCustomItem(_dllPath, QuackItems.Cookie, "QuackItem");
+            
+            ModLogger.Log($"{ModConstant.ModName} 模组已准备就绪。");
         }
 
         private void OnDisable()
@@ -76,32 +88,6 @@ namespace QuackItem
                 Cleanup();
                 Instance = null;
             }
-        }
-        
-        private void Update()
-        {
-            // 检测 F5 按键按下
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                TestApplyBuff();
-            }
-        }
-        
-        private void TestApplyBuff()
-        {
-            // 1. 获取玩家对象
-            // 注意：这里需要根据游戏的实际 API 获取玩家的 CharacterMainControl
-            // 常见写法可能是 PlayerControl.Instance 或类似的单例
-            var player = CharacterMainControl.Main; 
-
-            if (player == null)
-            {
-                ModLogger.LogWarning("未找到玩家对象，无法添加 Buff");
-                return;
-            }
-
-            QuackBuffFactory.Apply(player, "QuackItem_Berserk");
-            ModLogger.Log("[Test] F5 指令：已请求施加自定义文字 Buff");
         }
 
         #endregion
@@ -138,12 +124,14 @@ namespace QuackItem
 
         private void Cleanup()
         {
+            // 清理 Harmony
             if (_isPatched && _harmony != null)
             {
                 _harmony.UnpatchAll(ModConstant.ModId);
                 _isPatched = false;
             }
 
+            // 清理场景钩子
             if (_sceneHooksInitialized)
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -153,8 +141,38 @@ namespace QuackItem
 
         private bool IsAssemblyLoaded(string name)
         {
+            if (string.IsNullOrEmpty(name)) return false;
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Any(a => a.GetName().Name.Contains(name));
+        }
+
+        #endregion
+        
+        #region Content Registration
+
+        private void RegisterItems()
+        {
+            //ItemUtils.RegisterGun(bundle, "PrefabName", ItemID, ModID);
+        }
+
+        private void RegisterQuests()
+        {
+            // 使用 QuestUtils 注册任务
+            // QuestUtils.RegisterQuest(MyQuests.FirstQuest);
+        }
+
+        private void RegisterShopGoods()
+        {
+            // 使用 ShopUtils 添加商店物品
+            /*
+            ShopGoodsData goods = new ShopGoodsData { ... };
+            ShopUtils.AddGoods(goods);
+            */
+        }
+
+        private void RegisterFormulas()
+        {
+            // 使用 CraftingUtils 注册合成表
         }
 
         #endregion

@@ -18,7 +18,7 @@ namespace QuackCore.BuffSystem
         {
             public string ModID;
             public string BuffName;
-            public int Id; 
+            public int ID; 
             public float Duration;
             
             public string BuffNameKey => $"{ModID}_{BuffName}";
@@ -32,13 +32,13 @@ namespace QuackCore.BuffSystem
                 ModID = modId; BuffName = name; Duration = duration;
                 DisplayName = displayName;
                 Description = description;
-                Id = 0; 
+                ID = 0; 
             }
 
             // 构造函数 B：手动指定 ID，支持可选本地化文本
             public BuffConfig(string modId, string name, int manualId, float duration = 5f, string displayName = null, string description = null)
             {
-                ModID = modId; BuffName = name; Id = manualId; Duration = duration;
+                ModID = modId; BuffName = name; ID = manualId; Duration = duration;
                 DisplayName = displayName;
                 Description = description;
             }
@@ -71,7 +71,7 @@ namespace QuackCore.BuffSystem
                 UnityEngine.Object.DontDestroyOnLoad(_templateRoot);
             }
 
-            int finalId = config.Id != 0 ? config.Id : Math.Abs(buffNameKey.GetHashCode());
+            int finalId = config.ID != 0 ? config.ID : Math.Abs(buffNameKey.GetHashCode());
 
             GameObject go = new GameObject(buffNameKey);
             go.transform.SetParent(_templateRoot.transform);
