@@ -64,8 +64,7 @@ namespace TarkovStimulants
             //必须手动加载一次
             I18n.loadFileJson(_dllPath, $"/{I18n.localizedNames[SodaCraft.Localizations.LocalizationManager.CurrentLanguage]}");
             
-            BuffRegistry.RegisterAll();
-            
+            RegisterBuffs();
             RegisterItems();
             RegisterQuests();
             RegisterShopGoods();
@@ -91,7 +90,7 @@ namespace TarkovStimulants
 
         #endregion
 
-        #region Core Logic
+        #region 核心
 
         private void InitializeHarmony()
         {
@@ -145,22 +144,25 @@ namespace TarkovStimulants
 
         #endregion
         
-        #region Content Registration
+        #region 注册
+        
+        private void RegisterBuffs()
+        {
+            BuffRegistry.RegisterAll();
+        }
 
         private void RegisterItems()
         {
-            ItemUtils.CreateCustomItem(_dllPath, TarkovStimulantsItems.Stim_eTGc, "TarkovStimulants");
+            ItemRegistry.RegisterAll(_dllPath);
         }
 
         private void RegisterQuests()
         {
-            // 使用 QuestUtils 注册任务
             // QuestUtils.RegisterQuest(MyQuests.FirstQuest);
         }
 
         private void RegisterShopGoods()
         {
-            // 使用 ShopUtils 添加商店物品
             /*
             ShopGoodsData goods = new ShopGoodsData { ... };
             ShopUtils.AddGoods(goods);
@@ -169,7 +171,7 @@ namespace TarkovStimulants
 
         private void RegisterFormulas()
         {
-            // 使用 CraftingUtils 注册合成表
+            // CraftingUtils
         }
 
         #endregion

@@ -1,5 +1,4 @@
 ﻿using QuackCore.BuffSystem;
-using QuackCore.BuffSystem.Logic;
 
 namespace TarkovStimulants.Buffs
 {
@@ -7,12 +6,11 @@ namespace TarkovStimulants.Buffs
     {
         public static void RegisterAll()
         {
-            var etgcBuff = new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "eTG-c_Buff",999001, 15f))
-                .SetCustomLogic(new RegenerationLogic(0.2f, 1.0f, true));
-            
-            QuackBuffRegistry.Instance.Register(etgcBuff);
-            
-            ModLogger.Log("自定义 Buff 注册成功。");
+            foreach (var buff in BuffDefinitions.AllBuffs)
+            {
+                QuackBuffRegistry.Instance.Register(buff);
+            }
+            ModLogger.Log($"[Buff] 成功注册了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
         }
     }
 }
