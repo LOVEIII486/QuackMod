@@ -1,4 +1,4 @@
-﻿using FastModdingLib;
+﻿using QuackCore.Items;
 
 namespace TarkovStimulants.Items
 {
@@ -6,11 +6,12 @@ namespace TarkovStimulants.Items
     {
         public static void RegisterAll(string modPath)
         {
-            foreach (var item in ItemDefinitions.AllItems)
+            foreach (var quackItem in ItemDefinitions.AllQuackItems)
             {
-                ItemUtils.CreateCustomItem(modPath, item, "TarkovStimulants");
+                QuackItemRegistry.Register(modPath, quackItem, "TarkovStimulants");
             }
-            ModLogger.Log($"[Item] 成功注册了 {ItemDefinitions.AllItems.Count} 个物品");
+            
+            ModLogger.Log($"成功注册了 {ItemDefinitions.AllQuackItems.Count} 个物品。");
         }
     }
 }
