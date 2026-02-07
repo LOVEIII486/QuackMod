@@ -2,12 +2,12 @@
     "Stim_Morphine":"吗啡",
     "Stim_Morphine_Desc":"装满大剂量吗啡的一次性注射器，主要用于处理急性和慢性的重度疼痛。",
     "TarkovStimulants_Morphine_Buff": "吗啡",
-    "TarkovStimulants_Morphine_Buff_Desc": "吗啡",
+    "TarkovStimulants_Morphine_Buff_Desc": "略微提升10%体力上限，移除流血状态，获得免疫流血。",
 
     "Stim_L1":"L1（去甲肾上腺素）",
     "Stim_L1_Desc":"装有一剂L1的一次性无菌注射器，主要成分是去甲肾上腺素。它是用来短期增加力量和耐力的，还可减少疼痛的影响。它将增强生理反应的执行力，比如“该打还是该跑”。增加水分和能量消耗。",
     "TarkovStimulants_L1_Buff": "L1-去甲肾上腺素",
-    "TarkovStimulants_L1_Buff_Desc": "L1-去甲肾上腺素",
+    "TarkovStimulants_L1_Buff_Desc": "大幅提升50%体力上限与20%枪械伤害，但会增加能量与水分消耗。",
     
     "Stim_Adrenaline":"肾上腺素注射器",
     "Stim_Adrenaline_Desc":"一次性无菌注射器，含有一剂肾上腺素——肾上腺髓质的主要激素。用于在增强生理反应的同时为强烈的肌肉活动做准备。可以短暂提升力量和耐力以及缓解疼痛。",
@@ -52,7 +52,7 @@
     "Stim_3bTG":"3-(b-TG)兴奋剂",
     "Stim_3bTG_Desc":"战斗药物。它对中枢神经系统有刺激作用，可增加感知和注意力。它可以通过给肌肉传递更多更强的信号，来稍微改善肌肉力量。活性物质 3-（b-苯基异丙基）是正二苯胺盐酸盐类化合物。只有军医和医护人员才允许使用。",
     "TarkovStimulants_3bTG_Buff": "3-(b-TG)",
-    "TarkovStimulants_3bTG_Buff_Desc": "3-(b-TG)",
+    "TarkovStimulants_3bTG_Buff_Desc": "提升50%体力恢复速度与40%感知范围，伴随少量能量代谢负担",
     
     
     "Stim_MULE":"M.U.L.E. 兴奋剂",
@@ -83,12 +83,12 @@
     "Stim_Perfotoran":"人造血注射器",
     "Stim_Perfotoran_Desc":"一种能够转运氧气的血液替代品，被用作中毒、辐射的超级解药。它是苏联科学家于20世纪80年代发明的。这是一种基于PFO混合物的亚微米级乳化液。注入血液后，它能暂时加快代谢，并促进组织恢复。过量使用和免疫反应会对健康带来不利影响。",
     "TarkovStimulants_Perfotoran_Buff": "人造血",
-    "TarkovStimulants_Perfotoran_Buff_Desc": "人造血",
+    "TarkovStimulants_Perfotoran_Buff_Desc": "提供平稳的生命再生效果并使身体完全免疫中毒状态。",
 
     "Stim_2A2bTG":"2A2-(b-TG)兴奋剂",
     "Stim_2A2bTG_Desc":"TerraGroup继3-(b-TG)之后的又一款新产品。此产品项目旨在创造一种能在远离物资供应点进行侦查或转移时，依然提供战斗支撑的药物。同时，这款产品需要能够进行手工生产。它可以使中枢神经系统长期保持稳定，帮助战斗人员接触不同环境，并提高负重能力。使用此产品时，脱水速度将会提高。",
     "TarkovStimulants_2A2bTG_Buff": "2A2-(b-TG)",
-    "TarkovStimulants_2A2bTG_Buff_Desc": "2A2-(b-TG)",
+    "TarkovStimulants_2A2bTG_Buff_Desc": "提升30%负重上限与30%感知范围。",
 
     "Stim_SJ1":"SJ1 TGLabs战斗兴奋剂",
     "Stim_SJ1_Desc":"战斗兴奋剂。在战斗前注射能够获得力量和耐力。可以降低疼痛敏感度。兴奋剂被允许供特种作战单位使用。由Terra集团 Labs开发，上面有SJ1的标记。有副作用。",

@@ -31,7 +31,7 @@ namespace TarkovStimulants.Buffs
         public static readonly QuackBuffDefinition Propital_Buff =
             new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "Propital_Buff", 999003, 180f,
                     GetIconPath("Propital")))
-                .AddCustomLogic(new RegenerationLogic(0.01f, 1f, -1f, false))
+                .AddCustomLogic(new RegenerationLogic(0.01f, 1f, 60f, false))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.MaxHealth, 1.2f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.EnergyCost, 0.9f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.WaterCost, 0.9f, true));
@@ -90,7 +90,7 @@ namespace TarkovStimulants.Buffs
         public static readonly QuackBuffDefinition Perfotoran_Buff =
             new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "Perfotoran_Buff", 999011, 60f,
                     GetIconPath("Perfotoran")))
-                .AddCustomLogic(new RegenerationLogic(0.02f, 1f, -1, false))
+                .AddCustomLogic(new RegenerationLogic(0.01f, 1f, 30f, false))
                 .AddCustomLogic(new BuffImmunityLogic(false, 1061))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.EnergyCost, 1.1f, true));
 
