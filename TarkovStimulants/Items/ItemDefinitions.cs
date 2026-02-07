@@ -51,7 +51,7 @@ namespace TarkovStimulants.Items
                 Materials = new List<(int itemId, long count)>
                 {
                     (136, 3L), //注射器
-                    (875, 2L), //回复针
+                    (875, 3L), //回复针
                     (14, 1L) //可乐
                 },
                 ResultCount = 3,
@@ -114,7 +114,7 @@ namespace TarkovStimulants.Items
                 {
                     (136, 3L), // 注射器
                     (428, 1L), // 瓶装水
-                    (132, 1L) //蛋糕
+                    (132, 2L) //蛋糕
                 },
                 ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
@@ -210,8 +210,8 @@ namespace TarkovStimulants.Items
             Crafting = new QuackItemDefinition.CraftingConfig
             {
                 FormulaID = "formula_SJ6_craft",
-                Materials = new List<(int itemId, long count)> { (136, 1L), (999003, 1L) },
-                ResultCount = 1,
+                Materials = new List<(int itemId, long count)> { (136, 3L), (137, 2L), (88, 2L) },
+                ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true
             }
@@ -249,8 +249,8 @@ namespace TarkovStimulants.Items
             Crafting = new QuackItemDefinition.CraftingConfig
             {
                 FormulaID = "formula_MULE_craft",
-                Materials = new List<(int itemId, long count)> { (136, 1L), (132, 2L) },
-                ResultCount = 1,
+                Materials = new List<(int itemId, long count)> { (136, 3L), (132, 3L) },
+                ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true
             }
@@ -328,8 +328,8 @@ namespace TarkovStimulants.Items
             Crafting = new QuackItemDefinition.CraftingConfig
             {
                 FormulaID = "formula_Meldonin_craft",
-                Materials = new List<(int itemId, long count)> { (136, 1L), (137, 3L), (88, 1L) },
-                ResultCount = 1,
+                Materials = new List<(int itemId, long count)> { (136, 3L), (137, 4L), (1180, 1L) },
+                ResultCount = 3,
                 Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true
             }
