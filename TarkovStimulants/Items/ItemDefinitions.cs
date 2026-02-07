@@ -280,7 +280,7 @@ namespace TarkovStimulants.Items
                     {
                         new FoodData { energyValue = -5f, waterValue = -10f },
                         new QuackAddBuffData { buffName = "TarkovStimulants_Adrenaline_Buff", chance = 1.0f },
-                        new AddBuffData { buff = 1082 ,chance = 1.0f }
+                        new AddBuffData { buff = 1082, chance = 1.0f }
                     }
                 }
             },
@@ -335,6 +335,181 @@ namespace TarkovStimulants.Items
             }
         };
 
+
+        public static readonly QuackItemDefinition Stim_Morphine = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999008,
+                order = 107,
+                localizationKey = "Stim_Morphine",
+                localizationDesc = "Stim_Morphine_Desc",
+                weight = 0.1f,
+                value = 800,
+                quality = 3,
+                displayQuality = DisplayQuality.Blue,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/Morphine.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -5f, waterValue = -10f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_Morphine_Buff", chance = 1.0f },
+                        new RemoveBuffData { buffID = 1001 },
+                        new AddBuffData { buff = 1019, chance = 1f },
+                        new AddBuffData { buff = 1083, chance = 1f },
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = new QuackItemDefinition.CraftingConfig
+            {
+                FormulaID = "formula_Propital_craft",
+                MoneyCost = 0L,
+                Materials = new List<(int itemId, long count)>
+                {
+                    (136, 3L), // 注射器
+                    (875, 1L),
+                    (1247, 1L)
+                },
+                ResultCount = 3,
+                Workbenches = new string[] { WorkbenchIDs.MedicStation },
+                UnlockByDefault = true
+            }
+        };
+
+        public static readonly QuackItemDefinition Stim_L1 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999009, order = 108, localizationKey = "Stim_L1", localizationDesc = "Stim_L1_Desc",
+                weight = 0.1f, value = 900, quality = 4, displayQuality = DisplayQuality.Purple,
+                maxStackCount = 3, tags = new List<string> { "Medic", "Injector" }, spritePath = "items/L1.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe", useSound = "SFX/Item/use_syringe_success", useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -15f, waterValue = -15f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_L1_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+        };
+
+        public static readonly QuackItemDefinition Stim_3bTG = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999010, order = 109, localizationKey = "Stim_3bTG", localizationDesc = "Stim_3bTG_Desc",
+                weight = 0.1f, value = 1500, quality = 4, displayQuality = DisplayQuality.Purple,
+                maxStackCount = 3, tags = new List<string> { "Medic", "Injector" }, spritePath = "items/3-(b-TG).png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe", useSound = "SFX/Item/use_syringe_success", useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -10f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_3bTG_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+        };
+
+        public static readonly QuackItemDefinition Stim_Perfotoran = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999011, order = 110, localizationKey = "Stim_Perfotoran",
+                localizationDesc = "Stim_Perfotoran_Desc",
+                weight = 0.1f, value = 2200, quality = 5, displayQuality = DisplayQuality.Orange,
+                maxStackCount = 3, tags = new List<string> { "Medic", "Injector" }, spritePath = "items/Perfotoran.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe", useSound = "SFX/Item/use_syringe_success", useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -5f, waterValue = -10f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_Perfotoran_Buff", chance = 1.0f },
+                        new RemoveBuffData { buffID = 1001 },
+                        new RemoveBuffData { buffID = 1061 },
+                        new AddBuffData { buff = 1019, chance = 1f },
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+        };
+
+        public static readonly QuackItemDefinition Stim_2A2bTG = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999012, order = 111, localizationKey = "Stim_2A2bTG", localizationDesc = "Stim_2A2bTG_Desc",
+                weight = 0.1f, value = 500, quality = 3, displayQuality = DisplayQuality.Blue,
+                maxStackCount = 3, tags = new List<string> { "Medic", "Injector" }, spritePath = "items/2A2-(b-TG).png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe", useSound = "SFX/Item/use_syringe_success", useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { waterValue = -15f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_2A2bTG_Buff", chance = 1.0f }
+                    }
+                }
+            },        
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = new QuackItemDefinition.CraftingConfig
+            {
+                FormulaID = "formula_2A2bTG_craft",
+                Materials = new List<(int itemId, long count)> { (999010, 1L), (137, 2L) }, // 使用3bTG作为原材料之一
+                ResultCount = 1,
+                Workbenches = new string[] { WorkbenchIDs.MedicStation },
+                UnlockByDefault = true
+            }
+        };
+
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Stim_eTGc,
@@ -343,7 +518,12 @@ namespace TarkovStimulants.Items
             Stim_SJ6,
             Stim_MULE,
             Stim_Adrenaline,
-            Stim_Meldonin
+            Stim_Meldonin,
+            Stim_Morphine,
+            Stim_L1,
+            Stim_3bTG,
+            Stim_Perfotoran,
+            Stim_2A2bTG
         };
     }
 }

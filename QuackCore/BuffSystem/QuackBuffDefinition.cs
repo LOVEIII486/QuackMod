@@ -7,42 +7,40 @@ namespace QuackCore.BuffSystem
     {
         public QuackBuffFactory.BuffConfig Config { get; }
         public List<IQuackBuffEffect> Effects { get; } = new List<IQuackBuffEffect>();
-        public IQuackBuffLogic CustomLogic { get; private set; }
+        public List<IQuackBuffLogic> CustomLogics { get; } = new List<IQuackBuffLogic>();
 
         public QuackBuffDefinition(QuackBuffFactory.BuffConfig config)
         {
             this.Config = config;
         }
 
-        // 快捷效果
         public QuackBuffDefinition AddEffect(IQuackBuffEffect action)
         {
             Effects.Add(action);
             return this;
         }
         
-        // 自定义逻辑
-        public QuackBuffDefinition SetCustomLogic(IQuackBuffLogic logic)
+        public QuackBuffDefinition AddCustomLogic(IQuackBuffLogic logic)
         {
-            CustomLogic = logic;
+            if (logic != null) CustomLogics.Add(logic);
             return this;
         }
 
         internal void ExecuteSetup(Buff buff, CharacterMainControl target)
         {
             foreach (var effect in Effects) effect.OnApplied(buff, target);
-            CustomLogic?.OnSetup(buff, target);
+            foreach (var logic in CustomLogics) logic.OnSetup(buff, target);
         }
         
         internal void ExecuteUpdate(Buff buff, CharacterMainControl target)
         {
-            CustomLogic?.OnUpdate(buff, target);
+            foreach (var logic in CustomLogics) logic.OnUpdate(buff, target);
         }
 
         internal void ExecuteDestroy(Buff buff, CharacterMainControl target)
         {
             foreach (var effect in Effects) effect.OnRemoved(buff, target);
-            CustomLogic?.OnDestroy(buff, target);
+            foreach (var logic in CustomLogics) logic.OnDestroy(buff, target);
         }
     }
 }

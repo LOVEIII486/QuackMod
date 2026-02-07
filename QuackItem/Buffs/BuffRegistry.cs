@@ -16,7 +16,7 @@ namespace QuackItem.Buffs
             };
 
             var healthBuff = new QuackBuffDefinition(config)
-                .SetCustomLogic(new MaxHpLogic(50f));
+                .AddCustomLogic(new MaxHpLogic(50f));
 
             QuackBuffRegistry.Instance.Register(healthBuff);
             
