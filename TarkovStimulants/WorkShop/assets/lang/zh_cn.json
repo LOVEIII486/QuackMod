@@ -12,17 +12,17 @@
     "Stim_Adrenaline":"肾上腺素注射器",
     "Stim_Adrenaline_Desc":"一次性无菌注射器，含有一剂肾上腺素——肾上腺髓质的主要激素。用于在增强生理反应的同时为强烈的肌肉活动做准备。可以短暂提升力量和耐力以及缓解疼痛。",
     "TarkovStimulants_Adrenaline_Buff": "肾上腺素",
-    "TarkovStimulants_Adrenaline_Buff_Desc": "肾上腺素",
+    "TarkovStimulants_Adrenaline_Buff_Desc": "前15秒极速回血，并提升10%枪械伤害与体力上限。",
 
     "Stim_Propital":"Propital",
     "Stim_Propital_Desc":"军用药物。通过增加嘌呤和嘧啶碱基、RNA、功能性酶促细胞元素的生物合成来刺激再生过程。能够增加新陈代谢、健康和生命力。但是它有长期的副作用。只允许专业医师和护理人员使用。",
     "TarkovStimulants_Propital_Buff": "Propital",
-    "TarkovStimulants_Propital_Buff_Desc": "Propital",
+    "TarkovStimulants_Propital_Buff_Desc": "提升20%最大生命值并持续回血，移除流血状态，同时略微降低代谢消耗。",
     
-    "Stim_eTGc":"eTG-change",
+    "Stim_eTGc":"eTG-change再生兴奋剂",
     "Stim_eTGc_Desc":"强大的再生过程促进剂。用于伤员受伤后或重伤员运输过程中的快速恢复，只允许专业医师和护理人员使用。有强副作用。",
     "TarkovStimulants_eTGc_Buff": "eTG-c",
-    "TarkovStimulants_eTGc_Buff_Desc": "eTG-c",
+    "TarkovStimulants_eTGc_Buff_Desc": "极速恢复生命值（10%/秒），但能量与水分消耗速率翻倍。",
 
     "Stim_xTG12":"xTG-12解毒剂",
     "Stim_xTG12_Desc":"它能够中和战争中使用过的大多数已知毒素。也能够用于解除一些自然毒素。其成分在血液中时，可提供对毒素的免疫效果。它会导致健康状况下降。",
@@ -47,7 +47,7 @@
     "Stim_Meldonin":"Meldonin",
     "Stim_Meldonin_Desc":"为运动员研制的药物。让你在进行更密集的训练时恢复得更快。暂时增加力量，耐力，并加速恢复。随后一个未经证实的特性被发现，它增加了组织对由于内部肌肉张力造成的物理冲击的抵抗力。由于其性质，后来被军方作为战斗兴奋剂使用。它有副作用。",
     "TarkovStimulants_Meldonin_Buff": "Meldonin",
-    "TarkovStimulants_Meldonin_Buff_Desc": "Meldonin",
+    "TarkovStimulants_Meldonin_Buff_Desc": "全面提升30%机动性与体能，但增加20%代谢消耗。",
 
     "Stim_3bTG":"3-(b-TG)兴奋剂",
     "Stim_3bTG_Desc":"战斗药物。它对中枢神经系统有刺激作用，可增加感知和注意力。它可以通过给肌肉传递更多更强的信号，来稍微改善肌肉力量。活性物质 3-（b-苯基异丙基）是正二苯胺盐酸盐类化合物。只有军医和医护人员才允许使用。",
@@ -58,7 +58,7 @@
     "Stim_MULE":"M.U.L.E. 兴奋剂",
     "Stim_MULE_Desc":"肌肉超大型激励器。它被用来在长途行军之前扩展身体的能力。它能使身体长时间承受更多的重量。它在交通不便地区的作战行动中显示了有效性。授权特种部队士兵使用。由 TerraGroup 实验室开发，标有 M. U. L. E 的记号。",
     "TarkovStimulants_MULE_Buff": "M.U.L.E.",
-    "TarkovStimulants_MULE_Buff_Desc": "M.U.L.E.",
+    "TarkovStimulants_MULE_Buff_Desc": "负重上限翻倍，但会持续产生轻微扣血副作用。",
     
     "Stim_Obdolbos":"Obdolbos",
     "Stim_Obdolbos_Desc":"装有自制药品的注射器，由 TerraGroup Labs 的前雇员制作，每次的副作用都不一样。如果你觉得你没什么可失去的了，也可以冒这个险。",
@@ -98,7 +98,7 @@
     "Stim_SJ6":"SJ6 TGLabs战斗兴奋剂",
     "Stim_SJ6_Desc":"战斗兴奋剂。在战斗前注射能够提高身体能力。兴奋剂被允许供特种作战单位使用。由Terra集团 Labs开发，上面有SJ6的标记。有副作用。",
     "TarkovStimulants_SJ6_Buff": "SJ6 TGLabs",
-    "TarkovStimulants_SJ6_Buff_Desc": "SJ6 TGLabs",
+    "TarkovStimulants_SJ6_Buff_Desc": "提升20%移速，并大幅增加50%体力上限与恢复速度。",
 
     "Stim_SJ9":"SJ9 TGLabs战斗兴奋剂",
     "Stim_SJ9_Desc":"专为特种部队人员定制。它能够在短时间内降低体温，显著减缓代谢。使用SJ9可以显著减少向周围环境散发的热量，同时保持在体内新陈代谢的安全水平上。它被用于夜间行动，让人体在热成像仪器下几乎不可见。",
@@ -108,5 +108,5 @@
     "Stim_SJ12":"SJ12 TGLabs战斗兴奋剂",
     "Stim_SJ12_Desc":"专为特种部队的行动人员设计。其能够减缓某些身体部位的功能，转为恢复体能。此药剂能够强迫下丘脑分泌加压素，使得肾上腺的工作模式发生改变，进而降低体温、提高感知能力。药效结束后，体温通常会直接升高到40-42摄氏度，这是机体系统未能正常工作而产生的代价。",
     "TarkovStimulants_SJ12_Buff": "SJ12 TGLabs",
-    "TarkovStimulants_SJ12_Buff_Desc": "SJ12 TGLabs"
+    "TarkovStimulants_SJ12_Buff_Desc": "持续缓慢恢复能量与水分，并提升20%感知范围。"
 }

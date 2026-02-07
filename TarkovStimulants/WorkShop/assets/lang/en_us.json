@@ -12,17 +12,17 @@
   "Stim_Adrenaline":"Adrenaline injector",
   "Stim_Adrenaline_Desc":"A sterile disposable syringe with a dose of adrenaline - the main hormone of the adrenal medulla. It is used to enhance the physiological response associated with the preparation of all muscles to increased activity. Temporarily boosts strength and endurance. Relieves the sensation of pain.",
   "TarkovStimulants_Adrenaline_Buff": "Adrenaline",
-  "TarkovStimulants_Adrenaline_Buff_Desc": "Adrenaline",
+  "TarkovStimulants_Adrenaline_Buff_Desc": "Provides rapid healing for the first 15s, while boosting gun damage and stamina by 10%.",
 
   "Stim_Propital":"Propital regenerative stimulant injector",
   "Stim_Propital_Desc":"A military-issue stimulant permitted to only be used by medical officers and paramedics. It stimulates regeneration processes by increasing the biosynthesis of purine and pyrimidine bases, RNA, functional, and enzymatic cell elements. Increases metabolism, health, and vitality. Has continuous side effects.",
   "TarkovStimulants_Propital_Buff": "Propital",
-  "TarkovStimulants_Propital_Buff_Desc": "Propital",
+  "TarkovStimulants_Propital_Buff_Desc": "Increases max health by 20% with gradual healing and slightly lower metabolic drain.",
 
   "Stim_eTGc":"eTG-change regenerative stimulant injector",
   "Stim_eTGc_Desc":"A powerful stimulant for regeneration processes. It is used for rapid recovery of a soldier after injury, or during transportation of heavily wounded personnel. Allowed to be used only by medical officers and paramedics. Has strong side effects.",
   "TarkovStimulants_eTG-c_Buff": "eTG-c",
-  "TarkovStimulants_eTG-c_Buff_Desc": "eTG-c",
+  "TarkovStimulants_eTG-c_Buff_Desc": "Rapid health regeneration (10%/s), but doubles energy and water consumption rates.",
 
   "Stim_xTG12":"xTG-12 antidote injector",
   "Stim_xTG12_Desc":"Removes most of the known poisons and toxins used in the combat industry. Can be used to relieve the effects of natural poisons. Gives immunity to poisoning while the components are in the blood system. Can reduce health status.",
@@ -47,7 +47,7 @@
   "Stim_Meldonin":"Meldonin injector",
   "Stim_Meldonin_Desc":"A drug developed for athletes. Allows conducting more intensive training and recovering stamina faster. Temporarily increases strength, endurance,and also accelerates recovery. An undocumented property was also found: it increases the resistance of tissues to physical impact due to internal muscle tension. Because of its properties, it was later adopted by the military as a combat stimulant. Has side effects.",
   "TarkovStimulants_Meldonin_Buff": "Meldonin",
-  "TarkovStimulants_Meldonin_Buff_Desc": "Meldonin",
+  "TarkovStimulants_Meldonin_Buff_Desc": "Increases mobility and endurance by 30% but raises metabolic consumption by 20%.",
 
   "Stim_3bTG":"3-(b-TG) stimulant injector",
   "Stim_3bTG_Desc":"Combat drug. It has a stimulating effect on the Central nervous system. Increases perception and attention. It can slightly improve strength indicators, due to more powerful signals to the muscles. The active substance is 3-(b-Phenylisopropyl)-sydnonimine hydrochloride. Allowed for use only by military doctors and paramedics.",
@@ -57,7 +57,7 @@
   "Stim_MULE":"M.U.L.E. stimulant injector",
   "Stim_MULE_Desc":"Muscular Ultra Large Exciter. It is used to expand the body's abilities before long marches. It allows the body to carry an increased weight for a long time. It has shown effectiveness in combat operations in areas where transport is not available. Authorized for use by special forces soldiers. Developed by TerraGroup Labs, marked with the name M. U. L. E.",
   "TarkovStimulants_MULE_Buff": "M.U.L.E.",
-  "TarkovStimulants_MULE_Buff_Desc": "M.U.L.E.",
+  "TarkovStimulants_MULE_Buff_Desc": "Doubles carry weight capacity but causes a minor health loss over time as a side effect.",
 
   "Stim_Obdolbos":"Obdolbos cocktail injector",
   "Stim_Obdolbos_Desc":"A syringe with a homemade drug, authored by a former employee of TerraGroup Labs. The negative effects are different each time. You could take the risk, got nothing to lose anyway.",
@@ -97,7 +97,7 @@
   "Stim_SJ6":"SJ6 TGLabs combat stimulant injector",
   "Stim_SJ6_Desc":"A combat stimulant. It is used to increase the body abilities before combat. Stimulant is allowed to use by the special forces units. Developed by TerraGroup Labs, marked as SJ6. Has side effects.",
   "TarkovStimulants_SJ6_Buff": "SJ6 TGLabs",
-  "TarkovStimulants_SJ6_Buff_Desc": "SJ6 TGLabs",
+  "TarkovStimulants_SJ6_Buff_Desc": "Boosts movement speed by 20% and significantly increases stamina capacity and recovery by 50%.",
 
   "Stim_SJ9":"SJ9 TGLabs combat stimulant injector",
   "Stim_SJ9_Desc":"Designed for special forces personnel. It makes it possible to reduce the human body temperature for a short time, significantly slowing down the metabolism. The use of SJ9 leads to a significant reduction in the amount of heat released into the environment, while maintaining a safe level of metabolism inside. It is used during night operations, allowing to be hardly visible for thermal imaging devices.",
@@ -107,5 +107,5 @@
   "Stim_SJ12":"SJ12 TGLabs combat stimulant injector",
   "Stim_SJ12_Desc":"Developed for the operatives of special units. Slows down some functions of the body and they temporarily start working with energy regeneration. The drug forces the release of vasopressin in the hypothalamus, which leads to a change in the work of the adrenal glands, lowers body temperature and increases perception. After the end of the action, there is usually a jump in temperature to 40-42 degrees as a compensation for the incorrect functioning of the body systems.",
   "TarkovStimulants_SJ12_Buff": "SJ12 TGLabs",
-  "TarkovStimulants_SJ12_Buff_Desc": "SJ12 TGLabs"
+  "TarkovStimulants_SJ12_Buff_Desc": "Slowly restores energy and water over time while boosting perception range by 20%."
 }
