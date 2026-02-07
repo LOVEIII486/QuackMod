@@ -33,6 +33,11 @@ namespace QuackCore.BuffSystem
             foreach (var effect in Effects) effect.OnApplied(buff, target);
             CustomLogic?.OnSetup(buff, target);
         }
+        
+        internal void ExecuteUpdate(Buff buff, CharacterMainControl target)
+        {
+            CustomLogic?.OnUpdate(buff, target);
+        }
 
         internal void ExecuteDestroy(Buff buff, CharacterMainControl target)
         {

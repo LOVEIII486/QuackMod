@@ -3,6 +3,17 @@ using FastModdingLib;
 using ItemStatsSystem;
 using QuackCore.Items.UsageData;
 
+/*
+SFX/Item/use_food（食物）
+
+SFX/Item/use_meds（医疗用品）
+
+SFX/Item/use_syringe（注射器）
+
+SFX/Item/use_drink（饮料）
+
+SFX/Item/use_pills（药片）
+ */
 namespace TarkovStimulants.Items
 {
     public static class TarkovStimulantsItems
@@ -22,8 +33,8 @@ namespace TarkovStimulants.Items
             spritePath = "items/eTG-c.png",
             usages = new UsageData
             {
-                actionSound = string.Empty,
-                useSound = "SFX/Item/use_food",
+                actionSound = "SFX/Item/use_syringe",
+                useSound = "SFX/Item/use_syringe_success",
                 useTime = 0.5f,
                 useDurability = false,
                 behaviors = new List<UsageBehaviorData>

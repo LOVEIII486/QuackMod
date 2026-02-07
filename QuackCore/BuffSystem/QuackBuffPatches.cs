@@ -27,6 +27,24 @@ namespace QuackCore.BuffSystem
         
         private static string CleanName(string n) => n.Replace("(Clone)", "").Replace("_Permanent", "").Trim();
     }
+    
+    [HarmonyPatch(typeof(Buff), "NotifyUpdate")]
+    public static class QuackBuffUpdatePatch
+    {
+        public static void Postfix(Buff __instance)
+        {
+            var target = __instance.Character;
+            if (target == null) return;
+
+            string key = __instance.DisplayNameKey; 
+
+            var def = QuackBuffRegistry.Instance.GetDefinition(key);
+            if (def != null)
+            {
+                def.ExecuteUpdate(__instance, target);
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(Buff), "OnDestroy")]
     public static class QuackBuffDestroyPatch
