@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using QuackItem.Constants;
+using TarkovStimulants.Constants;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using FastModdingLib;
-using QuackItem.Buffs;
-using QuackItem.Items;
+using TarkovStimulants.Buffs;
+using TarkovStimulants.Items;
 using SodaCraft.Localizations;
 
-namespace QuackItem
+namespace TarkovStimulants
 {
     public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
@@ -154,11 +154,8 @@ namespace QuackItem
 
         private void RegisterItems()
         {
-            ItemUtils.CreateCustomItem(_dllPath, QuackItems.Cookie, "QuackItem");
-            string itemname =  SodaCraft.Localizations.LocalizationManager.GetPlainText("Cookie");
-            string itemdesc =  SodaCraft.Localizations.LocalizationManager.GetPlainText("Cookie_Desc");
-            ModLogger.LogDebug(itemname);
-            ModLogger.LogDebug(itemdesc);
+            ItemUtils.CreateCustomItem(_dllPath, TarkovStimulantsItems.Cookie, "TarkovStimulants");
+            ModLogger.Log("hashcode = "+"TarkovStimulants".GetHashCode());
         }
 
         private void RegisterQuests()

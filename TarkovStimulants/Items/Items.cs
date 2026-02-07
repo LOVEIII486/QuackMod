@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FastModdingLib;
 using ItemStatsSystem;
-using QuackItem.Behaviors;
 
-namespace QuackItem.Items
+namespace TarkovStimulants.Items
 {
-    public static class QuackItems
+    public static class TarkovStimulantsItems
     {
         public static ItemData Cookie = new ItemData
         {
-            itemId = 99000,
+            itemId = 999001,
             order = 100,
             localizationKey = "Cookie",
             localizationDesc = "Cookie_Desc",

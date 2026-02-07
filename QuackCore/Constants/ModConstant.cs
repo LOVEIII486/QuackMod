@@ -4,6 +4,6 @@
     {
         public const string ModId = "com.LOVEIII486.QuackCore";
         public const string ModName = "QuackCore";
-        public const string ModVersion = "0.1.0";
+        public const string ModVersion = "1.0.0";
     }
 }

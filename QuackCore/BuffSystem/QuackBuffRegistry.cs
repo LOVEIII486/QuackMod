@@ -17,6 +17,7 @@ namespace QuackCore.BuffSystem
             {
                 _definitions.Add(buffNameKey, definition);
                 _modPrefixes.Add(definition.Config.ModID);
+                QuackBuffFactory.GetOrCreateTemplate(definition.Config);
                 ModLogger.Log($"注册自定义buff: {buffNameKey}");
             }
         }
