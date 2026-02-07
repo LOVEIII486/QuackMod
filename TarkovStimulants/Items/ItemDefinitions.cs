@@ -509,6 +509,228 @@ namespace TarkovStimulants.Items
                 UnlockByDefault = true
             }
         };
+        
+        public static readonly QuackItemDefinition Stim_P22 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999013,
+                order = 112,
+                localizationKey = "Stim_P22",
+                localizationDesc = "Stim_P22_Desc",
+                weight = 0.1f,
+                value = 2300,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/P22.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { waterValue = -10f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_P22_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 2,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            }
+        };
+        
+        public static readonly QuackItemDefinition Stim_Obdolbos2 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999014,
+                order = 113,
+                localizationKey = "Stim_Obdolbos2",
+                localizationDesc = "Stim_Obdolbos2_Desc",
+                weight = 0.1f,
+                value = 7500,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/Obdolbos2.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -20f, waterValue = -20f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_Obdolbos2_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 0.5f,
+                ForceUnlock = true
+            }
+        };
+        
+        public static readonly QuackItemDefinition Stim_Trimadol = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999015,
+                order = 115,
+                localizationKey = "Stim_Trimadol",
+                localizationDesc = "Stim_Trimadol_Desc",
+                weight = 0.1f,
+                value = 4200,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/Trimadol.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackAddBuffData { buffName = "TarkovStimulants_Trimadol_Buff", chance = 1.0f },
+                        new RemoveBuffData { buffID = 1001 },
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 2,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            }
+        };
+        
+        public static readonly QuackItemDefinition Stim_SJ1 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999016,
+                order = 116,
+                localizationKey = "Stim_SJ1",
+                localizationDesc = "Stim_SJ1_Desc",
+                weight = 0.1f,
+                value = 750,
+                quality = 3,
+                displayQuality = DisplayQuality.Blue,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/SJ1.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -8f, waterValue = -14f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_SJ1_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            }
+        };
+        
+        public static readonly QuackItemDefinition Stim_Zagustin = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999017,
+                order = 117,
+                localizationKey = "Stim_Zagustin",
+                localizationDesc = "Stim_Zagustin_Desc",
+                weight = 0.1f,
+                value = 1000,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/Zagustin.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackAddBuffData { buffName = "TarkovStimulants_Zagustin_Buff", chance = 1.0f },
+                        new RemoveBuffData { buffID = 1001 } 
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 2,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            }
+        };
+        
+        public static readonly QuackItemDefinition Stim_SJ9 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 999018,
+                order = 118,
+                localizationKey = "Stim_SJ9",
+                localizationDesc = "Stim_SJ9_Desc",
+                weight = 0.1f,
+                value = 2400,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 3,
+                tags = new List<string> { "Medic", "Injector" },
+                spritePath = "items/SJ9.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 0.5f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new FoodData { energyValue = -5f, waterValue = -10f },
+                        new QuackAddBuffData { buffName = "TarkovStimulants_SJ9_Buff", chance = 1.0f }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 0.8f,
+                ForceUnlock = true
+            }
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
@@ -523,7 +745,13 @@ namespace TarkovStimulants.Items
             Stim_L1,
             Stim_3bTG,
             Stim_Perfotoran,
-            Stim_2A2bTG
+            Stim_2A2bTG,
+            Stim_P22,
+            Stim_Obdolbos2,
+            Stim_Trimadol,
+            Stim_SJ1,
+            Stim_Zagustin,
+            Stim_SJ9
         };
     }
 }
