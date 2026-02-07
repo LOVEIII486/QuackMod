@@ -11,7 +11,6 @@ namespace QuackCore
         
         private Harmony _harmony;
         private bool _isPatched = false;
-        private bool _sceneHooksInitialized = false;
 
         #region Unity Lifecycle
 
@@ -34,7 +33,6 @@ namespace QuackCore
             }
 
             InitializeHarmony();
-            InitializeSceneHooks();
         }
 
         protected override void OnAfterSetup()
@@ -77,31 +75,13 @@ namespace QuackCore
                 ModLogger.LogError($"Harmony 补丁注入失败: {ex.Message}");
             }
         }
-
-        private void InitializeSceneHooks()
-        {
-            if (_sceneHooksInitialized) return;
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            _sceneHooksInitialized = true;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            ModLogger.Log($"场景载入完成: {scene.name}");
-        }
-
+        
         private void Cleanup()
         {
             if (_isPatched && _harmony != null)
             {
                 _harmony.UnpatchAll(ModConstant.ModId);
                 _isPatched = false;
-            }
-
-            if (_sceneHooksInitialized)
-            {
-                SceneManager.sceneLoaded -= OnSceneLoaded;
-                _sceneHooksInitialized = false;
             }
         }
 

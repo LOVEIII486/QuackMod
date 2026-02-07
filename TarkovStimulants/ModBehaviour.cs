@@ -3,12 +3,10 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TarkovStimulants.Constants;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using FastModdingLib;
 using TarkovStimulants.Buffs;
 using TarkovStimulants.Items;
-using SodaCraft.Localizations;
 
 namespace TarkovStimulants
 {
@@ -21,7 +19,6 @@ namespace TarkovStimulants
         private Harmony _harmony;
         private bool _isPatched = false;
         private bool _sceneHooksInitialized = false;
-        private bool _isI18nInitialized = false;
 
         #region Unity Lifecycle
 
@@ -126,14 +123,12 @@ namespace TarkovStimulants
 
         private void Cleanup()
         {
-            // 清理 Harmony
             if (_isPatched && _harmony != null)
             {
                 _harmony.UnpatchAll(ModConstant.ModId);
                 _isPatched = false;
             }
 
-            // 清理场景钩子
             if (_sceneHooksInitialized)
             {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -154,8 +149,7 @@ namespace TarkovStimulants
 
         private void RegisterItems()
         {
-            ItemUtils.CreateCustomItem(_dllPath, TarkovStimulantsItems.Cookie, "TarkovStimulants");
-            ModLogger.Log("hashcode = "+"TarkovStimulants".GetHashCode());
+            ItemUtils.CreateCustomItem(_dllPath, TarkovStimulantsItems.Stim_eTGc, "TarkovStimulants");
         }
 
         private void RegisterQuests()

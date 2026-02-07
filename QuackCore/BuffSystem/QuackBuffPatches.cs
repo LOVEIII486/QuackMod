@@ -37,11 +37,10 @@ namespace QuackCore.BuffSystem
             var target = __instance.Character;
             var def = QuackBuffRegistry.Instance.GetDefinition(CleanName(__instance.name));
             
-            // 1. 执行自定义逻辑
             if (def != null && target != null)
                 def.ExecuteDestroy(__instance, target);
 
-            // 2. 用 AttributeModifier 统一清理
+            // 用 AttributeModifier 统一清理
             // 只要是在 AttributeModifierAction 中以 __instance (buff对象) 为 source 添加的修改
             // 都会在这里被一次性清理掉，避免遗漏
             if (target != null)

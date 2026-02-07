@@ -1,6 +1,10 @@
 {
-    "Cookie":"曲奇",
-    "Cookie_Desc":"使用后获得最大生命值提升",
-    "QuackItem_QuackMaxHpBuff":"健壮曲奇",
-    "QuackItem_QuackMaxHpBuff_Desc":"使用后获得最大生命值提升"
+    "Stim_eTGc":"eTG-change再生兴奋剂注射器",
+    "Stim_eTGc_Desc":"强大的再生过程促进剂。用于伤员受伤后或重伤员运输过程中的快速恢复，只允许专业医师和护理人员使用。有强副作用。",
+    "TarkovStimulants_eTG-c_Buff": "eTG-c buff",
+    "TarkovStimulants_eTG-c_Buff_Desc": "eTG-c buff 描述",
+    "Stim_MULE":"M.U.L.E. 兴奋剂",
+    "Stim_MULE_Desc":"肌肉超大型激励器。它被用来在长途行军之前扩展身体的能力。它能使身体长时间承受更多的重量。它在交通不便地区的作战行动中显示了有效性。授权特种部队士兵使用。由 TerraGroup 实验室开发，标有 M. U. L. E 的记号。",
+    "TarkovStimulants_MULE_Buff": "M.U.L.E. buff",
+    "TarkovStimulants_MULE_Buff_Desc": "M.U.L.E. buff 描述"
 }

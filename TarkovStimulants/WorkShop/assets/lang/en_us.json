@@ -1,6 +1,10 @@
 {
-  "Cookie":"Cookie",
-  "Cookie_Desc":"Increases maximum health when used",
-  "QuackItem_QuackMaxHpBuff": "Sturdy Cookie",
-  "QuackItem_QuackMaxHpBuff_Desc": "Increases maximum health"
+  "Stim_eTGc":"eTG-change",
+  "Stim_eTGc_Desc":"A powerful stimulant for regeneration processes. It is used for rapid recovery of a soldier after injury, or during transportation of heavily wounded personnel. Allowed to be used only by medical officers and paramedics. Has strong side effects.",
+  "TarkovStimulants_eTG-c_Buff": "eTG-c buff",
+  "TarkovStimulants_eTG-c_Buff_Desc": "eTG-c buff desc",
+  "Stim_MULE":"M.U.L.E. stimulant injector",
+  "Stim_MULE_Desc":"Muscular Ultra Large Exciter. It is used to expand the body's abilities before long marches. It allows the body to carry an increased weight for a long time. It has shown effectiveness in combat operations in areas where transport is not available. Authorized for use by special forces soldiers. Developed by TerraGroup Labs, marked with the name M. U. L. E.",
+  "TarkovStimulants_MULE_Buff": "M.U.L.E. buff",
+  "TarkovStimulants_MULE_Buff_Desc": "M.U.L.E. buff desc"
 }

@@ -18,6 +18,9 @@
         <Reference Include="0Harmony">
             <HintPath>..\Lib\0Harmony.dll</HintPath>
         </Reference>
+        <Reference Include="FastModdingLib">
+          <HintPath>..\Lib\FastModdingLib.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">

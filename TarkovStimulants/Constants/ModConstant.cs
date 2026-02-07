@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TarkovStimulants.Constants
+﻿namespace TarkovStimulants.Constants
 {
     internal static class ModConstant
     {

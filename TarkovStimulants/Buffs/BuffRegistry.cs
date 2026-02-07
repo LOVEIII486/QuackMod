@@ -1,5 +1,5 @@
 ﻿using QuackCore.BuffSystem;
-using TarkovStimulants.Buffs.Effects;
+using QuackCore.BuffSystem.Logic;
 
 namespace TarkovStimulants.Buffs
 {
@@ -7,18 +7,10 @@ namespace TarkovStimulants.Buffs
     {
         public static void RegisterAll()
         {
-            var config = new QuackBuffFactory.BuffConfig
-            {
-                ModID =  "QuackItem",
-                BuffName =  "QuackMaxHpBuff",
-                ID = 999001,
-                Duration = 10f,
-            };
-
-            var healthBuff = new QuackBuffDefinition(config)
-                .SetCustomLogic(new MaxHpLogic(50f));
-
-            QuackBuffRegistry.Instance.Register(healthBuff);
+            var etgcBuff = new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "eTG-c_Buff",999001, 15f))
+                .SetCustomLogic(new RegenerationLogic(0.2f, 1.0f, true));
+            
+            QuackBuffRegistry.Instance.Register(etgcBuff);
             
             ModLogger.Log("自定义 Buff 注册成功。");
         }

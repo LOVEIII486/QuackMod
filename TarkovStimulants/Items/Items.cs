@@ -1,48 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FastModdingLib;
 using ItemStatsSystem;
+using QuackCore.Items.UsageData;
 
 namespace TarkovStimulants.Items
 {
     public static class TarkovStimulantsItems
     {
-        public static ItemData Cookie = new ItemData
+        public static ItemData Stim_eTGc = new ItemData
         {
             itemId = 999001,
             order = 100,
-            localizationKey = "Cookie",
-            localizationDesc = "Cookie_Desc",
+            localizationKey = "Stim_eTGc",
+            localizationDesc = "Stim_eTGc_Desc",
             weight = 0.1f,
             value = 500,
-            quality = 4,
+            quality = 3,
             displayQuality = DisplayQuality.Blue,
-            maxStackCount = 1,
-            tags = new List<string> { "Food" },
-            spritePath = "items/Cookie.png",
+            maxStackCount = 3,
+            tags = new List<string> { "Medic", "Healing" },
+            spritePath = "items/eTG-c.png",
             usages = new UsageData
             {
-                actionSound = "SFX/Item/use_food",
-                useSound = string.Empty,
-                useTime = 2.0f,
+                actionSound = string.Empty,
+                useSound = "SFX/Item/use_food",
+                useTime = 0.5f,
                 useDurability = false,
                 behaviors = new List<UsageBehaviorData>
                 {
                     new FoodData
                     {
-                        energyValue = 30f,
-                        waterValue = -5f
+                        energyValue = -30f,
+                        waterValue = -40f
                     },
-                    new AddBuffData()
+                    new QuackAddBuffData
                     {
-                        buff = 999001,
-                        chance = 1.0f,
+                        BuffName = "TarkovStimulants_eTG-c_Buff",
+                        Chance = 1.0f
                     }
-                    // new QuackCookieData
-                    // {
-                    //     buffId = 999001,
-                    //     popMessage = "嘎！生命力涌现！"
-                    // },
                 }
             }
         };
