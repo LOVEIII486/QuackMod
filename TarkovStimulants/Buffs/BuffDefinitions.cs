@@ -19,7 +19,7 @@ namespace TarkovStimulants.Buffs
                     "eTGc_Buff", 
                     999001, 
                     15f, 
-                    GetIconPath("eTGc")
+                    GetIconPath("eTG-c")
                 ))
                 .SetCustomLogic(new RegenerationLogic(0.1f, 1.0f, true));
 
