@@ -54,7 +54,7 @@ namespace TarkovStimulants.Items
             },
             Crafting = new QuackItemDefinition.CraftingConfig
             {
-                FormulaID = "formula_etgc_craft",
+                FormulaID = "formula_eTGc_craft",
                 MoneyCost = 0L,
                 Materials = new List<(int itemId, long count)>
                 {
@@ -62,20 +62,20 @@ namespace TarkovStimulants.Items
                     (84, 1L)
                 },
                 ResultCount = 1,
-                Workbenches = new string[] { WorkbenchIDs.WorkBenchAdvanced, WorkbenchIDs.MedicStation },
+                Workbenches = new string[] { WorkbenchIDs.MedicStation },
                 UnlockByDefault = true,
                 RequirePerk = "",
                 HideInIndex = false,
                 LockInDemo = false
             },
-            Decompose = new QuackItemDefinition.DecomposeConfig
-            {
-                MoneyGain = 0L,
-                Results = new List<(int itemId, long count)>
-                {
-                    (88, 1L)
-                }
-            }
+            // Decompose = new QuackItemDefinition.DecomposeConfig
+            // {
+            //     MoneyGain = 0L,
+            //     Results = new List<(int itemId, long count)>
+            //     {
+            //         (88, 1L)
+            //     }
+            // }
         };
 
         public static readonly QuackItemDefinition Stim_SJ12 = new QuackItemDefinition

@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FastModdingLib;
-using Duckov.Economy; // 必须引用游戏经济系统命名空间
-using UnityEngine;
+using Duckov.Economy;
 
 namespace QuackCore.Items
 {
     public static class QuackItemRegistry
     {
         /// <summary>
-        /// 智能注册入口：整合了对 FML 分解功能的 Bug 修复
+        /// 智能注册入口，负责注册物品本体、商店、合成配方和分解配方
         /// </summary>
         public static void Register(string dllPath, QuackItemDefinition def, string modId)
         {
@@ -42,7 +40,7 @@ namespace QuackCore.Items
                     .ToArray();
 
                 CraftingUtils.AddCraftingFormula(
-                    def.Crafting.FormulaID ?? $"formula_{def.BaseData.itemId}", // 若未定义则自动生成
+                    def.Crafting.FormulaID ?? $"formula_{def.BaseData.itemId}_craft",
                     def.Crafting.MoneyCost,
                     costItems,
                     def.BaseData.itemId,
@@ -56,7 +54,7 @@ namespace QuackCore.Items
                 );
             }
 
-            // 4. 注册分解配方 (应用 FML Bug 修复补丁)
+            // 4. 注册分解配方
             if (def.Decompose != null)
             {
                 RegisterDecomposeWithFix(def, modId);
@@ -64,8 +62,34 @@ namespace QuackCore.Items
         }
 
         /// <summary>
-        /// 针对 FML 源码中 AddDecomposeFormula 忘记赋值回 entries 数组的补丁修复
+        /// 卸载指定 ModId 关联的所有物品、配方和分解表
         /// </summary>
+        public static void UnregisterAll(string modId)
+        {
+            try
+            {
+                // 1. 卸载合成配方
+                CraftingUtils.RemoveAllAddedFormulas(modId);
+
+                // 2. 卸载物品
+                ItemUtils.UnregisterAllItem(modId);
+
+                // 3. 卸载分解配方
+                UnregisterDecomposeWithFix(modId);
+
+                // 4. 商店物品清理
+                // 似乎无需手动清理
+
+                ModLogger.Log($"模组 {modId} 的相关物品与配方已成功注销。");
+            }
+            catch (Exception ex)
+            {
+                ModLogger.LogError($"注销模组 {modId} 内容时发生异常: {ex.Message}");
+            }
+        }
+
+        #region 临时修复FML
+
         private static void RegisterDecomposeWithFix(QuackItemDefinition def, string modId)
         {
             try
@@ -74,24 +98,16 @@ namespace QuackCore.Items
                 long moneyGain = def.Decompose.MoneyGain;
                 var results = def.Decompose.Results.Select(r => (r.itemId, r.count)).ToArray();
 
-                // 1. 先调用 FML 原生方法（为了触发其内部的 addedDecomposeItemIds 记录和日志）
+                // 调用 FML 记录 ID
                 CraftingUtils.AddDecomposeFormula(itemId, moneyGain, results, modId);
 
-                // 2. 反射获取分解数据库实例
                 DecomposeDatabase db = DecomposeDatabase.Instance;
-                if (db == null) return;
-
-                // 3. 获取私有的 entries 数组字段
-                FieldInfo entriesField = typeof(DecomposeDatabase).GetField("entries", 
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                
+                FieldInfo entriesField = typeof(DecomposeDatabase).GetField("entries", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
                 if (entriesField == null) return;
 
-                // 4. 获取当前数组并检查是否已包含（防止重复添加）
                 DecomposeFormula[] currentEntries = (DecomposeFormula[])entriesField.GetValue(db);
                 if (currentEntries.Any(f => f.item == itemId)) return;
 
-                // 5. 手动构建新的 DecomposeFormula 对象
                 DecomposeFormula newFormula = new DecomposeFormula
                 {
                     item = itemId,
@@ -103,23 +119,54 @@ namespace QuackCore.Items
                     }
                 };
 
-                // 6. 【核心修复】创建新数组并重新赋值给数据库（FML 漏掉的步骤）
                 DecomposeFormula[] newEntries = new DecomposeFormula[currentEntries.Length + 1];
                 Array.Copy(currentEntries, newEntries, currentEntries.Length);
                 newEntries[currentEntries.Length] = newFormula;
 
                 entriesField.SetValue(db, newEntries);
-
-                // 7. 调用数据库的索引重建方法
-                typeof(DecomposeDatabase).GetMethod("RebuildDictionary", 
-                    BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(db, null);
-
-                ModLogger.Log($"[QuackCore] 已通过补丁修复并激活分解配方: {itemId}");
+                RebuildDecomposeDatabase(db);
             }
-            catch (Exception ex)
-            {
-                ModLogger.LogError($"分解配方补丁应用失败: {ex.Message}");
-            }
+            catch (Exception ex) { ModLogger.LogError($"分解注册修复失败: {ex.Message}"); }
         }
+
+        private static void UnregisterDecomposeWithFix(string modId)
+        {
+            try
+            {
+                DecomposeDatabase db = DecomposeDatabase.Instance;
+                FieldInfo entriesField = typeof(DecomposeDatabase).GetField("entries", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                if (entriesField == null) return;
+
+                DecomposeFormula[] currentEntries = (DecomposeFormula[])entriesField.GetValue(db);
+                
+                // 找出属于该 Mod 的 ItemId (FML 已经在字典里记住了)
+                var toRemoveIds = CraftingUtils.addedDecomposeItemIds
+                    .Where(kvp => kvp.Value == modId)
+                    .Select(kvp => kvp.Key)
+                    .ToList();
+
+                if (toRemoveIds.Count == 0) return;
+
+                // 过滤掉这些 ID 对应的配方
+                var newEntriesList = currentEntries.Where(f => !toRemoveIds.Contains(f.item)).ToArray();
+
+                // 写回数据库
+                entriesField.SetValue(db, newEntriesList);
+
+                // 调用 FML 原生清理方法清理其内部字典
+                CraftingUtils.RemoveAllAddedDecomposeFormulas(modId);
+
+                RebuildDecomposeDatabase(db);
+            }
+            catch (Exception ex) { ModLogger.LogError($"分解注销修复失败: {ex.Message}"); }
+        }
+
+        private static void RebuildDecomposeDatabase(DecomposeDatabase db)
+        {
+            typeof(DecomposeDatabase).GetMethod("RebuildDictionary", 
+                BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(db, null);
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using QuackCore.Items;
+using TarkovStimulants.Constants;
 
 namespace TarkovStimulants.Items
 {
@@ -8,10 +9,17 @@ namespace TarkovStimulants.Items
         {
             foreach (var quackItem in ItemDefinitions.AllQuackItems)
             {
-                QuackItemRegistry.Register(modPath, quackItem, "TarkovStimulants");
+                QuackItemRegistry.Register(modPath, quackItem, ModConstant.ModName);
             }
             
             ModLogger.Log($"成功注册了 {ItemDefinitions.AllQuackItems.Count} 个物品。");
+        }
+        
+        public static void UnregisterAll()
+        {
+            QuackItemRegistry.UnregisterAll(ModConstant.ModName);
+            
+            ModLogger.Log($"模组所有物品已注销。");
         }
     }
 }

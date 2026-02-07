@@ -23,7 +23,7 @@ namespace QuackCore.BuffSystem.Effects
 
         public void OnRemoved(Buff buff, CharacterMainControl target)
         {
-            // 这里可以留空，因为我们在 Patches 中实现了基于 Buff 实例的统一清理
+            // 在 Patches 中实现了基于 Buff 实例的统一清理
         }
     }
 }
