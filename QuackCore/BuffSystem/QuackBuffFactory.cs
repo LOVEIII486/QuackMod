@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Duckov.Buffs;
 using SodaCraft.Localizations;
@@ -10,7 +11,7 @@ namespace QuackCore.BuffSystem
     public static class QuackBuffFactory
     {
         private static readonly Dictionary<string, Buff> SharedTemplates = new Dictionary<string, Buff>();
-        private static FieldInfo _idField, _displayNameField, _limitedLifeTimeField, _totalLifeTimeField, _descriptionField;
+        private static FieldInfo _idField, _displayNameField, _limitedLifeTimeField, _totalLifeTimeField, _descriptionField, _iconField;
         private static bool _initialized = false;
         private static GameObject _templateRoot;
         
@@ -20,25 +21,23 @@ namespace QuackCore.BuffSystem
             public string BuffName;
             public int ID; 
             public float Duration;
+            public string IconPath;
             
             public string BuffNameKey => $"{ModID}_{BuffName}";
             public string DisplayName;
             public string BuffDescriptionKey => $"{BuffNameKey}_Desc";
             public string Description;
 
-            // 构造函数 A：自动哈希 ID，支持可选本地化文本
-            public BuffConfig(string modId, string name, float duration = 5f, string displayName = null, string description = null)
+            public BuffConfig(string modId, string name, float duration = 5f, string iconPath = null)
             {
                 ModID = modId; BuffName = name; Duration = duration;
-                DisplayName = displayName;
-                Description = description;
-                ID = 0; 
+                IconPath = iconPath;
+                DisplayName = null; Description = null; ID = 0;
             }
 
-            // 构造函数 B：手动指定 ID，支持可选本地化文本
-            public BuffConfig(string modId, string name, int manualId, float duration = 5f, string displayName = null, string description = null)
+            public BuffConfig(string modId, string name, int manualId, float duration = 5f,string iconPath = null, string displayName = null, string description = null)
             {
-                ModID = modId; BuffName = name; ID = manualId; Duration = duration;
+                ModID = modId; BuffName = name; ID = manualId; Duration = duration; IconPath = iconPath;
                 DisplayName = displayName;
                 Description = description;
             }
@@ -93,6 +92,15 @@ namespace QuackCore.BuffSystem
                 _descriptionField?.SetValue(newBuff, buffdescKey);
                 _limitedLifeTimeField?.SetValue(newBuff, config.Duration > 0);
                 _totalLifeTimeField?.SetValue(newBuff, config.Duration);
+                
+                if (!string.IsNullOrEmpty(config.IconPath) && _iconField != null)
+                {
+                    Sprite customIcon = QuackCore.Utils.AssetLoader.LoadSprite(config.IconPath);
+                    if (customIcon != null)
+                    {
+                        _iconField.SetValue(newBuff, customIcon);
+                    }
+                }
 
                 SharedTemplates[buffNameKey] = newBuff;
                 ModLogger.Log($"创建 Buff 模板: {buffNameKey} (ID: {finalId}, 永久: {config.Duration <= 0})");
@@ -114,6 +122,7 @@ namespace QuackCore.BuffSystem
             _descriptionField = t.GetField("description", BindingFlags.Instance | BindingFlags.NonPublic);
             _limitedLifeTimeField = t.GetField("limitedLifeTime", BindingFlags.Instance | BindingFlags.NonPublic);
             _totalLifeTimeField = t.GetField("totalLifeTime", BindingFlags.Instance | BindingFlags.NonPublic);
+            _iconField = t.GetField("icon", BindingFlags.Instance | BindingFlags.NonPublic);
             _initialized = true;
         }
     }
