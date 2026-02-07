@@ -373,20 +373,6 @@ namespace TarkovStimulants.Items
                 PriceFactor = 1.0f,
                 Probability = 1.0f,
                 ForceUnlock = true
-            },
-            Crafting = new QuackItemDefinition.CraftingConfig
-            {
-                FormulaID = "formula_Propital_craft",
-                MoneyCost = 0L,
-                Materials = new List<(int itemId, long count)>
-                {
-                    (136, 3L), // 注射器
-                    (875, 1L),
-                    (1247, 1L)
-                },
-                ResultCount = 3,
-                Workbenches = new string[] { WorkbenchIDs.MedicStation },
-                UnlockByDefault = true
             }
         };
 
