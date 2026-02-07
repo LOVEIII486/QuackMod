@@ -106,7 +106,7 @@ namespace TarkovStimulants.Buffs
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.StaminaRecoverRate, 0.8f, true));
         
         public static readonly QuackBuffDefinition Obdolbos2_Buff = 
-            new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "Obdolbos2_Buff", 999014, 1800f, GetIconPath("Obdolbos 2")))
+            new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "Obdolbos2_Buff", 999014, 600f, GetIconPath("Obdolbos 2")))
                 .AddCustomLogic(new RegenerationLogic(-0.002f, 1.0f, -1f, false))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.MaxWeight, 1.45f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.SenseRange, 1.4f, true))
@@ -144,7 +144,7 @@ namespace TarkovStimulants.Buffs
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.VisableDistanceFactor, 0.5f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.EnergyCost, 0.8f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.WaterCost, 0.8f, true))
-                .AddCustomLogic(new RegenerationLogic(-0.001f, 1f, -1f, false));
+                .AddCustomLogic(new RegenerationLogic(-0.002f, 1f, -1f, false));
 
         public static readonly List<QuackBuffDefinition> AllBuffs = new List<QuackBuffDefinition>
         {

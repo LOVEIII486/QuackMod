@@ -561,7 +561,7 @@ namespace TarkovStimulants.Items
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
                 tags = new List<string> { "Medic", "Injector" },
-                spritePath = "items/Obdolbos2.png",
+                spritePath = "items/Obdolbos 2.png",
                 usages = new UsageData
                 {
                     actionSound = "SFX/Item/use_syringe",
