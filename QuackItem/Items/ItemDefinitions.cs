@@ -93,11 +93,11 @@ namespace QuackItem.Items
                     {
                         new QuackSpawnNPCData 
                         { 
-                            basePresetName = "EnemyPreset_Boss_Hunter"
+                            basePresetName = NPCPresetNames.Vehicle.VehicleTest
                         },
-                        new QuackSpawnNPCData
-                        {
-                            basePresetName = "EnemyPreset_LittleBoss"
+                        new QuackSpawnVanillaNPCData
+                        { 
+                            basePresetName = NPCPresetNames.Vehicle.VehicleTest2
                         }
                     }
                 }

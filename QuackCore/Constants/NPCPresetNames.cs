@@ -81,6 +81,19 @@
             public const string Tagilla = "EnemyPreset_Boss_Tagilla"; // Tagilla
             public const string TagillaBasaka = "EnemyPreset_Boss_Tagilla_Basaka"; // Tagilla
             public const string WolfKingIce = "EnemyPreset_Boss_WolfKing_Ice"; // 雪原狼王
+            
+            public static readonly string[] All = 
+            { 
+                PrisonBoss,
+                UltraMan, ShortEagle,
+                Deng, Speedy,
+                ThreeShot, RPG, Arcade, BALeader, Fly, Grenade, SenorEngineer, ServerGuardian, Shot, Vida, SchoolBully, Red,
+                Roadblock,
+                Storm1, Storm2, Storm3, Storm4, Storm5,
+                XING,
+                SnowBigIce, SpeedyIce,
+                Alex, Killa, KillaBasaka, SnowFleeze, SnowIgny, SnowMan, SnowMan2, Tagilla, TagillaBasaka, WolfKingIce
+            };
         }
         
         public static class Minions
@@ -101,6 +114,16 @@
             public const string XINGChild = "EnemyPreset_Boss_XING_Child"; // 小小兴
             
             public const string SpeedyIceChild = "EnemyPreset_Boss_Speedy_Ice_Child"; // 急冻团员
+            
+            public static readonly string[] All = 
+            { 
+                ShortEagleElite,
+                DengWolf, SpeedyChild,
+                ThreeShotChild, BALeaderChild, FlyChild, FlyAlone, SchoolBullyChild,
+                Storm1Child,
+                XINGChild,
+                SpeedyIceChild
+            };
         }
         
         public static class Animal
@@ -113,6 +136,11 @@
             public const string WolfIce = "EnemyPreset_Animal_Wolf_Ice"; // 狼
             public const string Chick = "SpawnPreset_Animal_Jinitaimei"; // *Cname_Chick*
             public const string Mushroom = "EnemyPreset_Mushroom"; // 行走菇
+            
+            public static readonly string[] All =
+            { 
+                Bear, BearGun, Ghost, Wolf, WolfFarm, WolfIce, Chick, Mushroom
+            }; 
         }
 
         public static class Enemies
@@ -161,27 +189,45 @@
             public const string StormCreature = "EnemyPreset_StormCreature" ; // 风暴生物
             public const string StormCreatureVirus = "EnemyPreset_StormCreature_Virus" ; // 风暴？
             public const string StormMonsterClimb = "EnemyPreset_Storm_MonsterClimb" ; // 风暴虫
+            
+            public static readonly string[] All = 
+            { 
+                Scav, ScavElite, ScavFarm, ScavIce, ScavLow, ScavLowAK, ScavMelee, ScavSnow, ColdStorageScav,
+                USECFarm, USECHidden, USECIce, USECIceMilitary, USECLow, USECSnowMilitary,
+                Raider, SnowRaider, StormRaider,
+                Spider, SpiderStrong, SpiderJLab, SpiderRotate, SpiderRing, SpiderSnow, SpiderSuper, SpiderScare,
+                Zombie, ZombieSnow,
+                Football1, Football2,
+                PrisonMelee, PrisonPistol,
+                JLabInvisible,
+                StormCreature, StormCreatureVirus, StormMonsterClimb
+            };
         }
         
         public static class Merchant
         {
             public const string Myst = "EnemyPreset_Merchant_Myst"; // 神秘商人
             public const string Myst0 = "EnemyPreset_Merchant_Myst0"; // 神秘商人
-
+            public const string Jeff = "EnemyPreset_Merchant_Jeff"; // 杰夫，可以受击
+            
+            public static readonly string[] All = { Myst, Myst0, Jeff };
         }
 
         public static class Quest
         {
-            public const string Jeff = "EnemyPreset_Merchant_Jeff"; // 杰夫，可以受击
             public const string QuestFo = "EnemyPreset_QuestGiver_Fo"; // 佛哥
             public const string QuestXiaoMing = "EnemyPreset_QuestGiver_XiaoMing"; // 小明
             public const string QuestAlex = "EnemyPreset_QuestGiver_Alex"; // 艾力克斯
+            
+            public static readonly string[] All = { QuestFo, QuestXiaoMing, QuestAlex };
         }
         
         public static class Vehicle
         {
             public const string VehicleTest = "EnemyPreset_VehicleTest"; // 马
-            public const string VehicleTest2 = "EnemyPreset_VehicleTest 2"; // 马
+            public const string VehicleTest2 = "EnemyPreset_VehicleTest 2"; // 马，白色，带圣诞特效
+            
+            public static readonly string[] All = { VehicleTest, VehicleTest2 };
         }
 
         public static class Special
@@ -191,6 +237,8 @@
             public const string Drone = "EnemyPreset_Drone_Rifle"; // 侦察机
             public const string GunTurret = "EnemyPreset_GunTurret"; // 自动炮台
             public const string Pet = "PetPreset_NormalPet"; // 宠物
+            
+            public static readonly string[] All = { BoomCar, SnowPMC, Drone, GunTurret, Pet };
         }
 
         public static class Unknown
@@ -200,6 +248,8 @@
             public const string PMCLeader = "EnemyPreset_Boss_PMCLeader"; // 呆头鹅 没见过
             public const string Blue = "EnemyPreset_Boss_Blue"; // ??? 蓝色，可能是废案
             public const string LittleBoss = "EnemyPreset_LittleBoss"; // 小Boss，似乎是矮鸭废案
+            
+            public static readonly string[] All = { MatePMC, Hunter, PMCLeader, Blue, LittleBoss };
         }
 
         public static class Test
@@ -218,6 +268,8 @@
             public const string VidaTest = "EnemyPreset_Boss_Vida_Test"; // 维达
             
             public const string Basement = "EnemyPreset_Basement";
+            
+            public static readonly string[] All = { DummyLv0, DummyLv1, DummyLv2, DummyLv3, DummyLv4, DummyLv5, ScavTest, MerchantTest, VidaTest, Basement };
         }
     }
 }

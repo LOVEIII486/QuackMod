@@ -6,9 +6,9 @@ using Cysharp.Threading.Tasks;
 namespace QuackCore.Items.UsageBehavior
 {
     /// <summary>
-    /// 自定义NPC生成
+    /// 纯原版 NPC 生成
     /// </summary>
-    public class QuackSpawnNPCBehavior : ItemStatsSystem.UsageBehavior
+    public class QuackSpawnVanillaNPCBehavior : ItemStatsSystem.UsageBehavior
     {
         public string basePresetName;
 
@@ -19,7 +19,7 @@ namespace QuackCore.Items.UsageBehavior
                 return new DisplaySettingsData 
                 { 
                     display = true, 
-                    description = $"召唤: {basePresetName}" 
+                    description = $"召唤(原版): {basePresetName}" 
                 };
             }
         }
@@ -30,7 +30,6 @@ namespace QuackCore.Items.UsageBehavior
         {
             if (user is CharacterMainControl character)
             {
-                // 执行异步生成任务
                 ExecuteSpawn(character).Forget();
             }
         }
@@ -44,13 +43,8 @@ namespace QuackCore.Items.UsageBehavior
             }
 
             Vector3 spawnPos = user.transform.position + user.transform.forward * 2f;
-
-            var testConfig = new QuackNPCConfig 
-            { 
-                BasePresetName = this.basePresetName,
-            };
-
-            await QuackSpawner.Instance.SpawnNPC(testConfig, spawnPos);
+            
+            await QuackSpawner.Instance.SpawnVanillaNPC(this.basePresetName, spawnPos, Teams.player);
         }
     }
 }
