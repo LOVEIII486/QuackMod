@@ -3,7 +3,6 @@ using HarmonyLib;
 using QuackCore.Constants;
 using QuackCore.NPC;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace QuackCore
 {

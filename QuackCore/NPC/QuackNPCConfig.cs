@@ -12,7 +12,7 @@ namespace QuackCore.NPC
     [Serializable]
     public class QuackNPCConfig
     {
-        [Header("--- 基础身份 Identity (必填) ---")]
+        [Header("基础信息")]
         public string BasePresetName = "EnemyPreset_Scav"; 
         public string CustomName = null; 
         public Teams? Team = null;
@@ -91,10 +91,7 @@ namespace QuackCore.NPC
         public float? HasCashChance = null;
         public Vector2Int? CashRange = null;
         public Vector2? BulletCountRange = null;
-        
-        /// <summary>
-        /// 自定义物品列表。若为 null 或 Count 为 0，则保留原版背包。
-        /// </summary>
+
         public List<int> CustomItemIDs = null;
 
         [Header("载具？")]

@@ -57,7 +57,7 @@ namespace QuackCore.Items.UsageBehavior
                 }
                 
                 await QuackSpawner.Instance.SpawnNPC(registeredConfig,spawnPos);
-                ModLogger.Log($"[QuackCore] 使用自定义配置 ID: {npcConfigId} 生成 NPC。");
+                ModLogger.LogDebug($"使用自定义配置 ID: {npcConfigId} 生成 NPC。");
             }
             else
             {
@@ -65,7 +65,7 @@ namespace QuackCore.Items.UsageBehavior
                 string presetToSpawn = string.IsNullOrEmpty(basePresetName) ? "EnemyPreset_Scav" : basePresetName;
                 
                 await QuackSpawner.Instance.SpawnVanillaNPC(presetToSpawn, spawnPos);
-                ModLogger.Log($"[QuackCore] 未提供有效 ConfigId，生成原版 NPC: {presetToSpawn}");
+                ModLogger.LogDebug($"未提供有效 ConfigId，生成原版 NPC: {presetToSpawn}");
             }
         }
     }

@@ -9,12 +9,7 @@ namespace QuackCore.BuffSystem.Logic
     {
         private readonly int[] _immuneBuffIDs;
         private readonly bool _removeOneLayer;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="removeOneLayer">是否仅移除一层</param>
-        /// <param name="buffIDs">需要免疫/移除的 Buff ID 列表</param>
+        
         public BuffImmunityLogic(bool removeOneLayer, params int[] buffIDs)
         {
             _removeOneLayer = removeOneLayer;

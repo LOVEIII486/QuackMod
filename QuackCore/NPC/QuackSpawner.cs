@@ -14,8 +14,7 @@ using SodaCraft.Localizations;
 namespace QuackCore.NPC
 {
     /// <summary>
-    /// 通用 NPC 生成工具类。
-    /// 负责 CharacterRandomPreset 的动态克隆、参数注入及异步生成。
+    /// 通用 NPC 生成器。
     /// </summary>
     public class QuackSpawner : MonoBehaviour
     {
@@ -114,7 +113,7 @@ namespace QuackCore.NPC
                         }
                     }
                     
-                    ModLogger.LogDebug($"[QuackSpawner] 已生成自定义 NPC: {config.BasePresetName}");
+                    ModLogger.LogDebug($"已生成自定义 NPC: {config.BasePresetName}");
                     return character;
                 }
             }

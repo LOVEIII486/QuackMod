@@ -14,7 +14,7 @@ namespace QuackCore.NPC
         public string Id;
 
         /// <summary>
-        /// 该 NPC 的具体属性配置
+        /// NPC 的具体属性配置
         /// </summary>
         public QuackNPCConfig Config;
 

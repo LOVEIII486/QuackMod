@@ -26,13 +26,5 @@ namespace QuackCore.NPC
             if (string.IsNullOrEmpty(id)) return null;
             return _definitions.TryGetValue(id, out var def) ? def.Config : null;
         }
-
-        /// <summary>
-        /// 快捷注册方法
-        /// </summary>
-        public static void Register(string id, QuackNPCConfig config)
-        {
-            Register(new QuackNPCDefinition(id, config));
-        }
     }
 }

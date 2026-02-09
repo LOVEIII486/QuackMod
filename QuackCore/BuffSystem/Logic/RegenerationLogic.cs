@@ -17,7 +17,7 @@ namespace QuackCore.BuffSystem.Logic
         private float _durationTimer;
 
         /// <summary>
-        /// 再生逻辑
+        /// 再生
         /// </summary>
         /// <param name="healPercent">每次恢复的最大生命百分比</param>
         /// <param name="interval">恢复间隔</param>
