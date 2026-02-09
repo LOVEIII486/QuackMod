@@ -4,5 +4,7 @@
     "QuackItem_Cookie_Buff":"健壮曲奇",
     "QuackItem_Cookie_Buff_Desc":"使用后获得最大生命值提升",
     "Item_GoldenCarrot":"金胡萝卜",
-    "Item_GoldenCarrot_Desc":"金胡萝卜-召唤一匹马"
+    "Item_GoldenCarrot_Desc":"金胡萝卜- 使用以召唤一匹马",
+    "Item_GoldenCarrot2":"金胡萝卜(白马)",
+    "Item_GoldenCarrot2_Desc":"金胡萝卜- 使用以召唤一匹白马"
 }

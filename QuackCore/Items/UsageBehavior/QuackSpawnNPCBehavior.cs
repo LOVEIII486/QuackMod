@@ -15,7 +15,12 @@ namespace QuackCore.Items.UsageBehavior
             get
             {
                 var config = QuackNPCRegistry.GetConfig(npcConfigId);
-                string displayName = config?.CustomName ?? basePresetName;
+                string displayName = config?.CustomName;
+
+                if (string.IsNullOrEmpty(displayName))
+                {
+                    displayName = SodaCraft.Localizations.LocalizationManager.GetPlainText(basePresetName);
+                }
 
                 return new DisplaySettingsData 
                 { 
