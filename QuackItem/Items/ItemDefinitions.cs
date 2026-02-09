@@ -27,7 +27,7 @@ namespace QuackItem.Items
                 usages = new UsageData
                 {
                     actionSound = "SFX/Item/use_food",
-                    useSound = "SFX/Item/use_food_success",
+                    useSound = string.Empty,
                     useTime = 0.5f,
                     behaviors = new List<UsageBehaviorData>
                     {
@@ -68,10 +68,49 @@ namespace QuackItem.Items
                 }
             }
         };
+        
+        public static readonly QuackItemDefinition Utility_GoldenCarrot = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777002,
+                order = 101,
+                localizationKey = "Item_GoldenCarrot",
+                localizationDesc = "Item_GoldenCarrot_Desc",
+                weight = 0.2f,
+                value = 5000,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                tags = new List<string> { "Food" },
+                spritePath = "items/Cookie.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_food",
+                    useSound = string.Empty,
+                    useTime = 1.0f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackSpawnNPCData 
+                        { 
+                            basePresetName = "EnemyPreset_Boss_Hunter"
+                        },
+                        new QuackSpawnNPCData
+                        {
+                            basePresetName = "EnemyPreset_LittleBoss"
+                        }
+                    }
+                }
+            },
+            Shop = null,
+            Crafting = null,
+            Decompose = null
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Food_Cookie,
+            Utility_GoldenCarrot
         };
     }
 }

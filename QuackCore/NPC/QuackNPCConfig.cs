@@ -9,7 +9,7 @@ namespace QuackCore.NPC
     public class QuackNPCConfig
     {
         [Header("--- 基础身份 Identity ---")]
-        public string BasePresetKey = "Cname_Usec"; 
+        public string BasePresetName = "EnemyPreset_Scav"; 
         public string CustomName = ""; 
         public Teams Team = Teams.all;
         public CharacterIconTypes IconType = CharacterIconTypes.none;

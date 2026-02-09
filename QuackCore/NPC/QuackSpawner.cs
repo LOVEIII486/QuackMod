@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using Duckov.Utilities;
 using Cysharp.Threading.Tasks;
 using Duckov.Scenes;
+using QuackCore.Constants;
+using SodaCraft.Localizations;
 
 namespace QuackCore.NPC
 {
@@ -19,13 +23,8 @@ namespace QuackCore.NPC
 
         private bool _isInitialized = false;
         
-        // 游戏原生预设 Key 映射表
         private Dictionary<string, CharacterRandomPreset> _gameNativePresetMap = new Dictionary<string, CharacterRandomPreset>();
-        
-        // 已生成的自定义预设缓存
         private Dictionary<string, CharacterRandomPreset> _generatedPresetsCache = new Dictionary<string, CharacterRandomPreset>();
-        
-        // 维护一个克隆列表，用于销毁时清理内存
         private List<CharacterRandomPreset> _clonedPresets = new List<CharacterRandomPreset>();
 
         private void Awake()
@@ -46,16 +45,6 @@ namespace QuackCore.NPC
             StartCoroutine(InitializeRoutine());
         }
 
-        private void OnDestroy()
-        {
-            foreach (var preset in _clonedPresets)
-            {
-                if (preset != null) Destroy(preset);
-            }
-            _clonedPresets.Clear();
-            _generatedPresetsCache.Clear();
-        }
-
         private IEnumerator InitializeRoutine()
         {
             while (CharacterMainControl.Main == null) yield return null;
@@ -65,51 +54,42 @@ namespace QuackCore.NPC
             _gameNativePresetMap.Clear();
             foreach (var preset in allPresets)
             {
-                if (preset != null && !string.IsNullOrEmpty(preset.nameKey))
+                // 参考 EliteEnemies：使用 preset.name 作为唯一 Key
+                if (preset != null && !string.IsNullOrEmpty(preset.name))
                 {
-                    if (!_gameNativePresetMap.ContainsKey(preset.nameKey))
-                        _gameNativePresetMap.Add(preset.nameKey, preset);
+                    if (!_gameNativePresetMap.ContainsKey(preset.name))
+                        _gameNativePresetMap.Add(preset.name, preset);
                 }
             }
 
             _isInitialized = true;
-            ModLogger.Log("QuackSpawner 初始化完成：已同步原生预设库。");
+            ModLogger.Log("QuackSpawner 初始化完成：已同步原生预设库 (使用 Asset Name 索引)。");
         }
 
-        /// <summary>
-        /// 基于 QuackNPCConfig 异步生成一个 NPC
-        /// </summary>
-        /// <param name="config">NPC 配置实例</param>
-        /// <param name="position">生成位置</param>
-        /// <param name="team">可选：覆盖配置中的阵营</param>
-        /// <returns>返回生成的 CharacterMainControl 实例</returns>
         public async UniTask<CharacterMainControl> SpawnNPC(QuackNPCConfig config, Vector3 position, Teams? team = null)
         {
             if (!_isInitialized)
             {
-                ModLogger.LogError("尚未初始化，无法生成 NPC。");
+                ModLogger.LogError("[QuackSpawner] 尚未初始化。");
                 return null;
             }
 
-            if (!_gameNativePresetMap.TryGetValue(config.BasePresetKey, out var sourcePreset))
+            // 使用 config.BasePresetName 查找
+            if (!_gameNativePresetMap.TryGetValue(config.BasePresetName, out var sourcePreset))
             {
-                ModLogger.LogError($"找不到基底预设: {config.BasePresetKey}");
+                ModLogger.LogError($"[QuackSpawner] 找不到基底资源: {config.BasePresetName}");
                 return null;
             }
 
             CharacterRandomPreset finalPreset = GetOrCreateCustomPreset(sourcePreset, config);
-            
-            // 如果外部传入了阵营，则临时覆盖
             if (team.HasValue) finalPreset.team = team.Value;
 
             try
             {
-                // 确定场景 BuildIndex
                 int sceneIndex = MultiSceneCore.MainScene.HasValue 
                     ? MultiSceneCore.MainScene.Value.buildIndex 
                     : UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
 
-                // 2. 调用官方原生异步创建流程
                 CharacterMainControl character = await finalPreset.CreateCharacterAsync(
                     position + Vector3.down * 0.25f,
                     Vector3.forward,
@@ -121,8 +101,6 @@ namespace QuackCore.NPC
                 if (character != null)
                 {
                     character.SetPosition(position);
-                    
-                    // 3. 处理跟随逻辑
                     if (character.Team == Teams.player)
                     {
                         AICharacterController ai = character.aiCharacterController;
@@ -133,29 +111,43 @@ namespace QuackCore.NPC
                             if (pet != null) pet.SetMaster(CharacterMainControl.Main);
                         }
                     }
-
-                    ModLogger.Log($"成功生成 NPC: {character.name} (Base: {config.BasePresetKey})");
                     return character;
                 }
             }
             catch (Exception ex)
             {
-                ModLogger.LogError($"生成 NPC 时发生异常: {ex}");
+                ModLogger.LogError($"[QuackSpawner] 生成异常: {ex}");
             }
-
             return null;
         }
 
         private CharacterRandomPreset GetOrCreateCustomPreset(CharacterRandomPreset source, QuackNPCConfig config)
         {
             string uniqueId = string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName;
-            string cacheKey = $"{config.BasePresetKey}_Quack_{uniqueId}";
+            // Cache Key 同样基于 BasePresetName
+            string cacheKey = $"{config.BasePresetName}_Quack_{uniqueId}";
 
             if (_generatedPresetsCache.TryGetValue(cacheKey, out var cached)) return cached;
 
             CharacterRandomPreset preset = Instantiate(source);
+            
+            // 参考 EliteEnemies 的命名习惯：
+            // preset.name 决定了该 Asset 的身份
             preset.name = source.name + "_Quack_" + uniqueId;
-            preset.nameKey = cacheKey;
+            
+            // 重要：nameKey 决定了该 NPC 在 UI 上显示的翻译文本
+            // 如果用户指定了 CustomName，我们需要覆盖本地化系统
+            if (!string.IsNullOrEmpty(config.CustomName))
+            {
+                string overrideKey = "QuackNPC_" + uniqueId;
+                preset.nameKey = overrideKey;
+                LocalizationManager.SetOverrideText(overrideKey, config.CustomName);
+            }
+            else
+            {
+                // 如果没有自定义名字，保留原版的本地化 Key
+                preset.nameKey = source.nameKey;
+            }
 
             ApplyConfigToPreset(preset, config);
             
@@ -254,7 +246,76 @@ namespace QuackCore.NPC
                 SetupInventory(preset, config.CustomItemIDs);
             }
         }
+        
+        public void ExportNativePresets()
+        {
+            if (!_isInitialized)
+            {
+                ModLogger.LogWarning("尚未初始化，无法导出预设。");
+                return;
+            }
 
+            try
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "QuackNativePresets.txt");
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine("Asset Name\tLocalization Key\tProperty Name\tProperty DisplayName");
+
+                foreach (var kvp in _gameNativePresetMap)
+                {
+                    CharacterRandomPreset p = kvp.Value;
+            
+                    string assetName = p.name;
+                    string locKey = p.nameKey;
+                    string propName = p.Name;
+                    string propDisplayName = p.DisplayName;
+
+                    sb.AppendLine($"{assetName}\t{locKey}\t{propName}\t{propDisplayName}");
+                }
+
+                File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+                ModLogger.Log($"预设库导出成功！文件路径: {filePath}");
+            }
+            catch (Exception ex)
+            {
+                ModLogger.LogError($"导出预设库失败: {ex.Message}");
+            }
+        }
+        
+        public void SimpleCheck()
+        {
+            var defined = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            Action<Type> scan = null;
+            scan = (t) => {
+                foreach (var f in t.GetFields()) if (f.IsLiteral) defined.Add(f.GetValue(null).ToString());
+                foreach (var nt in t.GetNestedTypes()) scan(nt);
+            };
+            scan(typeof(NPCPresetNames));
+
+            int missing = 0;
+            foreach (var assetName in _gameNativePresetMap.Keys)
+            {
+                if (!defined.Contains(assetName))
+                {
+                    ModLogger.LogWarning($"[遗漏] 游戏中有但常量表没写: {assetName}");
+                    missing++;
+                }
+            }
+
+            int redundant = 0;
+            foreach (var constantValue in defined)
+            {
+                if (!_gameNativePresetMap.ContainsKey(constantValue))
+                {
+                    ModLogger.LogError($"[冗余] 常量表里有但实际游戏没这个资源: {constantValue}");
+                    redundant++;
+                }
+            }
+
+            ModLogger.Log($"比对完成。遗漏: {missing}, 冗余: {redundant}");
+        }
+        
         private void SetupInventory(CharacterRandomPreset preset, List<int> itemIDs)
         {
             var itemsList = QuackReflectionHelper.GetPrivateField<IList>(preset, "itemsToGenerate");

@@ -2,5 +2,7 @@
     "Food_Cookie":"曲奇",
     "Food_Cookie_Desc":"使用后获得最大生命值提升",
     "QuackItem_Cookie_Buff":"健壮曲奇",
-    "QuackItem_Cookie_Buff_Desc":"使用后获得最大生命值提升"
+    "QuackItem_Cookie_Buff_Desc":"使用后获得最大生命值提升",
+    "Item_GoldenCarrot":"金胡萝卜",
+    "Item_GoldenCarrot_Desc":"金胡萝卜-召唤一匹马"
 }

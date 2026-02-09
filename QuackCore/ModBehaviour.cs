@@ -1,6 +1,8 @@
 ﻿using System;
 using HarmonyLib;
 using QuackCore.Constants;
+using QuackCore.NPC;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace QuackCore
@@ -38,7 +40,8 @@ namespace QuackCore
         protected override void OnAfterSetup()
         {
             base.OnAfterSetup();
-            ModLogger.Log($"{ModConstant.ModName} 游戏数据已准备就绪。");
+            new GameObject("QuackSpawner").AddComponent<QuackSpawner>();
+            ModLogger.Log($"{ModConstant.ModName} 已准备就绪。");
         }
 
         private void OnDisable()
