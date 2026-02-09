@@ -15,13 +15,14 @@ namespace QuackItem.Buffs
         private static string GetIconPath(string fileName)
             => Path.Combine(DllDir, $"assets/textures/buffs/{fileName}.png");
 
-        public static readonly QuackBuffDefinition Cookie_Buff =
-            new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("QuackItem", "Cookie_Buff", 777001, 15f, GetIconPath("Cookie")))
-                .AddCustomLogic(new RegenerationLogic(0.05f, 0.5f, -1, true));
+        public static readonly QuackBuffDefinition LifeFruit_Buff =
+            new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("QuackItem", "LifeFruit_Buff", 777003, 60f,
+                    GetIconPath("LifeFruit")))
+                .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.MaxHealth, 50f, false));
 
         public static readonly List<QuackBuffDefinition> AllBuffs = new List<QuackBuffDefinition>
         {
-            Cookie_Buff
+            LifeFruit_Buff
         };
     }
 }

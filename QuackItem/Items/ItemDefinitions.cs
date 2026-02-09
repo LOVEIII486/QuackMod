@@ -90,11 +90,54 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
+        
+        public static readonly QuackItemDefinition Food_LifeFruit = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777003,
+                order = 100,
+                localizationKey = "Food_LifeFruit",
+                localizationDesc = "Food_LifeFruit_Desc",
+                weight = 0.1f,
+                value = 2000,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 5,
+                tags = new List<string> { "Food" },
+                spritePath = "items/LifeFruit.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_food",
+                    useSound = string.Empty,
+                    useTime = 1.0f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackAddBuffData
+                        {
+                            buffName = "QuackItem_LifeFruit_Buff",
+                            chance = 1.0f,
+                        }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 2,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = null,
+            Decompose = null
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Item_GoldenCarrot,
-            Item_GoldenCarrot2
+            Item_GoldenCarrot2,
+            Food_LifeFruit
         };
     }
 }
