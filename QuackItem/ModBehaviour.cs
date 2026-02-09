@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using FastModdingLib;
 using QuackItem.Buffs;
 using QuackItem.Items;
+using QuackItem.NPC;
 
 namespace QuackItem
 {
@@ -159,6 +160,7 @@ namespace QuackItem
 
         private void RegisterAllContent()
         {
+            RegisterNPCs();
             RegisterBuffs();
             RegisterItems();
             RegisterQuests();
@@ -176,6 +178,8 @@ namespace QuackItem
         private void RegisterItems() => ItemRegistry.RegisterAll(_dllPath);
 
         private void RegisterQuests() { }
+        
+        private void RegisterNPCs() => NPCRegistry.RegisterAll();
 
         #endregion
 

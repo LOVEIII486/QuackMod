@@ -4,6 +4,7 @@ using ItemStatsSystem;
 using QuackCore.Constants;
 using QuackCore.Items;
 using QuackCore.Items.UsageData;
+using QuackCore.NPC;
 
 namespace QuackItem.Items
 {
@@ -93,11 +94,12 @@ namespace QuackItem.Items
                     {
                         new QuackSpawnNPCData 
                         { 
-                            basePresetName = NPCPresetNames.Vehicle.VehicleTest
+                            basePresetName = "EnemyPreset_Scav",
+                            npcConfigId = "Elite_Guard_Carrot"
                         },
-                        new QuackSpawnVanillaNPCData
+                        new QuackSpawnNPCData 
                         { 
-                            basePresetName = NPCPresetNames.Vehicle.VehicleTest2
+                            basePresetName = NPCPresetNames.Vehicle.VehicleTest,
                         }
                     }
                 }
