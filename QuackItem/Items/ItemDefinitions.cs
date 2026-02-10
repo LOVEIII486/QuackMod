@@ -200,6 +200,11 @@ namespace QuackItem.Items
                     durabilityUsage = 0,
                     behaviors = new List<UsageBehaviorData>
                     {
+                        new MimicTearAshesData
+                        {
+                            basePresetName = NPCPresetNames.Enemies.Raider,
+                            npcConfigId = "MimicTearAshes"
+                        }
                     }
                 }
             },
