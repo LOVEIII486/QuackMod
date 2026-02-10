@@ -4,6 +4,7 @@ using ItemStatsSystem;
 using QuackCore.Constants;
 using QuackCore.Items;
 using QuackCore.Items.UsageData;
+using QuackItem.Items.Data;
 
 namespace QuackItem.Items
 {
@@ -145,7 +146,8 @@ namespace QuackItem.Items
                 value = 3000,
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
-                maxStackCount = 1,
+                maxStackCount = 3,
+                //maxDurability = 3,
                 tags = new List<string> { "Tool" },
                 spritePath = "items/ReturnOrb.png",
                 usages = new UsageData
@@ -153,8 +155,11 @@ namespace QuackItem.Items
                     actionSound = "SFX/Item/use_syringe",
                     useSound = "SFX/Item/use_syringe_success",
                     useTime = 1.0f,
+                    useDurability = false,
+                    durabilityUsage = 0,
                     behaviors = new List<UsageBehaviorData>
                     {
+                        new ReturnOrbData()
                     }
                 }
             },
