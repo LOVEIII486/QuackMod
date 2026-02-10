@@ -10,9 +10,7 @@ namespace QuackItem.Items.Behavior
         {
             get
             {
-                var settings = new DisplaySettingsData { display = true, description = "" };
-                
-
+                var settings = new DisplaySettingsData { display = true, description = "使用以快速撤离" };
                 return settings;
             }
         }

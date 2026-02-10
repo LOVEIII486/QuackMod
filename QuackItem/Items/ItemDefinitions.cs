@@ -184,7 +184,7 @@ namespace QuackItem.Items
                 localizationKey = "Item_MimicTearAshes",
                 localizationDesc = "Item_MimicTearAshes_Desc",
                 weight = 0.1f,
-                value = 6000,
+                value = 12000,
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
@@ -193,11 +193,11 @@ namespace QuackItem.Items
                 spritePath = "items/MimicTearAshes.png",
                 usages = new UsageData
                 {
-                    actionSound = "SFX/Item/use_syringe",
-                    useSound = "SFX/Item/use_syringe_success",
+                    actionSound = string.Empty,
+                    useSound = string.Empty,
                     useTime = 1.0f,
-                    useDurability = false,
-                    durabilityUsage = 0,
+                    useDurability = true,
+                    durabilityUsage = 1,
                     behaviors = new List<UsageBehaviorData>
                     {
                         new MimicTearAshesData
@@ -213,10 +213,74 @@ namespace QuackItem.Items
                 MerchantID = MerchantIDs.Fo,
                 MaxStock = 1,
                 PriceFactor = 1.0f,
-                Probability = 1.0f,
+                Probability = 0.5f,
                 ForceUnlock = true
             },
             Crafting = null,
+            Decompose = null
+        };
+        
+        public static readonly QuackItemDefinition Item_SnowPMCAshes = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777006,
+                order = 100,
+                localizationKey = "Item_SnowPMCAshes",
+                localizationDesc = "Item_SnowPMCAshes_Desc",
+                weight = 0.2f,
+                value = 648,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 1,
+                maxDurability = 3,
+                tags = new List<string> { "Tool" },
+                spritePath = "items/SnowPMCAshes.png",
+                usages = new UsageData
+                {
+                    actionSound = string.Empty,
+                    useSound = string.Empty,
+                    useTime = 1.0f,
+                    useDurability = true,
+                    durabilityUsage = 1,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackSpawnNPCData 
+                        { 
+                            basePresetName = NPCPresetNames.Special.SnowPMC,
+                        },
+                        new ReturnItemData
+                        {
+                            display = true,
+                            itemTypeID = 388
+                        }
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 0.5f,
+                ForceUnlock = true
+            },
+            Crafting = new QuackItemDefinition.CraftingConfig
+            {
+                FormulaID = "formula_SnowPMCAshes_craft",
+                MoneyCost = 0L,
+                Materials = new List<(int itemId, long count)>
+                {
+                    (1368, 1L), //煤球头套
+                    (388, 3L), //实体比特币
+                },
+                ResultCount = 1,
+                Workbenches = new string[] { WorkbenchIDs.WorkBenchAdvanced },
+                UnlockByDefault = true,
+                RequirePerk = "",
+                HideInIndex = false,
+                LockInDemo = false
+            },
             Decompose = null
         };
 
@@ -227,6 +291,7 @@ namespace QuackItem.Items
             Food_LifeFruit,
             Item_ReturnOrb,
             Item_MimicTearAshes,
+            Item_SnowPMCAshes
         };
     }
 }
