@@ -45,11 +45,13 @@ namespace QuackItem.NPC
                 GunScatterMultiplier = 0.7f,
                 ShootCanMove = true,
                 CanDash = true,
+                ResistPhysics = 0.8f,
             }
         );
 
         public static readonly List<QuackNPCDefinition> AllNpcs = new List<QuackNPCDefinition>
         {
+            MimicTearAshes
         };
     }
 }

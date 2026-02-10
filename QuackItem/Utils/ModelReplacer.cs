@@ -1,13 +1,9 @@
-﻿// ...existing code...
-using System;
+﻿using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace QuackItem.Items.Behavior
+namespace QuackItem.Utils
 {
-    /// <summary>
-    /// 抽象模型替换器接口（支持原版面部与 DuckovCustomModel 的替换）
-    /// </summary>
     public interface IModelReplacer
     {
         void ApplyModel(CharacterMainControl target, CharacterMainControl source);
@@ -75,11 +71,10 @@ namespace QuackItem.Items.Behavior
                 }
                 catch
                 {
-                    // fallthrough to vanilla copy
+                    // 忽略
                 }
             }
 
-            // fallback: copy vanilla custom face
             CopyVanillaFace(target, source);
             HideEquipmentVisuals(target);
         }
