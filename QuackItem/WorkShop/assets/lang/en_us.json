@@ -1,6 +1,14 @@
 {
-  "Food_Cookie":"Cookie",
-  "Food_Cookie_Desc":"Increases maximum health when used",
-  "QuackItem_Cookie_Buff": "Sturdy Cookie",
-  "QuackItem_Cookie_Buff_Desc": "Increases maximum health"
+  "Item_GoldenCarrot":"金胡萝卜",
+  "Item_GoldenCarrot_Desc":"金胡萝卜- 使用以召唤一匹马",
+  "Item_GoldenCarrot2":"金胡萝卜(白马)",
+  "Item_GoldenCarrot2_Desc":"金胡萝卜- 使用以召唤一匹白马",
+  "Food_LifeFruit":"生命果",
+  "Food_LifeFruit_Desc":"从《泰拉瑞亚》世界带来的神秘果实，由于时空转移的副作用，只能临时增强使用者。食用后能临时提升最大生命值。",
+  "QuackItem_LifeFruit_Buff":"生命果",
+  "QuackItem_LifeFruit_Buff_Desc":"获得50点临时最大生命值提升",
+  "Item_ReturnOrb":"回归球",
+  "Item_ReturnOrb_Desc":"从《怪物猎人》中带来的神秘道具，使用后可以快速安全撤离。",
+  "Item_MimicTearAshes":"仿身泪滴的骨灰",
+  "Item_MimicTearAshes_Desc":"从《艾尔登法环》中带来的传说中的灰烬遗骸，用于召唤仿身泪滴的灵体，灵体会幻化成召唤者的形态并肩作战。"
 }

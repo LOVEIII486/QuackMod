@@ -132,12 +132,91 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
+        
+        public static readonly QuackItemDefinition Item_ReturnOrb = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777004,
+                order = 100,
+                localizationKey = "Item_ReturnOrb",
+                localizationDesc = "Item_ReturnOrb_Desc",
+                weight = 0.1f,
+                value = 3000,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                tags = new List<string> { "Tool" },
+                spritePath = "items/ReturnOrb.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 1.0f,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 3,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = null,
+            Decompose = null
+        };
+        
+        public static readonly QuackItemDefinition Item_MimicTearAshes = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777005,
+                order = 100,
+                localizationKey = "Item_MimicTearAshes",
+                localizationDesc = "Item_MimicTearAshes_Desc",
+                weight = 0.1f,
+                value = 6000,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                maxDurability = 100,
+                tags = new List<string> { "Tool" },
+                spritePath = "items/MimicTearAshes.png",
+                usages = new UsageData
+                {
+                    actionSound = "SFX/Item/use_syringe",
+                    useSound = "SFX/Item/use_syringe_success",
+                    useTime = 1.0f,
+                    useDurability = false,
+                    durabilityUsage = 0,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = null,
+            Decompose = null
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Item_GoldenCarrot,
             Item_GoldenCarrot2,
-            Food_LifeFruit
+            Food_LifeFruit,
+            Item_ReturnOrb,
+            Item_MimicTearAshes,
         };
     }
 }

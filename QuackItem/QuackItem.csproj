@@ -28,8 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Items\Behaviors\" />
-      <Folder Include="Items\Data\" />
+      <Folder Include="Items\UsageData\" />
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
