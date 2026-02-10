@@ -229,7 +229,7 @@ namespace QuackItem.Items
                 localizationKey = "Item_SnowPMCAshes",
                 localizationDesc = "Item_SnowPMCAshes_Desc",
                 weight = 0.2f,
-                value = 648,
+                value = 5000,
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 1,
