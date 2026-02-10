@@ -67,7 +67,7 @@ namespace QuackCore.NPC
             _isInitialized = true;
             ModLogger.Log("QuackSpawner 初始化完成：已同步原生预设库。");
         }
-
+        
         public async UniTask<CharacterMainControl> SpawnNPC(QuackNPCConfig config, Vector3 position, Teams? team = null)
         {
             if (!_isInitialized)
@@ -173,7 +173,18 @@ namespace QuackCore.NPC
 
             return null;
         }
-
+        
+        public CharacterRandomPreset GetNativePreset(string assetName)
+        {
+            if (string.IsNullOrEmpty(assetName)) return null;
+    
+            if (_gameNativePresetMap.TryGetValue(assetName, out var preset))
+            {
+                return preset;
+            }
+            return null;
+        }
+        
         private CharacterRandomPreset GetOrCreateCustomPreset(CharacterRandomPreset source, QuackNPCConfig config)
         {
             string uniqueId = string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName;
@@ -202,7 +213,7 @@ namespace QuackCore.NPC
             _generatedPresetsCache.Add(cacheKey, preset);
             return preset;
         }
-
+        
         private void ApplyConfigToPreset(CharacterRandomPreset preset, QuackNPCConfig config)
         {
             // --- 1. 身份表现  ---

@@ -17,11 +17,19 @@ namespace QuackCore.Items.UsageBehavior
                 var config = QuackNPCRegistry.GetConfig(npcConfigId);
                 string displayName = config?.CustomName;
 
-                if (string.IsNullOrEmpty(displayName))
+                if (string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(basePresetName))
                 {
-                    displayName = SodaCraft.Localizations.LocalizationManager.GetPlainText(basePresetName);
-                }
+                    if (QuackSpawner.Instance != null)
+                    {
+                        var preset = QuackSpawner.Instance.GetNativePreset(basePresetName);
 
+                        if (preset != null )
+                        {
+                            displayName = preset.DisplayName;
+                        }
+                    }
+                }
+                
                 return new DisplaySettingsData 
                 { 
                     display = true, 
