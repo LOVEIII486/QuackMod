@@ -42,7 +42,7 @@ namespace QuackCore.BuffSystem
             }
         }
 
-        public static void Apply(CharacterMainControl target, string compositeName, CharacterMainControl attacker = null)
+        public static void Apply(CharacterMainControl target, string compositeName, float durationOverride = -1f, CharacterMainControl attacker = null)
         {
             var def = QuackBuffRegistry.Instance.GetDefinition(compositeName);
             if (def == null) return;
@@ -51,6 +51,20 @@ namespace QuackCore.BuffSystem
             if (template != null)
             {
                 target.AddBuff(template, attacker, 1);
+                    if (durationOverride >= 0f)
+                {
+                    var manager = target.GetBuffManager();
+                    if (manager != null && manager.Buffs.Count > 0)
+                    {
+                        var latest = manager.Buffs[manager.Buffs.Count - 1]; 
+                        int expectedId = template.ID;
+                        if (latest.ID == expectedId)
+                        {
+                            _limitedLifeTimeField?.SetValue(latest, durationOverride > 0);
+                            _totalLifeTimeField?.SetValue(latest, durationOverride);
+                        }
+                    }
+                }
             }
         }
 
