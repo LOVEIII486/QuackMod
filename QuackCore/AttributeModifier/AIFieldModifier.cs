@@ -49,47 +49,6 @@ namespace QuackCore.AttributeModifier
         private static readonly HashSet<CharacterMainControl> _processingCharacters =
             new HashSet<CharacterMainControl>();
 
-        public static class Fields
-        {
-            public const string ReactionTime = "reactionTime";
-            public const string BaseReactionTime = "baseReactionTime";
-            public const string UpdateValueTimer = "updateValueTimer";
-
-            public const string PatrolTurnSpeed = "patrolTurnSpeed";
-            public const string CombatTurnSpeed = "combatTurnSpeed";
-
-            public const string ShootDelay = "shootDelay";
-            public const string ShootCanMove = "shootCanMove";
-
-            public const string ShootTimeRange = "shootTimeRange";
-            public const string ShootTimeMin = "shootTimeRange.x";
-            public const string ShootTimeMax = "shootTimeRange.y";
-            public const string ShootSpaceRange = "shootTimeSpaceRange";
-            public const string ShootSpaceMin = "shootTimeSpaceRange.x";
-            public const string ShootSpaceMax = "shootTimeSpaceRange.y";
-
-            public const string CanDash = "canDash";
-            public const string DashCDRange = "dashCoolTimeRange";
-            public const string DashCDMin = "dashCoolTimeRange.x";
-            public const string DashCDMax = "dashCoolTimeRange.y";
-
-            public const string SightDistance = "sightDistance";
-            public const string SightAngle = "sightAngle";
-            public const string HearingAbility = "hearingAbility";
-
-            public const string PatrolRange = "patrolRange";
-            public const string CombatMoveRange = "combatMoveRange";
-            public const string ForgetTime = "forgetTime";
-
-            public const string HasSkill = "hasSkill";
-            public const string SkillChance = "skillSuccessChance";
-            public const string SkillCoolTimeRange = "skillCoolTimeRange";
-            public const string SkillCoolTimeMin = "skillCoolTimeRange.x";
-            public const string SkillCoolTimeMax = "skillCoolTimeRange.y";
-
-            public const string DefaultWeaponOut = "defaultWeaponOut";
-        }
-
         public static void ModifyDelayed(CharacterMainControl character, string fieldPath, float value,
             bool multiply = false)
         {

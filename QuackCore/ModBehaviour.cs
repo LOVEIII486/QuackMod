@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
+using Duckov.Scenes;
 using HarmonyLib;
+using QuackCore.AttributeModifier;
 using QuackCore.Constants;
 using QuackCore.NPC;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace QuackCore
 {
@@ -40,6 +44,7 @@ namespace QuackCore
         {
             base.OnAfterSetup();
             new GameObject("QuackSpawner").AddComponent<QuackSpawner>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
             ModLogger.Log($"{ModConstant.ModName} 已准备就绪。");
         }
 
@@ -48,9 +53,18 @@ namespace QuackCore
             Cleanup();
             ModLogger.Log($"{ModConstant.ModName} 已禁用。");
         }
-
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "Base")
+            {
+                StartCoroutine(WaitAndSelfCheck());
+            }
+        }
+        
         private void OnDestroy()
         {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             if (Instance == this)
             {
                 Cleanup();
@@ -86,7 +100,25 @@ namespace QuackCore
                 _isPatched = false;
             }
         }
-
+        
         #endregion
+        
+        private IEnumerator WaitAndSelfCheck()
+        {
+            float timer = 0f;
+            while (CharacterMainControl.Main == null && timer < 10f)
+            {
+                timer += Time.deltaTime;
+                yield return null; 
+            }
+
+            if (CharacterMainControl.Main == null)
+            {
+                ModLogger.LogError("[ModBehaviour] 自检失败：超时未找到玩家实例。");
+                yield break;
+            }
+            yield return new WaitForEndOfFrame();
+            CharacterModifier.SelfCheck();
+        }
     }
 }

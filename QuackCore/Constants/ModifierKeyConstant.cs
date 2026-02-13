@@ -4,72 +4,85 @@
     {
         public static class Stat
         {
-            public const string MaxHealth = "MaxHealth"; 
-            public const string Stamina = "Stamina";
-            public const string StaminaDrainRate = "StaminaDrainRate";
-            public const string StaminaRecoverRate = "StaminaRecoverRate";
-            public const string StaminaRecoverTime = "StaminaRecoverTime";
-            public const string MaxEnergy = "MaxEnergy";
-            public const string EnergyCost = "EnergyCost";
-            public const string MaxWater = "MaxWater";
-            public const string WaterCost = "WaterCost";
-            public const string MaxWeight = "MaxWeight";
-            public const string FoodGain = "FoodGain";
-            public const string HealGain = "HealGain";
+            public const string MaxHealth = "MaxHealth"; // 最大生命值
+            public const string Stamina = "Stamina"; // 体力
+            public const string StaminaDrainRate = "StaminaDrainRate"; // 体力消耗
+            public const string StaminaRecoverRate = "StaminaRecoverRate"; // 体力恢复
+            public const string StaminaRecoverTime = "StaminaRecoverTime"; // 体力恢复时间
+            public const string MaxEnergy = "MaxEnergy"; // 最大能量
+            public const string EnergyCost = "EnergyCost"; // 能量消耗速率
+            public const string MaxWater = "MaxWater"; // 最大水分
+            public const string WaterCost = "WaterCost"; // 水分消耗速率
+            public const string MaxWeight = "MaxWeight"; // 最大负重
+            public const string FoodGain = "FoodGain"; // 食物效率
+            public const string HealGain = "HealGain"; // 治疗效率
+            public const string HungerDurability = "HungerDurability"; // 最大能量 (耐饿度)
 
-            public const string WalkSpeed = "WalkSpeed";
-            public const string WalkAcc = "WalkAcc";
-            public const string RunSpeed = "RunSpeed";
-            public const string RunAcc = "RunAcc";
-            public const string TurnSpeed = "TurnSpeed";
-            public const string AimTurnSpeed = "AimTurnSpeed";
-            public const string DashSpeed = "DashSpeed";
-            public const string Moveability = "Moveability";
+            public const string WalkSpeed = "WalkSpeed"; // 行走速度
+            public const string WalkAcc = "WalkAcc"; // 行走加速度
+            public const string RunSpeed = "RunSpeed"; // 奔跑速度
+            public const string RunAcc = "RunAcc"; // 奔跑加速度
+            public const string TurnSpeed = "TurnSpeed"; // 转向速度
+            public const string AimTurnSpeed = "AimTurnSpeed"; // 瞄准转向速度
+            public const string DashSpeed = "DashSpeed"; // 翻滚速度
+            public const string Moveability = "Moveability"; // 移动能力
+            public const string DashCanControl = "DashCanControl"; // 翻滚方向控制
 
-            public const string GunDamageMultiplier = "GunDamageMultiplier";
-            public const string GunShootSpeedMultiplier = "GunShootSpeedMultiplier";
-            public const string ReloadSpeedGain = "ReloadSpeedGain";
-            public const string GunCritRateGain = "GunCritRateGain";
-            public const string GunCritDamageGain = "GunCritDamageGain";
-            public const string BulletSpeedMultiplier = "BulletSpeedMultiplier";
-            public const string RecoilControl = "RecoilControl";
-            public const string GunScatterMultiplier = "GunScatterMultiplier";
-            public const string GunDistanceMultiplier = "GunDistanceMultiplier";
-            
-            public const string MeleeDamageMultiplier = "MeleeDamageMultiplier";
-            public const string MeleeCritRateGain = "MeleeCritRateGain";
-            public const string MeleeCritDamageGain = "MeleeCritDamageGain";
+            public const string GunDamageMultiplier = "GunDamageMultiplier"; // 枪械伤害倍率
+            public const string GunShootSpeedMultiplier = "GunShootSpeedMultiplier"; // 枪械射速倍率
+            public const string ReloadSpeedGain = "ReloadSpeedGain"; // 换弹速率
+            public const string GunCritRateGain = "GunCritRateGain"; // 枪械暴击率
+            public const string GunCritDamageGain = "GunCritDamageGain"; // 枪械爆头伤害
+            public const string BulletSpeedMultiplier = "BulletSpeedMultiplier"; // 子弹速度倍率
+            public const string RecoilControl = "RecoilControl"; // 后座力控制
+            public const string GunScatterMultiplier = "GunScatterMultiplier"; // 枪械散布
+            public const string GunDistanceMultiplier = "GunDistanceMultiplier"; // 枪械射程系数
 
-            public const string HeadArmor = "HeadArmor";
-            public const string BodyArmor = "BodyArmor";
-            public const string ElementFactor_Physics = "ElementFactor_Physics";
-            public const string ElementFactor_Fire = "ElementFactor_Fire";
-            public const string ElementFactor_Poison = "ElementFactor_Poison";
-            public const string ElementFactor_Electricity = "ElementFactor_Electricity";
-            public const string ElementFactor_Space = "ElementFactor_Space";
-            public const string ElementFactor_Ghost = "ElementFactor_Ghost";
-            public const string ElementFactor_Ice = "ElementFactor_Ice";
+            public const string MeleeDamageMultiplier = "MeleeDamageMultiplier"; // 近战伤害倍率
+            public const string MeleeCritRateGain = "MeleeCritRateGain"; // 近战暴击率
+            public const string MeleeCritDamageGain = "MeleeCritDamageGain"; // 近战暴击伤害
+            public const string Attack = "Attack"; // 攻击力
 
-            public const string ViewDistance = "ViewDistance";
-            public const string ViewAngle = "ViewAngle";
-            public const string HearingAbility = "HearingAbility";
-            public const string SenseRange = "SenseRange";
-            public const string WalkSoundRange = "WalkSoundRange";
-            public const string RunSoundRange = "RunSoundRange";
-            public const string VisableDistanceFactor = "VisableDistanceFactor";
+            public const string HeadArmor = "HeadArmor"; // 头部护甲
+            public const string BodyArmor = "BodyArmor"; // 身体护甲
+            public const string GasMask = "GasMask"; // 毒气防护
+            public const string ElementFactor_Physics = "ElementFactor_Physics"; // 物理承伤倍率
+            public const string ElementFactor_Fire = "ElementFactor_Fire"; // 火承伤倍率
+            public const string ElementFactor_Poison = "ElementFactor_Poison"; // 毒承伤倍率
+            public const string ElementFactor_Electricity = "ElementFactor_Electricity"; // 电承伤倍率
+            public const string ElementFactor_Space = "ElementFactor_Space"; // 空间承伤倍率
+            public const string ElementFactor_Ghost = "ElementFactor_Ghost"; // 灵承伤倍率
+            public const string ElementFactor_Ice = "ElementFactor_Ice"; // 冰承伤倍率
 
-            public const string GasMask = "GasMask";
-            public const string InventoryCapacity = "InventoryCapacity";
-            public const string PetCapcity = "PetCapcity";
-            public const string FlashLight = "FlashLight";
-            
-            public const string StormProtection = "StormProtection";
-            public const string ColdProtection = "ColdProtection";
-            public const string HeatProtection = "HeatProtection";
-    
-            public const string WaterEnergyRecoverMultiplier = "WaterEnergyRecoverMultiplier";
-            public const string NightVisionAbility = "NightVisionAbility";
-            public const string DashCanControl = "DashCanControl";
+            public const string StormProtection = "StormProtection"; // 风暴防护
+            public const string ColdProtection = "ColdProtection"; // 寒冷防护
+            public const string HeatProtection = "HeatProtection"; // 炎热防护
+            public const string FireProtection = "FireProtection"; // 火防护
+            public const string ElecProtection = "ElecProtection"; // 电防护
+
+            public const string ViewDistance = "ViewDistance"; // 视野距离
+            public const string ViewAngle = "ViewAngle"; // 视野角度
+            public const string HearingAbility = "HearingAbility"; // 听力
+            public const string SenseRange = "SenseRange"; // 感知距离
+            public const string WalkSoundRange = "WalkSoundRange"; // 行走声音距离
+            public const string RunSoundRange = "RunSoundRange"; // 奔跑声音距离
+            public const string VisableDistanceFactor = "VisableDistanceFactor"; // 被发现距离系数
+            public const string SoundVisable = "SoundVisable"; // 听声辨位
+            public const string NightVisionAbility = "NightVisionAbility"; // 夜视能力
+            public const string NightVisionType = "NightVisionType"; // 夜视类型
+
+            public const string InventoryCapacity = "InventoryCapacity"; // 背包空间
+            public const string PetCapcity = "PetCapcity"; // 宠物背包容量
+            public const string WaterEnergyRecoverMultiplier = "WaterEnergyRecoverMultiplier"; // 基地中水分和能量恢复速率
+            public const string WeaponRepairLossFactor = "WeaponRepairLossFactor"; // 武器维修损耗
+            public const string EquipmentRepairLossFactor = "EquipmentRepairLossFactor"; // 装备维修损耗
+
+            public const string FishingTime = "FishingTime"; // 垂钓能力
+            public const string FishingQualityFactor = "FishingQualityFactor"; // 垂钓运气
+
+            public const string HackRangeFactor = "HackRangeFactor"; // 入侵距离系数
+            public const string HackTimeFactor = "HackTimeFactor"; // 入侵时间系数
+            public const string HackSkillLevel = "HackSkillLevel"; // 入侵装置等级
         }
 
         public static class AIField

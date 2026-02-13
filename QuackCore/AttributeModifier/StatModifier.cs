@@ -32,11 +32,12 @@ namespace QuackCore.AttributeModifier
             {
                 Modifier modifier = new Modifier(type, value, source ?? ("QuackModifier_" + statKey));
                 targetStat.AddModifier(modifier);
-
-                if (statKey == Attributes.MaxHealth && target.Health != null)
-                {
-                    target.Health.AddHealth(target.Health.MaxHealth);
-                }
+                
+                //暂时不自动回满血
+                // if (statKey == Attributes.MaxHealth && target.Health != null)
+                // {
+                //     target.Health.AddHealth(target.Health.MaxHealth);
+                // }
 
                 return modifier;
             }
@@ -62,77 +63,6 @@ namespace QuackCore.AttributeModifier
         {
             if (target == null || target.CharacterItem == null || source == null) return;
             target.CharacterItem.RemoveAllModifiersFrom(source);
-        }
-
-        public static class Attributes
-        {
-            public const string MaxHealth = "MaxHealth"; 
-            public const string Stamina = "Stamina";
-            public const string StaminaDrainRate = "StaminaDrainRate";
-            public const string StaminaRecoverRate = "StaminaRecoverRate";
-            public const string StaminaRecoverTime = "StaminaRecoverTime";
-            public const string MaxEnergy = "MaxEnergy";
-            public const string EnergyCost = "EnergyCost";
-            public const string MaxWater = "MaxWater";
-            public const string WaterCost = "WaterCost";
-            public const string MaxWeight = "MaxWeight";
-            public const string FoodGain = "FoodGain";
-            public const string HealGain = "HealGain";
-
-            public const string MoveSpeed = "MoveSpeed"; // 不存在，自动分发到 WalkSpeed 和 RunSpeed
-            public const string WalkSpeed = "WalkSpeed";
-            public const string WalkAcc = "WalkAcc";
-            public const string RunSpeed = "RunSpeed";
-            public const string RunAcc = "RunAcc";
-            public const string TurnSpeed = "TurnSpeed";
-            public const string AimTurnSpeed = "AimTurnSpeed";
-            public const string DashSpeed = "DashSpeed";
-            public const string Moveability = "Moveability";
-
-            public const string GunDamageMultiplier = "GunDamageMultiplier";
-            public const string GunShootSpeedMultiplier = "GunShootSpeedMultiplier";
-            public const string ReloadSpeedGain = "ReloadSpeedGain";
-            public const string GunCritRateGain = "GunCritRateGain";
-            public const string GunCritDamageGain = "GunCritDamageGain";
-            public const string BulletSpeedMultiplier = "BulletSpeedMultiplier";
-            public const string RecoilControl = "RecoilControl";
-            public const string GunScatterMultiplier = "GunScatterMultiplier";
-            public const string GunDistanceMultiplier = "GunDistanceMultiplier";
-            
-            public const string MeleeDamageMultiplier = "MeleeDamageMultiplier";
-            public const string MeleeCritRateGain = "MeleeCritRateGain";
-            public const string MeleeCritDamageGain = "MeleeCritDamageGain";
-
-            public const string HeadArmor = "HeadArmor";
-            public const string BodyArmor = "BodyArmor";
-            public const string ElementFactor_Physics = "ElementFactor_Physics";
-            public const string ElementFactor_Fire = "ElementFactor_Fire";
-            public const string ElementFactor_Poison = "ElementFactor_Poison";
-            public const string ElementFactor_Electricity = "ElementFactor_Electricity";
-            public const string ElementFactor_Space = "ElementFactor_Space";
-            public const string ElementFactor_Ghost = "ElementFactor_Ghost";
-            public const string ElementFactor_Ice = "ElementFactor_Ice";
-
-            public const string ViewDistance = "ViewDistance";
-            public const string ViewAngle = "ViewAngle";
-            public const string HearingAbility = "HearingAbility";
-            public const string SenseRange = "SenseRange";
-            public const string WalkSoundRange = "WalkSoundRange";
-            public const string RunSoundRange = "RunSoundRange";
-            public const string VisableDistanceFactor = "VisableDistanceFactor";
-
-            public const string GasMask = "GasMask";
-            public const string InventoryCapacity = "InventoryCapacity";
-            public const string PetCapcity = "PetCapcity";
-            public const string FlashLight = "FlashLight";
-            
-            public const string StormProtection = "StormProtection";
-            public const string ColdProtection = "ColdProtection";
-            public const string HeatProtection = "HeatProtection";
-    
-            public const string WaterEnergyRecoverMultiplier = "WaterEnergyRecoverMultiplier";
-            public const string NightVisionAbility = "NightVisionAbility";
-            public const string DashCanControl = "DashCanControl";
         }
     }
 }
