@@ -9,35 +9,59 @@ namespace QuackItem.Quests
     /// </summary>
     public static class QuestDefinitions
     {
-        public static readonly QuestData Quest_GoldenCarrot = new QuestData
+        public static readonly QuestData Quest_GoldenCarrot2 = new QuestData
         {
             ID = 777001,
-            displayName = "金色的期许",
-            description = "据传有一种胡萝卜通体金黄，蕴含神秘的力量。如果你能证明你的实力，我将把它交给你。",
-            questGiver = QuestGiverID.Jeff,
+            displayName = "Quest_GoldenCarrot2_Name",
+            description = "Quest_GoldenCarrot2_Desc",
+            questGiver = QuestGiverID.Fo,
             requireLevel = 1,
             tasks = new List<TaskData>
             {
-                new TaskRequireMoney { id = 1, money = 5000 },
-                new TaskKillCount { id = 2, requireAmount = 5, requireEnemy = "Cname_Scav" }
+                new TaskRequireMoney { id = 1, money = 2000 },
+                new TaskKillCount { id = 2, requireAmount = 3, requireEnemy = "Cname_RaiderIce" }
             },
             rewards = new List<RewardData>
             {
-                new RewardGiveItem { id = 1, itemTypeID = 777001, amount = 1 },
-                new RewardEXP { id = 2, amount = 500 }
+                new RewardGiveItem { id = 1, itemTypeID = 777002, amount = 3 },
+                new RewardEXP { id = 2, amount = 500 },
+                new RewardUnlockItem { id = 3, itemTypeID = 777002 }
+            }
+        };
+        
+        public static readonly QuestData Quest_LifeFruit = new QuestData
+        {
+            ID = 777002,
+            displayName = "Quest_LifeFruit_Name",
+            description = "Quest_LifeFruit_Desc",
+            questGiver = QuestGiverID.Fo,
+            requireLevel = 1,
+            tasks = new List<TaskData>
+            {
+                new TaskRequireItem { id = 1, itemTypeID = 1109, requiredAmount = 2},
+                new TaskRequireItem { id = 2, itemTypeID = 1011, requiredAmount = 2},
+                new TaskRequireItem { id = 3, itemTypeID = 888, requiredAmount = 2},
+            },
+            rewards = new List<RewardData>
+            {
+                new RewardGiveItem { id = 1, itemTypeID = 777003, amount = 2 },
+                new RewardEXP { id = 2, amount = 800 },
+                new RewardUnlockItem { id = 3, itemTypeID = 777003 }
             }
         };
 
         public static readonly List<QuestData> AllQuests = new List<QuestData>
         {
-            Quest_GoldenCarrot
+            Quest_GoldenCarrot2,
+            Quest_LifeFruit
         };
         
-        // 3. 任务关系定义 (ID, before, after)
+        // 任务关系定义 (ID, before, after)
         // 这里的 Tuple 代表 (当前任务ID, 前置ID, 后置ID)
         public static readonly List<(int id, int before, int after)> AllRelations = new List<(int, int, int)>
         {
-            (777001, -1, -1)
+            (777001, -1, -1),
+            (777002, -1, -1)
         };
     }
 }

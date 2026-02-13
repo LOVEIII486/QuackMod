@@ -86,7 +86,7 @@ namespace QuackItem.Items
                 MaxStock = 3,
                 PriceFactor = 1.0f,
                 Probability = 1.0f,
-                ForceUnlock = true
+                ForceUnlock = false
             },
             Crafting = null,
             Decompose = null
@@ -102,8 +102,8 @@ namespace QuackItem.Items
                 localizationDesc = "Food_LifeFruit_Desc",
                 weight = 0.1f,
                 value = 2000,
-                quality = 4,
-                displayQuality = DisplayQuality.Purple,
+                quality = 3,
+                displayQuality = DisplayQuality.Blue,
                 maxStackCount = 5,
                 tags = new List<string> { "Food" },
                 spritePath = "items/LifeFruit.png",
@@ -128,7 +128,7 @@ namespace QuackItem.Items
                 MaxStock = 2,
                 PriceFactor = 1.0f,
                 Probability = 1.0f,
-                ForceUnlock = true
+                ForceUnlock = false
             },
             Crafting = null,
             Decompose = null
