@@ -8,6 +8,7 @@ using FastModdingLib;
 using QuackItem.Buffs;
 using QuackItem.Items;
 using QuackItem.NPC;
+using QuackItem.Quests;
 
 namespace QuackItem
 {
@@ -170,6 +171,7 @@ namespace QuackItem
         private void UnregisterAllContent()
         {
             ItemRegistry.UnregisterAll();
+            QuestRegistry.UnregisterAll(ModConstant.ModName);
             ModLogger.Log($"{ModConstant.ModName} 内容已卸载。");
         }
 
@@ -177,7 +179,7 @@ namespace QuackItem
 
         private void RegisterItems() => ItemRegistry.RegisterAll(_dllPath);
 
-        private void RegisterQuests() { }
+        private void RegisterQuests() => QuestRegistry.RegisterAll(ModConstant.ModName);
         
         private void RegisterNPCs() => NPCRegistry.RegisterAll();
 
