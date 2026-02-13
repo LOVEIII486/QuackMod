@@ -18,7 +18,7 @@ namespace TarkovStimulants.Buffs
         public static readonly QuackBuffDefinition ETGc_Buff =
             new QuackBuffDefinition(new QuackBuffFactory.BuffConfig("TarkovStimulants", "eTGc_Buff", 999001, 15f,
                     GetIconPath("eTG-c")))
-                .AddCustomLogic(new RegenerationLogic(0.05f, 0.5f, -1, true))
+                .AddCustomLogic(new RegenerationLogic(0.08f, 0.5f, -1, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.EnergyCost, 2f, true))
                 .AddEffect(new AttributeModifierEffect(ModifierKeyConstant.Stat.WaterCost, 2f, true));
 
