@@ -184,7 +184,7 @@ namespace QuackItem.Items
                 localizationKey = "Item_MimicTearAshes",
                 localizationDesc = "Item_MimicTearAshes_Desc",
                 weight = 0.1f,
-                value = 12000,
+                value = 20000,
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
@@ -229,7 +229,7 @@ namespace QuackItem.Items
                 localizationKey = "Item_SnowPMCAshes",
                 localizationDesc = "Item_SnowPMCAshes_Desc",
                 weight = 0.2f,
-                value = 5000,
+                value = 20000,
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 1,
@@ -283,6 +283,42 @@ namespace QuackItem.Items
             },
             Decompose = null
         };
+        
+        public static readonly QuackItemDefinition Item_AmmoCase = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777007,
+                order = 100,
+                localizationKey = "Item_AmmoCase",
+                localizationDesc = "Item_AmmoCase_Desc",
+                weight = 1.2f,
+                value = 10000,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                tags = new List<string> { "Container" },
+                spritePath = "items/AmmoCase.png",
+                usages = null
+            },
+            Slots = new List<QuackItemDefinition.SlotConfig>
+            {
+                new QuackItemDefinition.SlotConfig { Key = "0", RequireTags = new List<string> { "Bullet" } },
+                new QuackItemDefinition.SlotConfig { Key = "1", RequireTags = new List<string> { "Bullet" } },
+                new QuackItemDefinition.SlotConfig { Key = "2", RequireTags = new List<string> { "Bullet" } },
+                new QuackItemDefinition.SlotConfig { Key = "3", RequireTags = new List<string> { "Bullet" } },
+                new QuackItemDefinition.SlotConfig { Key = "4", RequireTags = new List<string> { "Bullet" } },
+                new QuackItemDefinition.SlotConfig { Key = "5", RequireTags = new List<string> { "Bullet" } },
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Weapon,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = false
+            }
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
@@ -291,7 +327,8 @@ namespace QuackItem.Items
             Food_LifeFruit,
             Item_ReturnOrb,
             Item_MimicTearAshes,
-            Item_SnowPMCAshes
+            Item_SnowPMCAshes,
+            Item_AmmoCase
         };
     }
 }

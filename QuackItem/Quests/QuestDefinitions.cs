@@ -16,6 +16,7 @@ namespace QuackItem.Quests
             description = "Quest_GoldenCarrot2_Desc",
             questGiver = QuestGiverID.Fo,
             requireLevel = 1,
+            requireScene = "Level_SnowMilitaryBase_Main",
             tasks = new List<TaskData>
             {
                 new TaskRequireMoney { id = 1, money = 2000 },
@@ -49,11 +50,34 @@ namespace QuackItem.Quests
                 new RewardUnlockItem { id = 3, itemTypeID = 777003 }
             }
         };
-
+        
+        public static readonly QuestData Quest_AmmoCase = new QuestData
+        {
+            ID = 777003,
+            displayName = "Quest_AmmoCase_Name",
+            description = "Quest_AmmoCase_Desc",
+            questGiver = QuestGiverID.Xavier,
+            requireLevel = 1,
+            requireScene = "Level_HiddenWarehouse_Main",
+            tasks = new List<TaskData>
+            {
+                new TaskKillCount { id = 1, requireAmount = 5, requireEnemy = "Cname_Usec" },
+                new TaskRequireItem { id = 2, itemTypeID = 91, requiredAmount = 1 },
+                new TaskRequireItem { id = 3, itemTypeID = 332, requiredAmount = 5 },
+                new TaskRequireItem { id = 3, itemTypeID = 367, requiredAmount = 3 }
+            },
+            rewards = new List<RewardData>
+            {
+                new RewardEXP { id = 1, amount = 1500 },
+                new RewardUnlockItem { id = 2, itemTypeID = 777007 }
+            }
+        };
+        
         public static readonly List<QuestData> AllQuests = new List<QuestData>
         {
             Quest_GoldenCarrot2,
-            Quest_LifeFruit
+            Quest_LifeFruit,
+            Quest_AmmoCase
         };
         
         // 任务关系定义 (ID, before, after)
@@ -61,7 +85,8 @@ namespace QuackItem.Quests
         public static readonly List<(int id, int before, int after)> AllRelations = new List<(int, int, int)>
         {
             (777001, -1, -1),
-            (777002, -1, -1)
+            (777002, -1, -1),
+            (777003, 48, -1)
         };
     }
 }

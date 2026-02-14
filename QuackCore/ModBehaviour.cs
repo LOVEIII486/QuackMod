@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using Duckov.Scenes;
 using HarmonyLib;
 using QuackCore.AttributeModifier;
 using QuackCore.BuffSystem;
 using QuackCore.Constants;
 using QuackCore.NPC;
+using QuackCore.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

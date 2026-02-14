@@ -17,6 +17,9 @@
   "Quest_GoldenCarrot2_Name": "A Golden Aspiration",
   "Quest_GoldenCarrot2_Desc": "Rumor has it that within Experimental Zone 37 grows a carrot of pure gold, imbued with mysterious power, capable of summoning a special spirit steed. Defeat several local Observers to prove your strength, and I shall entrust it to you.",
   "Quest_LifeFruit_Name": "Echoes of a Fruit from Another World",
-  "Quest_LifeFruit_Desc": "I have recently been studying a peculiar plant from another world. It is said that this fruit can permanently enhance one's vitality, but due to temporal displacement, it has become highly unstable in this realm. I need natural samples to stabilize its energy—two Greenback Mackerel, along with some fresh fruits: apples and oranges. Bring them to me, and I will restore part of the fruit’s power."
-
+  "Quest_LifeFruit_Desc": "I have recently been studying a peculiar plant from another world. It is said that this fruit can permanently enhance one's vitality, but due to temporal displacement, it has become highly unstable in this realm. I need natural samples to stabilize its energy—two Greenback Mackerel, along with some fresh fruits: apples and oranges. Bring them to me, and I will restore part of the fruit’s power.",
+  "Item_AmmoCase":"Ammo Case",
+  "Item_AmmoCase_Desc":"A ruggedized hard-shell box specifically designed for storing various types of ammunition. A person with a messy backpack won't survive three minutes on the battlefield.",
+  "Quest_AmmoCase_Name": "Ammo Distribution Plan",
+  "Quest_AmmoCase_Desc":"A gun without bullets is just a pile of scrap metal. My supplier recently got a batch of durable ammo boxes, but those 'black ducks' blocked the road to the west factory area and stole a lot of my assembly parts. Go to the warehouse area and teach them a lesson, and while you're at it, get me the missing parts. After that, I'll put these ammo boxes on the shelves; these things will save you a lot of space in your messy bag."
 }
