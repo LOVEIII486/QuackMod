@@ -45,7 +45,12 @@ namespace QuackCore.BuffSystem
         public static void Apply(CharacterMainControl target, string compositeName, float durationOverride = -1f, CharacterMainControl attacker = null)
         {
             var def = QuackBuffRegistry.Instance.GetDefinition(compositeName);
-            if (def == null) return;
+            if (def == null)
+            {
+                ModLogger.LogError($"[QuackBuffFactory] 错误：在注册表中未找到名为 [{compositeName}] 的定义。请确认该 Buff 已定义并在 Registry 中注册。");
+                return;
+            }
+            
 
             var template = GetOrCreateTemplate(def.Config);
             if (template != null)
@@ -65,6 +70,10 @@ namespace QuackCore.BuffSystem
                         }
                     }
                 }
+            }
+            else
+            {
+                ModLogger.LogError($"[QuackBuffFactory] 错误：无法为 {compositeName} 获取或创建 Buff 模板 (Prefab)。");
             }
         }
 
