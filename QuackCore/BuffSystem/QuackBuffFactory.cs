@@ -10,6 +10,8 @@ namespace QuackCore.BuffSystem
     public static class QuackBuffFactory
     {
         private static readonly Dictionary<string, Buff> SharedTemplates = new Dictionary<string, Buff>();
+        private static readonly Dictionary<string, Buff> VanillaCache = new Dictionary<string, Buff>();
+        
         private static FieldInfo _idField, _displayNameField, _limitedLifeTimeField, _totalLifeTimeField, _descriptionField, _iconField;
         private static bool _initialized = false;
         private static GameObject _templateRoot;
@@ -44,26 +46,39 @@ namespace QuackCore.BuffSystem
 
         public static void Apply(CharacterMainControl target, string compositeName, float durationOverride = -1f, CharacterMainControl attacker = null)
         {
-            var def = QuackBuffRegistry.Instance.GetDefinition(compositeName);
-            if (def == null)
-            {
-                ModLogger.LogError($"[QuackBuffFactory] 错误：在注册表中未找到名为 [{compositeName}] 的定义。请确认该 Buff 已定义并在 Registry 中注册。");
-                return;
-            }
-            
+            if (target == null) return;
+            InitializeReflection();
 
-            var template = GetOrCreateTemplate(def.Config);
+            Buff template = null;
+
+            // 1. 优先级最高：尝试从模组注册表获取定义
+            var def = QuackBuffRegistry.Instance.GetDefinition(compositeName);
+            if (def != null)
+            {
+                template = GetOrCreateTemplate(def.Config);
+            }
+            else
+            {
+                // 2. 优先级次之：从原版缓存中获取
+                if (!VanillaCache.TryGetValue(compositeName, out template) || template == null)
+                {
+                    // 3. 优先级最低：执行一次昂贵的全局搜索并存入缓存
+                    template = FindAndCacheVanillaBuff(compositeName);
+                }
+            }
+
             if (template != null)
             {
                 target.AddBuff(template, attacker, 1);
-                    if (durationOverride >= 0f)
+                
+                // 覆盖持续时间逻辑
+                if (durationOverride >= 0f)
                 {
                     var manager = target.GetBuffManager();
                     if (manager != null && manager.Buffs.Count > 0)
                     {
                         var latest = manager.Buffs[manager.Buffs.Count - 1]; 
-                        int expectedId = template.ID;
-                        if (latest.ID == expectedId)
+                        if (latest.ID == template.ID)
                         {
                             _limitedLifeTimeField?.SetValue(latest, durationOverride > 0);
                             _totalLifeTimeField?.SetValue(latest, durationOverride);
@@ -73,8 +88,41 @@ namespace QuackCore.BuffSystem
             }
             else
             {
-                ModLogger.LogError($"[QuackBuffFactory] 错误：无法为 {compositeName} 获取或创建 Buff 模板 (Prefab)。");
+                ModLogger.LogError($"[QuackBuffFactory] 错误：无法在模组定义或原版资源中找到名为 [{compositeName}] 的 Buff。");
             }
+        }
+        
+        private static Buff FindAndCacheVanillaBuff(string identifier)
+        {
+            int searchId = -1;
+            string[] parts = identifier.Split('_');
+            if (parts.Length > 0) int.TryParse(parts[0], out searchId);
+
+            Buff found = null;
+            Buff[] allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
+            
+            foreach (var b in allBuffs)
+            {
+                if (b.gameObject.scene.name == null)
+                {
+                    if (b.name == identifier) {
+                        found = b;
+                        break;
+                    }
+                    if (searchId != -1 && b.ID == searchId) {
+                        found = b;
+                        break;
+                    }
+                }
+            }
+
+            if (found != null)
+            {
+                VanillaCache[identifier] = found;
+                VanillaCache[found.ID.ToString()] = found;
+                ModLogger.LogDebug($"[QuackBuffFactory] 已成功缓存原版 Buff: {found.name} (ID: {found.ID})");
+            }
+            return found;
         }
 
         public static Buff GetOrCreateTemplate(BuffConfig config)
