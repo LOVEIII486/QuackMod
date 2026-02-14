@@ -20,6 +20,7 @@ namespace QuackItem
         private Harmony _harmony;
         private bool _isPatched = false;
         private bool _hooksInitialized = false;
+        private bool _isApplicationQuitting = false;
 
         #region Unity Lifecycle
 
@@ -44,12 +45,18 @@ namespace QuackItem
             LoadLocalization();
             RegisterAllContent();
         }
-
+        
+        private void OnApplicationQuit()
+        {
+            _isApplicationQuitting = true;
+        }
+        
         private void OnDisable()
         {
-            UnregisterAllContent();
             RemoveSceneHooks();
             RemoveHarmonyPatches();
+            if (_isApplicationQuitting) return;
+            UnregisterAllContent();
         }
 
         private void OnDestroy()
