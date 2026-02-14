@@ -17,6 +17,7 @@ namespace QuackCore
         
         private Harmony _harmony;
         private bool _isPatched = false;
+        private bool _hasSelfChecked = false;
 
         #region Unity Lifecycle
 
@@ -58,7 +59,7 @@ namespace QuackCore
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Base")
+            if (scene.name == "Base" && !_hasSelfChecked)
             {
                 StartCoroutine(WaitAndSelfCheck());
             }
@@ -116,11 +117,13 @@ namespace QuackCore
 
             if (CharacterMainControl.Main == null)
             {
-                ModLogger.LogError("[ModBehaviour] 自检失败：超时未找到玩家实例。");
+                ModLogger.LogError("系统自检失败：超时未找到玩家实例。");
                 yield break;
             }
+
             yield return new WaitForEndOfFrame();
             CharacterModifier.SelfCheck();
+            _hasSelfChecked = true; 
         }
     }
 }
