@@ -13,6 +13,8 @@ namespace QuackCore.Items
         public CraftingConfig Crafting { get; set; }
 
         public DecomposeConfig Decompose { get; set; }
+        
+        public List<SlotConfig> Slots { get; set; }
 
         #region 子配置类定义
 
@@ -42,6 +44,13 @@ namespace QuackCore.Items
         {
             public long MoneyGain { get; set; } = 0L;
             public List<(int itemId, long count)> Results { get; set; } = new List<(int, long)>();
+        }
+        
+        public class SlotConfig
+        {
+            public string Key { get; set; } 
+            public List<string> RequireTags { get; set; } = new List<string>();
+            public List<string> ExcludeTags { get; set; } = new List<string>();
         }
 
         #endregion
