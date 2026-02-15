@@ -23,5 +23,7 @@
   "Quest_AmmoCase_Name": "Ammo Distribution Plan",
   "Quest_AmmoCase_Desc":"A gun without bullets is just a pile of scrap metal. My supplier recently got a batch of durable ammo boxes, but those 'black ducks' blocked the road to the west factory area and stole a lot of my assembly parts. Go to the warehouse area and teach them a lesson, and while you're at it, get me the missing parts. After that, I'll put these ammo boxes on the shelves; these things will save you a lot of space in your messy bag.",
   "Item_GunTurretBeacon":"Automatic turret beacon",
-  "Item_GunTurretBeacon_Desc":"Can call in a temporary automatic turret for fire support."
+  "Item_GunTurretBeacon_Desc":"Can call in a temporary automatic turret for fire support.",
+  "Item_AGDumbbell":"Anti-Gravity Dumbbell",
+  "Item_AGDumbbell_Desc":"An experimental anti-gravity training device developed by an undisclosed research division. \n A micro gravitational phase-inversion core is embedded within the weight plates, causing the object to exhibit negative gravitational interaction under standard Earth gravity."
 }

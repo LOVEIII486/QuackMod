@@ -364,6 +364,36 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
+        
+        
+        public static readonly QuackItemDefinition Item_AGDumbbell = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777009,
+                order = 100,
+                localizationKey = "Item_AGDumbbell",
+                localizationDesc = "Item_AGDumbbell_Desc",
+                weight = -46.0f,
+                value = 31321,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 1,
+                tags = new List<string> { "Daily", "Luxury" },
+                spritePath = "items/AGDumbbell.png",
+                usages = null
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Mud,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 0.5f,
+                ForceUnlock = false
+            },
+            Crafting = null,
+            Decompose = null
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
@@ -374,7 +404,8 @@ namespace QuackItem.Items
             Item_MimicTearAshes,
             Item_SnowPMCAshes,
             Item_AmmoCase,
-            Item_GunTurretBeacon
+            Item_GunTurretBeacon,
+            Item_AGDumbbell
         };
     }
 }
