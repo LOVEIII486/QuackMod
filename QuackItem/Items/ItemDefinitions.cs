@@ -189,7 +189,7 @@ namespace QuackItem.Items
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
                 maxDurability = 100,
-                tags = new List<string> { "Tool" },
+                tags = new List<string> { },
                 spritePath = "items/MimicTearAshes.png",
                 usages = new UsageData
                 {
@@ -213,7 +213,7 @@ namespace QuackItem.Items
                 MerchantID = MerchantIDs.Fo,
                 MaxStock = 1,
                 PriceFactor = 1.0f,
-                Probability = 0.5f,
+                Probability = 1.0f,
                 ForceUnlock = true
             },
             Crafting = null,
@@ -234,7 +234,7 @@ namespace QuackItem.Items
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 1,
                 maxDurability = 3,
-                tags = new List<string> { "Tool" },
+                tags = new List<string> { },
                 spritePath = "items/SnowPMCAshes.png",
                 usages = new UsageData
                 {
@@ -262,7 +262,7 @@ namespace QuackItem.Items
                 MerchantID = MerchantIDs.Fo,
                 MaxStock = 1,
                 PriceFactor = 1.0f,
-                Probability = 0.5f,
+                Probability = 1.0f,
                 ForceUnlock = true
             },
             Crafting = new QuackItemDefinition.CraftingConfig
@@ -297,7 +297,7 @@ namespace QuackItem.Items
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
-                tags = new List<string> { "Container" },
+                tags = new List<string> { "Continer" },
                 spritePath = "items/AmmoCase.png",
                 usages = null
             },
@@ -319,6 +319,51 @@ namespace QuackItem.Items
                 ForceUnlock = false
             }
         };
+        
+        public static readonly QuackItemDefinition Item_GunTurretBeacon = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777008,
+                order = 100,
+                localizationKey = "Item_GunTurretBeacon",
+                localizationDesc = "Item_GunTurretBeacon_Desc",
+                weight = 0.2f,
+                value = 13000,
+                quality = 4,
+                displayQuality = DisplayQuality.Purple,
+                maxStackCount = 1,
+                maxDurability = 3,
+                tags = new List<string> { "Tool", "Electric" },
+                spritePath = "items/GunTurretBeacon.png",
+                usages = new UsageData
+                {
+                    actionSound = string.Empty,
+                    useSound = string.Empty,
+                    useTime = 1.0f,
+                    useDurability = true,
+                    durabilityUsage = 1,
+                    behaviors = new List<UsageBehaviorData>
+                    {
+                        new QuackSpawnNPCData 
+                        { 
+                            basePresetName = NPCPresetNames.Special.GunTurret,
+                            npcConfigId = "GunTurretBeacon"
+                        },
+                    }
+                }
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = null,
+            Decompose = null
+        };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
@@ -328,7 +373,8 @@ namespace QuackItem.Items
             Item_ReturnOrb,
             Item_MimicTearAshes,
             Item_SnowPMCAshes,
-            Item_AmmoCase
+            Item_AmmoCase,
+            Item_GunTurretBeacon
         };
     }
 }
