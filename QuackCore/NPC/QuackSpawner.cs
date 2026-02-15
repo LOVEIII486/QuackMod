@@ -67,14 +67,10 @@ namespace QuackCore.NPC
             _isInitialized = true;
             ModLogger.Log("QuackSpawner 初始化完成：已同步原生预设库。");
         }
-        
+
         public async UniTask<CharacterMainControl> SpawnNPC(QuackNPCConfig config, Vector3 position, Teams? team = null)
         {
-            if (!_isInitialized)
-            {
-                ModLogger.LogError("QuackSpawner 尚未初始化。");
-                return null;
-            }
+            if (!_isInitialized) return null;
 
             if (!_gameNativePresetMap.TryGetValue(config.BasePresetName, out var sourcePreset))
             {
@@ -85,6 +81,17 @@ namespace QuackCore.NPC
             CharacterRandomPreset finalPreset = GetOrCreateCustomPreset(sourcePreset, config);
             if (team.HasValue) finalPreset.team = team.Value;
 
+            Vector3 spawnPos = position;
+            Vector3 lookDir = Vector3.forward;
+
+            if (CharacterMainControl.Main != null)
+            {
+                lookDir = CharacterMainControl.Main.CurrentAimDirection;
+                lookDir.y = 0;
+                lookDir.Normalize();
+                spawnPos = CharacterMainControl.Main.transform.position + (lookDir * 2f);
+            }
+
             try
             {
                 int sceneIndex = MultiSceneCore.MainScene.HasValue
@@ -92,8 +99,8 @@ namespace QuackCore.NPC
                     : UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
 
                 CharacterMainControl character = await finalPreset.CreateCharacterAsync(
-                    position + Vector3.down * 0.25f,
-                    Vector3.forward,
+                    spawnPos + Vector3.down * 0.25f,
+                    lookDir,
                     sceneIndex,
                     null,
                     false
@@ -101,19 +108,18 @@ namespace QuackCore.NPC
 
                 if (character != null)
                 {
-                    character.SetPosition(position);
-                    if (character.Team == Teams.player)
+                    character.SetPosition(spawnPos);
+
+                    if (character.movementControl != null)
+                        character.movementControl.ForceTurnTo(lookDir);
+
+                    if (character.Team == Teams.player && character.aiCharacterController != null)
                     {
-                        AICharacterController ai = character.aiCharacterController;
-                        if (ai != null)
-                        {
-                            ai.leader = CharacterMainControl.Main;
-                            var pet = ai.GetComponent<PetAI>();
-                            if (pet != null) pet.SetMaster(CharacterMainControl.Main);
-                        }
+                        character.aiCharacterController.leader = CharacterMainControl.Main;
+                        var pet = character.aiCharacterController.GetComponent<PetAI>();
+                        if (pet != null) pet.SetMaster(CharacterMainControl.Main);
                     }
-                    
-                    ModLogger.LogDebug($"已生成自定义 NPC: {config.BasePresetName}");
+
                     return character;
                 }
             }
@@ -128,16 +134,17 @@ namespace QuackCore.NPC
         public async UniTask<CharacterMainControl> SpawnVanillaNPC(string assetName, Vector3 position,
             Teams? team = null)
         {
-            if (!_isInitialized)
-            {
-                ModLogger.LogError("[QuackSpawner] 尚未初始化。");
-                return null;
-            }
+            if (!_isInitialized || !_gameNativePresetMap.TryGetValue(assetName, out var sourcePreset)) return null;
 
-            if (!_gameNativePresetMap.TryGetValue(assetName, out var sourcePreset))
+            Vector3 lookDir = Vector3.forward;
+            Vector3 spawnPos = position;
+
+            if (CharacterMainControl.Main != null)
             {
-                ModLogger.LogError($"[QuackSpawner] 找不到原版资源: {assetName}");
-                return null;
+                lookDir = CharacterMainControl.Main.CurrentAimDirection;
+                lookDir.y = 0;
+                lookDir.Normalize();
+                spawnPos = CharacterMainControl.Main.transform.position + (lookDir * 2f);
             }
 
             Teams originalTeam = sourcePreset.team;
@@ -150,41 +157,45 @@ namespace QuackCore.NPC
                     : UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
 
                 CharacterMainControl character = await sourcePreset.CreateCharacterAsync(
-                    position + Vector3.down * 0.25f,
-                    Vector3.forward,
+                    spawnPos + Vector3.down * 0.25f,
+                    lookDir,
                     sceneIndex,
                     null,
                     false
                 );
 
-                sourcePreset.team = originalTeam;
-
                 if (character != null)
                 {
-                    character.SetPosition(position);
-                    ModLogger.LogDebug($"[QuackSpawner] 已生成纯原版 NPC: {assetName}");
+                    character.SetPosition(spawnPos);
+                    if (character.movementControl != null)
+                        character.movementControl.ForceTurnTo(lookDir);
                     return character;
                 }
             }
             catch (Exception ex)
             {
-                ModLogger.LogError($"[QuackSpawner] 原生路径生成异常: {ex}");
+                ModLogger.LogError($"原生生成异常: {ex}");
+            }
+            finally
+            {
+                sourcePreset.team = originalTeam;
             }
 
             return null;
         }
-        
+
         public CharacterRandomPreset GetNativePreset(string assetName)
         {
             if (string.IsNullOrEmpty(assetName)) return null;
-    
+
             if (_gameNativePresetMap.TryGetValue(assetName, out var preset))
             {
                 return preset;
             }
+
             return null;
         }
-        
+
         private CharacterRandomPreset GetOrCreateCustomPreset(CharacterRandomPreset source, QuackNPCConfig config)
         {
             string uniqueId = string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName;
@@ -213,7 +224,7 @@ namespace QuackCore.NPC
             _generatedPresetsCache.Add(cacheKey, preset);
             return preset;
         }
-        
+
         private void ApplyConfigToPreset(CharacterRandomPreset preset, QuackNPCConfig config)
         {
             // --- 1. 身份表现  ---
