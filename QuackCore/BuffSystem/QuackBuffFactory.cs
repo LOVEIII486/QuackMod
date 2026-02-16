@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Duckov.Buffs;
-using SodaCraft.Localizations;
 using UnityEngine;
 
 namespace QuackCore.BuffSystem
 {
     public static class QuackBuffFactory
     {
-        private static readonly Dictionary<string, Buff> SharedTemplates = new Dictionary<string, Buff>();
-        private static readonly Dictionary<string, Buff> VanillaCache = new Dictionary<string, Buff>();
+        private static readonly Dictionary<int, Buff> SharedTemplates = new Dictionary<int, Buff>();
+        private static readonly Dictionary<int, Buff> VanillaCache = new Dictionary<int, Buff>();
         
         private static FieldInfo _idField, _displayNameField, _limitedLifeTimeField, _totalLifeTimeField, _descriptionField, _iconField;
         private static bool _initialized = false;
@@ -19,24 +18,16 @@ namespace QuackCore.BuffSystem
         public struct BuffConfig
         {
             public string ModID;
+            public int ID;
             public string BuffName;
-            public int ID; 
             public float Duration;
             public string IconPath;
-            
             public string BuffNameKey => $"{ModID}_{BuffName}";
             public string DisplayName;
             public string BuffDescriptionKey => $"{BuffNameKey}_Desc";
             public string Description;
 
-            public BuffConfig(string modId, string name, float duration = 5f, string iconPath = null)
-            {
-                ModID = modId; BuffName = name; Duration = duration;
-                IconPath = iconPath;
-                DisplayName = null; Description = null; ID = 0;
-            }
-
-            public BuffConfig(string modId, string name, int manualId, float duration = 5f,string iconPath = null, string displayName = null, string description = null)
+            public BuffConfig(string modId, string name, int manualId, float duration , string iconPath = null, string displayName = null, string description = null)
             {
                 ModID = modId; BuffName = name; ID = manualId; Duration = duration; IconPath = iconPath;
                 DisplayName = displayName;
@@ -44,94 +35,58 @@ namespace QuackCore.BuffSystem
             }
         }
 
-        public static void Apply(CharacterMainControl target, string compositeName, float durationOverride = -1f, CharacterMainControl attacker = null)
+        /// <summary>
+        /// 统一的 Buff 施加接口。
+        /// </summary>
+        /// <param name="target">施加目标</param>
+        /// <param name="buffId">Buff 数字 ID</param>
+        /// <param name="durationOverride">覆盖时长。省略或传入 NaN 则使用 Buff 默认时长；传入 -1f 表示永久。</param>
+        /// <param name="attacker">来源角色</param>
+        public static void Apply(CharacterMainControl target, int buffId, float durationOverride = float.NaN, CharacterMainControl attacker = null)
         {
-            if (target == null) return;
             InitializeReflection();
+            if (target == null) return;
 
-            Buff template = null;
+            // 优先 Mod 注册表，其次原版资源
+            var def = QuackBuffRegistry.Instance.GetDefinition(buffId);
+            Buff template = (def != null) ? GetOrCreateTemplate(def.Config) : GetVanillaPrefab(buffId);
 
-            // 1. 优先级最高：尝试从模组注册表获取定义
-            var def = QuackBuffRegistry.Instance.GetDefinition(compositeName);
-            if (def != null)
+            if (template == null)
             {
-                template = GetOrCreateTemplate(def.Config);
+                ModLogger.LogWarning($"[BuffFactory] 无法施加：找不到 ID 为 {buffId} 的定义或原版资源");
+                return;
             }
-            else
+
+            float baseDuration = (float)_totalLifeTimeField.GetValue(template);
+            bool isOverrideProvided = !float.IsNaN(durationOverride);
+            bool needsOverride = isOverrideProvided && Math.Abs(durationOverride - baseDuration) > 0.001f;
+
+            if (needsOverride)
             {
-                // 2. 优先级次之：从原版缓存中获取
-                if (!VanillaCache.TryGetValue(compositeName, out template) || template == null)
+                Buff tempClone = UnityEngine.Object.Instantiate(template);
+                tempClone.gameObject.SetActive(false);
+                try
                 {
-                    // 3. 优先级最低：执行一次昂贵的全局搜索并存入缓存
-                    template = FindAndCacheVanillaBuff(compositeName);
+                    SetBuffDuration(tempClone, durationOverride);
+                    target.AddBuff(tempClone, attacker, 1);
+                    ModLogger.LogDebug($"[BuffFactory] 覆盖施加：ID {buffId}, 覆盖时长 {durationOverride}s (原时长 {baseDuration}s)");
+                }
+                finally
+                {
+                    UnityEngine.Object.Destroy(tempClone.gameObject);
                 }
             }
-
-            if (template != null)
+            else
             {
                 target.AddBuff(template, attacker, 1);
-                
-                // 覆盖持续时间逻辑
-                if (durationOverride >= 0f)
-                {
-                    var manager = target.GetBuffManager();
-                    if (manager != null && manager.Buffs.Count > 0)
-                    {
-                        var latest = manager.Buffs[manager.Buffs.Count - 1]; 
-                        if (latest.ID == template.ID)
-                        {
-                            _limitedLifeTimeField?.SetValue(latest, durationOverride > 0);
-                            _totalLifeTimeField?.SetValue(latest, durationOverride);
-                        }
-                    }
-                }
+                ModLogger.LogDebug($"[BuffFactory] 直接施加：ID {buffId}, 使用默认时长 {baseDuration}s");
             }
-            else
-            {
-                ModLogger.LogError($"[QuackBuffFactory] 错误：无法在模组定义或原版资源中找到名为 [{compositeName}] 的 Buff。");
-            }
-        }
-        
-        private static Buff FindAndCacheVanillaBuff(string identifier)
-        {
-            int searchId = -1;
-            string[] parts = identifier.Split('_');
-            if (parts.Length > 0) int.TryParse(parts[0], out searchId);
-
-            Buff found = null;
-            Buff[] allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
-            
-            foreach (var b in allBuffs)
-            {
-                if (b.gameObject.scene.name == null)
-                {
-                    if (b.name == identifier) {
-                        found = b;
-                        break;
-                    }
-                    if (searchId != -1 && b.ID == searchId) {
-                        found = b;
-                        break;
-                    }
-                }
-            }
-
-            if (found != null)
-            {
-                VanillaCache[identifier] = found;
-                VanillaCache[found.ID.ToString()] = found;
-                ModLogger.LogDebug($"[QuackBuffFactory] 已成功缓存原版 Buff: {found.name} (ID: {found.ID})");
-            }
-            return found;
         }
 
         public static Buff GetOrCreateTemplate(BuffConfig config)
         {
             InitializeReflection();
-            string buffNameKey = config.BuffNameKey;
-            string buffdescKey = config.BuffDescriptionKey;
-            
-            if (SharedTemplates.TryGetValue(buffNameKey, out var b) && b != null) return b;
+            if (SharedTemplates.TryGetValue(config.ID, out var b) && b != null) return b;
 
             if (_templateRoot == null)
             {
@@ -140,26 +95,15 @@ namespace QuackCore.BuffSystem
                 UnityEngine.Object.DontDestroyOnLoad(_templateRoot);
             }
 
-            int finalId = config.ID != 0 ? config.ID : Math.Abs(buffNameKey.GetHashCode());
-
-            GameObject go = new GameObject(buffNameKey);
+            GameObject go = new GameObject(config.BuffNameKey);
             go.transform.SetParent(_templateRoot.transform);
             Buff newBuff = go.AddComponent<Buff>();
             
-            if (!string.IsNullOrEmpty(config.DisplayName))
-            {
-                LocalizationManager.SetOverrideText(buffNameKey, config.DisplayName);
-            }
-            if (!string.IsNullOrEmpty(config.Description))
-            {
-                LocalizationManager.SetOverrideText(buffdescKey, config.Description);
-            }
-            
             try
             {
-                _idField?.SetValue(newBuff, finalId);
-                _displayNameField?.SetValue(newBuff, buffNameKey); 
-                _descriptionField?.SetValue(newBuff, buffdescKey);
+                _idField?.SetValue(newBuff, config.ID);
+                _displayNameField?.SetValue(newBuff, config.BuffNameKey); 
+                _descriptionField?.SetValue(newBuff, config.BuffDescriptionKey);
                 _limitedLifeTimeField?.SetValue(newBuff, config.Duration > 0);
                 _totalLifeTimeField?.SetValue(newBuff, config.Duration);
                 
@@ -172,15 +116,37 @@ namespace QuackCore.BuffSystem
                     }
                 }
 
-                SharedTemplates[buffNameKey] = newBuff;
-                ModLogger.Log($"创建 Buff 模板: {buffNameKey} (ID: {finalId}, 永久: {config.Duration <= 0})");
+                SharedTemplates[config.ID] = newBuff;
                 return newBuff;
             }
             catch (Exception ex)
             {
-                ModLogger.LogError($"填充 Buff 模板失败: {ex.Message}");
+                ModLogger.LogError($"填充模板失败 ID {config.ID}: {ex.Message}");
                 return null;
             }
+        }
+
+        private static void SetBuffDuration(Buff buff, float duration)
+        {
+            if (_limitedLifeTimeField == null || _totalLifeTimeField == null) return;
+            _limitedLifeTimeField.SetValue(buff, duration > 0);
+            _totalLifeTimeField.SetValue(buff, duration);
+        }
+
+        private static Buff GetVanillaPrefab(int id)
+        {
+            if (VanillaCache.TryGetValue(id, out var cached) && cached != null) return cached;
+
+            var allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
+            foreach (var b in allBuffs)
+            {
+                if (b.ID == id && !b.name.Contains("(Clone)"))
+                {
+                    VanillaCache[id] = b;
+                    return b;
+                }
+            }
+            return null;
         }
 
         private static void InitializeReflection()

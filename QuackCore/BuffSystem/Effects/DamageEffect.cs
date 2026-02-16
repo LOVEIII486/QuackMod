@@ -2,15 +2,15 @@
 
 namespace QuackCore.BuffSystem.Effects
 {
-    /// <summary>
-    /// 伤害效果：使用 DamageInfo 触发受击逻辑
-    /// </summary>
     public class DamageEffect : IQuackBuffEffect
     {
         private readonly float _damage;
         private readonly bool _ignoreArmor;
         private readonly DamageTypes _type;
-
+        
+        /// <summary>
+        /// 伤害效果
+        /// </summary>
         /// <param name="damage">伤害数值</param>
         /// <param name="ignoreArmor">是否无视护甲</param>
         /// <param name="type">伤害类型</param>

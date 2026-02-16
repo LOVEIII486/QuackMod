@@ -9,11 +9,11 @@ namespace QuackCore.BuffSystem
 
         private class DelayedTask
         {
-            public CharacterMainControl Target;    // 目标
-            public string BuffName;               // 要施加的Buff
-            public float RemainingTime;           // 剩余延迟时间
-            public float Duration;                // 效果持续时间
-            public CharacterMainControl Attacker; // 来源
+            public CharacterMainControl Target;
+            public int BuffId;
+            public float RemainingTime;
+            public float Duration;
+            public CharacterMainControl Attacker;
         }
 
         private readonly List<DelayedTask> _activeTasks = new List<DelayedTask>();
@@ -25,22 +25,27 @@ namespace QuackCore.BuffSystem
         }
 
         /// <summary>
-        /// 注册一个延迟施加 Buff 的任务
+        /// 注册一个延迟施加 Buff 的任务。
         /// </summary>
-        public void AddTask(CharacterMainControl target, string buffName, float delay, float duration, CharacterMainControl fromWho)
+        /// <param name="target">目标角色</param>
+        /// <param name="buffId">Buff 的数字 ID</param>
+        /// <param name="delay">延迟多长时间施加 (秒)</param>
+        /// <param name="duration">施加后的持续时间 (秒)</param>
+        /// <param name="fromWho">来源角色</param>
+        public void AddTask(CharacterMainControl target, int buffId, float delay, float duration, CharacterMainControl fromWho)
         {
-            if (target == null || string.IsNullOrEmpty(buffName)) return;
+            if (target == null) return;
 
             _activeTasks.Add(new DelayedTask
             {
                 Target = target,
-                BuffName = buffName,
+                BuffId = buffId,
                 RemainingTime = delay,
                 Duration = duration,
                 Attacker = fromWho
             });
             
-            ModLogger.Log($"[DelayedBuffManager] 注册任务: {buffName}, 将在 {delay}s 后施加给 {target.name}");
+            ModLogger.LogDebug($"[DelayedBuffManager] 注册任务：ID {buffId}, 将在 {delay}s 后施加给 {target.name}");
         }
 
         private void Update()
@@ -61,16 +66,19 @@ namespace QuackCore.BuffSystem
                 task.RemainingTime -= dt;
                 if (task.RemainingTime <= 0f)
                 {
-                    QuackBuffFactory.Apply(task.Target, task.BuffName, task.Duration, task.Attacker);
+                    QuackBuffFactory.Apply(task.Target, task.BuffId, task.Duration, task.Attacker);
                     _activeTasks.RemoveAt(i);
-                    ModLogger.LogDebug($"[DelayedBuffManager] 任务执行: {task.BuffName} 已施加");
+                    ModLogger.LogDebug($"[DelayedBuffManager] 任务执行完成：ID {task.BuffId} 已施加");
                 }
             }
         }
 
-        // 场景清理或死亡清理（可选）
-        public void ClearTasksFor(CharacterMainControl target)
+        /// <summary>
+        /// 清理指定角色的所有延迟任务
+        /// </summary>
+        public void ClearTasksForTarget(CharacterMainControl target)
         {
+            if (target == null) return;
             _activeTasks.RemoveAll(t => t.Target == target);
         }
     }

@@ -11,27 +11,29 @@ namespace QuackCore.BuffSystem
     {
         private static readonly ConditionalWeakTable<Buff, QuackBuffDefinition> _defCache = new();
 
-        private static string CleanName(string n) => n.Replace("(Clone)", "").Replace("_Permanent", "").Trim();
-
         [HarmonyPatch(typeof(Buff), "Setup")]
         public static class SetupPatch
         {
             [HarmonyPrefix]
             public static void Prefix(Buff __instance, ref List<Effect> ___effects)
             {
-                if (QuackBuffRegistry.Instance.IsQuackModBuff(__instance.name))
+                if (QuackBuffRegistry.Instance.IsQuackModBuff(__instance.ID))
+                {
                     ___effects.Clear();
+                }
             }
 
             [HarmonyPostfix]
             public static void Postfix(Buff __instance, CharacterBuffManager manager)
             {
-                var def = QuackBuffRegistry.Instance.GetDefinition(CleanName(__instance.name));
+                var def = QuackBuffRegistry.Instance.GetDefinition(__instance.ID);
                 if (def != null)
                 {
                     _defCache.AddOrUpdate(__instance, def);
                     if (manager?.Master != null)
+                    {
                         def.ExecuteSetup(__instance, manager.Master);
+                    }
                 }
             }
         }
@@ -46,7 +48,9 @@ namespace QuackCore.BuffSystem
                 {
                     var target = __instance.Character;
                     if (target != null)
+                    {
                         def.ExecuteUpdate(__instance, target);
+                    }
                 }
             }
         }
@@ -62,7 +66,9 @@ namespace QuackCore.BuffSystem
                 if (_defCache.TryGetValue(__instance, out var def))
                 {
                     if (target != null)
+                    {
                         def.ExecuteDestroy(__instance, target);
+                    }
                     _defCache.Remove(__instance);
                 }
 
@@ -84,12 +90,10 @@ namespace QuackCore.BuffSystem
                 var target = __instance.Master;
                 int id = buffPrefab.ID;
 
-                //ModLogger.LogDebug($"[Immunity] 检查 Buff 添加: {buffPrefab.name} (ID: {id})");
-
                 if (target != null && QuackImmunityHandler.IsImmune(target, id))
                 {
-                    //ModLogger.LogDebug($"[Immunity] 成功拦截免疫 Buff: {buffPrefab.name} (ID: {id})");
-                    return false;
+                    // ModLogger.LogDebug($"[Immunity] 拦截 Buff ID: {id}");
+                    return false; 
                 }
                 return true;
             }
