@@ -58,6 +58,7 @@ namespace QuackItem.Items.Behavior
         private async UniTaskVoid ExecuteSpawn(CharacterMainControl user)
         {
             Vector3 spawnPos = user.transform.position + user.transform.forward * 1.5f;
+            
             CharacterMainControl mimic = await QuackSpawner.SpawnNPC(npcConfigId, spawnPos);
 
             if (mimic != null)
@@ -68,141 +69,11 @@ namespace QuackItem.Items.Behavior
         
         private void SetupMimicTear(CharacterMainControl player, CharacterMainControl mimic)
         {
-            try
-            {
-                _modelReplacer.ApplyModel(mimic, player);
-            }
-            catch (System.Exception ex)
-            {
-                ModLogger.LogWarning($"MimicTearAshes 模型替换失败: {ex.Message}");
-            }
+            try { _modelReplacer.ApplyModel(mimic, player); }
+            catch (Exception ex) { ModLogger.LogWarning($"模型替换失败: {ex.Message}"); }
 
-            try
-            {
-                ClearWeaponSlots(mimic);
-
-                Item srcPrimary = GetSlotItem(player, "PrimaryWeapon");
-                Item srcHelmet = GetSlotItem(player, "Helmat");
-                Item srcArmor = GetSlotItem(player, "Armor");
-
-                if (srcPrimary != null) CloneAndSetupWeapon(srcPrimary, mimic);
-                if (srcHelmet != null) CloneToSlot(srcHelmet, mimic);
-                if (srcArmor != null) CloneToSlot(srcArmor, mimic);
-            }
-            catch (System.Exception ex)
-            {
-                ModLogger.LogWarning($"MimicTearAshes 复制装备失败: {ex.Message}");
-            }
-        }
-
-        private static Item GetSlotItem(CharacterMainControl c, string slotName)
-        {
-            if (c?.CharacterItem?.Slots == null) return null;
-            var slot = c.CharacterItem.Slots.FirstOrDefault(s => s != null && s.Key == slotName);
-            return slot?.Content;
-        }
-
-        private static void ClearWeaponSlots(CharacterMainControl c)
-        {
-            if (c?.CharacterItem == null) return;
-            string[] slots = { "PrimaryWeapon", "SecondaryWeapon", "MeleeWeapon" };
-            foreach (string s in slots)
-            {
-                var it = GetSlotItem(c, s);
-                it?.DestroyTree();
-            }
-        }
-
-        private static void CloneToSlot(Item src, CharacterMainControl enemy)
-        {
-            if (src == null || enemy == null) return;
-            try
-            {
-                GameObject go = UnityEngine.Object.Instantiate(src.gameObject, enemy.transform.position, Quaternion.identity);
-                Item clone = go.GetComponent<Item>();
-                if (clone != null)
-                {
-                    clone.Detach();
-                    clone.AgentUtilities.ReleaseActiveAgent();
-                    enemy.PickupItem(clone);
-                }
-            }
-            catch (Exception ex)
-            {
-                ModLogger.LogWarning($"CloneToSlot 失败: {ex.Message}");
-            }
-        }
-
-        private static void CloneAndSetupWeapon(Item srcWeapon, CharacterMainControl enemy)
-        {
-            if (srcWeapon == null || enemy == null) return;
-            try
-            {
-                GameObject go = UnityEngine.Object.Instantiate(srcWeapon.gameObject, enemy.transform.position, Quaternion.identity);
-                Item clone = go.GetComponent<Item>();
-                if (clone == null) return;
-
-                clone.Detach();
-                clone.AgentUtilities.ReleaseActiveAgent();
-
-                enemy.PickupItem(clone);
-                enemy.ChangeHoldItem(clone);
-
-                var gun = clone.GetComponent<ItemSetting_Gun>();
-                if (gun != null)
-                {
-                    string caliber = srcWeapon.Constants.GetString("Caliber");
-
-                    int bulletId = -1;
-
-                    var srcGun = srcWeapon.GetComponent<ItemSetting_Gun>();
-                    if (srcGun != null && srcGun.TargetBulletID > 0)
-                    {
-                        bulletId = srcGun.TargetBulletID;
-                    }
-
-                    if (bulletId <= 0 && !string.IsNullOrEmpty(caliber))
-                    {
-                        CaliberToBulletId.TryGetValue(caliber, out bulletId);
-                    }
-
-                    if (bulletId > 0)
-                    {
-                        var bulletSeed = ItemAssetsCollection.InstantiateSync(bulletId);
-                        if (bulletSeed != null)
-                        {
-                            bulletSeed.Initialize();
-
-                            if (bulletSeed.Stackable)
-                            {
-                                bulletSeed.StackCount = Mathf.Min(100, bulletSeed.MaxStackCount);
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"[MimicTearAshes] 选取的物品 '{bulletSeed.DisplayName}' (ID:{bulletId}) 不可堆叠");
-                                bulletSeed.StackCount = 1;
-                            }
-
-                            enemy.CharacterItem.Inventory.AddAndMerge(bulletSeed);
-
-                            gun.SetTargetBulletType(bulletId);
-                            clone.Variables.SetInt("BulletCount".GetHashCode(), gun.Capacity);
-                        }
-                        else
-                        {
-                            Debug.LogError($"[MimicTearAshes] 无法实例化物品ID: {bulletId}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[MimicTearAshes] 未能为武器: {srcWeapon.DisplayName} 找到口径 '{caliber}' 合法的弹药ID");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ModLogger.LogWarning($"CloneAndSetupWeapon 失败: {ex.Message}");
-            }
+            try { EquipmentUtils.ReplaceAllEquipment(mimic, player).Forget(); }
+            catch (Exception ex) { ModLogger.LogWarning($"装备同步失败: {ex.Message}"); }
         }
     }
 }

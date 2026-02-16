@@ -65,7 +65,7 @@ namespace QuackItem.Utils
                         _initMethod.Invoke(targetHandler, new object[] { target, "AllAICharacters" });
                         _loadMethod.Invoke(targetHandler, new object[] { bundleInfo, modelInfo });
 
-                        HideEquipmentVisuals(target);
+                        //HideEquipmentVisuals(target);
                         return;
                     }
                 }
@@ -76,17 +76,13 @@ namespace QuackItem.Utils
             }
 
             CopyVanillaFace(target, source);
-            HideEquipmentVisuals(target);
+            //HideEquipmentVisuals(target);
         }
 
-        private static void CopyVanillaFace(CharacterMainControl target, CharacterMainControl source)
+        private void CopyVanillaFace(CharacterMainControl enemy, CharacterMainControl player)
         {
-            if (target?.characterModel?.CustomFace == null || source?.characterModel?.CustomFace == null) return;
-            try
-            {
-                target.characterModel.SetFaceFromData(source.characterModel.CustomFace.ConvertToSaveData());
-            }
-            catch { }
+            if (enemy?.characterModel?.CustomFace == null || player?.characterModel?.CustomFace == null) return;
+            enemy.characterModel.SetFaceFromData(player.characterModel.CustomFace.ConvertToSaveData());
         }
 
         private static void HideEquipmentVisuals(CharacterMainControl character)
