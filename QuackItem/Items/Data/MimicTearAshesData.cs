@@ -1,21 +1,22 @@
-﻿namespace QuackItem.Items.Data;
-
-using FastModdingLib;
+﻿using FastModdingLib;
 using ItemStatsSystem;
 using QuackItem.Items.Behavior;
 
-public class MimicTearAshesData : UsageBehaviorData
+namespace QuackItem.Items.Data
 {
-    public string basePresetName = "EnemyPreset_Scav";
-    public string npcConfigId;
-
-    public override ItemStatsSystem.UsageBehavior GetBehavior(Item item)
+    public class MimicTearAshesData : UsageBehaviorData
     {
-        var behavior = item.gameObject.AddComponent<MimicTearAshesBehavior>();
+        public string basePresetName = "EnemyPreset_Scav";
+        public string npcConfigId;
 
-        behavior.basePresetName = this.basePresetName;
-        behavior.npcConfigId = this.npcConfigId;
+        public override ItemStatsSystem.UsageBehavior GetBehavior(Item item)
+        {
+            var behavior = item.gameObject.AddComponent<MimicTearAshesBehavior>();
 
-        return behavior;
+            behavior.basePresetName = this.basePresetName;
+            behavior.npcConfigId = this.npcConfigId;
+
+            return behavior;
+        }
     }
 }

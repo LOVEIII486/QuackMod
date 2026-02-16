@@ -4,8 +4,6 @@ using HarmonyLib;
 using QuackCore.AttributeModifier;
 using QuackCore.BuffSystem;
 using QuackCore.Constants;
-using QuackCore.NPC;
-using QuackCore.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,7 +43,6 @@ namespace QuackCore
         protected override void OnAfterSetup()
         {
             base.OnAfterSetup();
-            new GameObject("QuackSpawner").AddComponent<QuackSpawner>();
             new GameObject("DelayedBuffManager").AddComponent<DelayedBuffManager>();
             SceneManager.sceneLoaded += OnSceneLoaded;
             ModLogger.Log($"{ModConstant.ModName} 已准备就绪。");

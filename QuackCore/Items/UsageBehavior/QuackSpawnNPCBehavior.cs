@@ -14,26 +14,13 @@ namespace QuackCore.Items.UsageBehavior
         {
             get
             {
-                var config = QuackNPCRegistry.GetConfig(npcConfigId);
-                string displayName = config?.CustomName;
-
-                if (string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(basePresetName))
-                {
-                    if (QuackSpawner.Instance != null)
-                    {
-                        var preset = QuackSpawner.Instance.GetNativePreset(basePresetName);
-
-                        if (preset != null )
-                        {
-                            displayName = preset.DisplayName;
-                        }
-                    }
-                }
+                var preset = QuackSpawner.GetNativePresetByName(basePresetName);
+                var displayName = preset.DisplayName;
                 
                 return new DisplaySettingsData 
                 { 
                     display = true, 
-                    description = $"召唤: {displayName}" 
+                    description = $"召唤: {(string.IsNullOrEmpty(displayName) ? "未知角色" : displayName)}" 
                 };
             }
         }
@@ -50,30 +37,20 @@ namespace QuackCore.Items.UsageBehavior
 
         private async UniTaskVoid ExecuteSpawn(CharacterMainControl user)
         {
-            if (QuackSpawner.Instance == null) return;
-
             Vector3 spawnPos = user.transform.position + user.transform.forward * 2f;
             
             var registeredConfig = QuackNPCRegistry.GetConfig(npcConfigId);
 
             if (registeredConfig != null)
             {
-                // 生成自定义 NPC
-                if (string.IsNullOrEmpty(registeredConfig.BasePresetName))
-                {
-                    registeredConfig.BasePresetName = this.basePresetName;
-                }
-                
-                await QuackSpawner.Instance.SpawnNPC(registeredConfig,spawnPos);
-                ModLogger.LogDebug($"使用自定义配置 ID: {npcConfigId} 生成 NPC。");
+                await QuackSpawner.SpawnNPC(npcConfigId, spawnPos);
+                ModLogger.LogDebug($"[Behavior] 使用自定义 ID: {npcConfigId} 生成 NPC。");
             }
             else
             {
-                // 生成原版 NPC
                 string presetToSpawn = string.IsNullOrEmpty(basePresetName) ? "EnemyPreset_Scav" : basePresetName;
-                
-                await QuackSpawner.Instance.SpawnVanillaNPC(presetToSpawn, spawnPos);
-                ModLogger.LogDebug($"未提供有效 ConfigId，生成原版 NPC: {presetToSpawn}");
+                await QuackSpawner.SpawnVanillaNPC(presetToSpawn, spawnPos);
+                ModLogger.LogDebug($"[Behavior] 未找到自定义 Config，生成原版 NPC: {presetToSpawn}");
             }
         }
     }

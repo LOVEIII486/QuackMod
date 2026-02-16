@@ -12,7 +12,8 @@ namespace QuackItem.NPC
             new QuackNPCConfig
             {
                 BasePresetName = QuackCore.Constants.NPCPresetNames.Enemies.Raider,
-                CustomName = "仿身泪滴",
+                CustomPresetName = "MimicTearAshes",
+                DisplayNameKey = "NPC_MimicTearAshes",
                 Health = 400f,
                 Team = Teams.player,
                 ShowName = true,
@@ -34,7 +35,7 @@ namespace QuackItem.NPC
             new QuackNPCConfig
             {
                 BasePresetName = QuackCore.Constants.NPCPresetNames.Special.GunTurret,
-                CustomName = "自动炮台",
+                CustomPresetName = "GunTurretBeacon",
                 Team = Teams.player,
                 ShowName = true,
             }

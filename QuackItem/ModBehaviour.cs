@@ -165,7 +165,7 @@ namespace QuackItem
             BuffRegistry.UnregisterAll();
             ItemRegistry.UnregisterAll();
             NPCRegistry.UnregisterAll();
-            QuestRegistry.UnregisterAll(ModConstant.ModId);
+            //QuestRegistry.UnregisterAll(ModConstant.ModId);
         }
 
         #endregion

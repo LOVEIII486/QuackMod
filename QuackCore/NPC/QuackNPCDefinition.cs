@@ -8,15 +8,15 @@ namespace QuackCore.NPC
     [Serializable]
     public class QuackNPCDefinition
     {
-        public string Id;
-        public string ModId;
+        public string ID;
+        public string ModID;
 
         public QuackNPCConfig Config;
 
         public QuackNPCDefinition(string id, string modId, QuackNPCConfig config )
         {
-            this.Id = id;
-            this.ModId = modId;
+            this.ID = id;
+            this.ModID = modId;
             this.Config = config;
         }
     }

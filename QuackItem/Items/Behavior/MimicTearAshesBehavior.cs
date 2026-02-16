@@ -57,69 +57,41 @@ namespace QuackItem.Items.Behavior
 
         private async UniTaskVoid ExecuteSpawn(CharacterMainControl user)
         {
-            if (QuackSpawner.Instance == null) return;
+            Vector3 spawnPos = user.transform.position + user.transform.forward * 1.5f;
+            CharacterMainControl mimic = await QuackSpawner.SpawnNPC(npcConfigId, spawnPos);
 
-            Vector3 spawnPos = user.transform.position + user.transform.forward * 2f;
-
-            var registeredConfig = QuackNPCRegistry.GetConfig(npcConfigId);
-            CharacterMainControl spawned = null;
-
-            if (registeredConfig != null)
+            if (mimic != null)
             {
-                if (string.IsNullOrEmpty(registeredConfig.BasePresetName))
-                {
-                    registeredConfig.BasePresetName = this.basePresetName;
-                }
-
-                spawned = await QuackSpawner.Instance.SpawnNPC(registeredConfig, spawnPos);
-                ModLogger.LogDebug($"使用自定义配置 ID: {npcConfigId} 生成 NPC（MimicTearAshes）。");
+                SetupMimicTear(user, mimic);
             }
-            else
+        }
+        
+        private void SetupMimicTear(CharacterMainControl player, CharacterMainControl mimic)
+        {
+            try
             {
-                string presetToSpawn = string.IsNullOrEmpty(basePresetName) ? "EnemyPreset_Scav" : basePresetName;
-
-                spawned = await QuackSpawner.Instance.SpawnVanillaNPC(presetToSpawn, spawnPos);
-                ModLogger.LogDebug($"未提供有效 ConfigId（MimicTearAshes），生成原版 NPC: {presetToSpawn}");
+                _modelReplacer.ApplyModel(mimic, player);
+            }
+            catch (System.Exception ex)
+            {
+                ModLogger.LogWarning($"MimicTearAshes 模型替换失败: {ex.Message}");
             }
 
-            if (spawned != null)
+            try
             {
-                int waitFrames = 0;
-                while (spawned.characterModel == null && waitFrames < 60)
-                {
-                    await UniTask.Yield();
-                    waitFrames++;
-                }
+                ClearWeaponSlots(mimic);
 
-                var player = user;
-                if (player != null)
-                {
-                    try
-                    {
-                        _modelReplacer.ApplyModel(spawned, player);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        ModLogger.LogWarning($"MimicTearAshes 模型替换失败: {ex.Message}");
-                    }
+                Item srcPrimary = GetSlotItem(player, "PrimaryWeapon");
+                Item srcHelmet = GetSlotItem(player, "Helmat");
+                Item srcArmor = GetSlotItem(player, "Armor");
 
-                    try
-                    {
-                        ClearWeaponSlots(spawned);
-
-                        Item srcPrimary = GetSlotItem(player, "PrimaryWeapon");
-                        Item srcHelmet = GetSlotItem(player, "Helmat");
-                        Item srcArmor = GetSlotItem(player, "Armor");
-
-                        if (srcPrimary != null) CloneAndSetupWeapon(srcPrimary, spawned);
-                        if (srcHelmet != null) CloneToSlot(srcHelmet, spawned);
-                        if (srcArmor != null) CloneToSlot(srcArmor, spawned);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        ModLogger.LogWarning($"MimicTearAshes 复制装备失败: {ex.Message}");
-                    }
-                }
+                if (srcPrimary != null) CloneAndSetupWeapon(srcPrimary, mimic);
+                if (srcHelmet != null) CloneToSlot(srcHelmet, mimic);
+                if (srcArmor != null) CloneToSlot(srcArmor, mimic);
+            }
+            catch (System.Exception ex)
+            {
+                ModLogger.LogWarning($"MimicTearAshes 复制装备失败: {ex.Message}");
             }
         }
 

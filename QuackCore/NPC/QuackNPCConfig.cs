@@ -13,8 +13,9 @@ namespace QuackCore.NPC
     public class QuackNPCConfig
     {
         [Header("基础信息")]
-        public string BasePresetName = "EnemyPreset_Scav"; 
-        public string CustomName = null; 
+        public string BasePresetName = "EnemyPreset_Scav";
+        public string CustomPresetName = null;
+        public string DisplayNameKey = null;
         public Teams? Team = null;
         public CharacterIconTypes? IconType = null;
         public AudioManager.VoiceType? VoiceType = null;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FastModdingLib;
 
 namespace QuackCore.NPC
 {
@@ -9,73 +10,56 @@ namespace QuackCore.NPC
 
         public static void Register(string dllPath, QuackNPCDefinition definition, string modId)
         {
-            if (definition == null || string.IsNullOrEmpty(definition.Id)) return;
+            if (definition == null || string.IsNullOrEmpty(definition.ID)) return;
 
-            if (QuackSpawner.Instance != null)
+            var source = QuackSpawner.GetNativePresetByName(definition.Config.BasePresetName);
+            if (source == null)
             {
-                var source = QuackSpawner.Instance.GetNativePreset(definition.Config.BasePresetName);
-                if (source == null)
-                {
-                    ModLogger.LogError($"NPC {definition.Id} 注册失败：找不到基底预设 {definition.Config.BasePresetName}");
-                    return;
-                }
-                var preset = QuackSpawner.Instance.CreateCustomPreset(source, definition.Config);
-                if (preset == null)
-                {
-                    ModLogger.LogError($"NPC {definition.Id} 注册失败：Spawner 无法生成预制体副本。");
-                    return;
-                }
-            }
-            else
-            {
-                ModLogger.LogError($"NPC {definition.Id} 注册失败：QuackSpawner 实例尚未准备好。");
+                ModLogger.LogError($"NPC {definition.ID} 注册失败：找不到基底预设 {definition.Config.BasePresetName}");
                 return;
             }
 
-            string id = definition.Id;
-            if (_definitions.ContainsKey(id))
+            var template = QuackNPCFactory.CreateTemplate(source, definition);
+            if (template == null) return;
+
+            definition.ModID = modId;
+            if (_definitions.ContainsKey(definition.ID))
             {
-                _definitions[id] = definition;
-                ModLogger.LogWarning($"覆盖注册 NPC ID: {id} (来自 Mod: {modId})");
+                _definitions[definition.ID] = definition;
+                ModLogger.LogWarning($"覆盖注册 NPC ID: {definition.ID} (Mod: {modId})");
             }
             else
             {
-                _definitions.Add(id, definition);
-                ModLogger.Log($"成功注册 NPC ID: {id}");
+                _definitions.Add(definition.ID, definition);
+                ModLogger.Log($"成功注册 NPC ID: {definition.ID} (Mod: {modId})");
             }
         }
-        
+
         public static void UnregisterAll(string modId)
         {
             var idsToRemove = _definitions
-                .Where(kvp => kvp.Value.ModId == modId)
+                .Where(kvp => kvp.Value.ModID == modId)
                 .Select(kvp => kvp.Key)
                 .ToList();
 
             foreach (var id in idsToRemove)
             {
-                var def = _definitions[id];
-                if (QuackSpawner.Instance != null)
-                {
-                    QuackSpawner.Instance.RemoveCustomPreset(def.Config);
-                }
-
+                QuackNPCFactory.DestroyTemplate(id);
                 _definitions.Remove(id);
             }
-
-            ModLogger.Log($"已清理来自 Mod {modId} 的所有 NPC 定义。");
+            ModLogger.Log($"已清理 Mod {modId} 的所有 NPC 定义。");
         }
 
         public static QuackNPCDefinition GetDefinition(string id)
         {
-            if (string.IsNullOrEmpty(id)) return null;
             _definitions.TryGetValue(id, out var def);
             return def;
         }
-
+        
         public static QuackNPCConfig GetConfig(string id)
         {
-            return GetDefinition(id)?.Config;
+            _definitions.TryGetValue(id, out var def);
+            return def?.Config;
         }
     }
 }
