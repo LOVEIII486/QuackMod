@@ -78,7 +78,7 @@ namespace QuackCore.NPC
                 return null;
             }
 
-            CharacterRandomPreset finalPreset = GetOrCreateCustomPreset(sourcePreset, config);
+            CharacterRandomPreset finalPreset = GetCustomPreset(GetPresetCacheKey(config));
             if (team.HasValue) finalPreset.team = team.Value;
 
             Vector3 spawnPos = position;
@@ -195,21 +195,31 @@ namespace QuackCore.NPC
 
             return null;
         }
-
-        private CharacterRandomPreset GetOrCreateCustomPreset(CharacterRandomPreset source, QuackNPCConfig config)
+        
+        /// <summary>
+        /// 仅负责从缓存中获取已生成的预制体
+        /// </summary>
+        public CharacterRandomPreset GetCustomPreset(string cacheKey)
         {
-            string uniqueId = string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName;
-            string cacheKey = $"{config.BasePresetName}_Quack_{uniqueId}";
+            _generatedPresetsCache.TryGetValue(cacheKey, out var cached);
+            return cached;
+        }
+
+        /// <summary>
+        /// 仅负责物理创建、配置并缓存 NPC 预制体
+        /// </summary>
+        public CharacterRandomPreset CreateCustomPreset(CharacterRandomPreset source, QuackNPCConfig config)
+        {
+            string cacheKey = GetPresetCacheKey(config);
 
             if (_generatedPresetsCache.TryGetValue(cacheKey, out var cached)) return cached;
 
             CharacterRandomPreset preset = Instantiate(source);
-
-            preset.name = source.name + "_Quack_" + uniqueId;
+            preset.name = source.name + "_Quack_" + (string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName);
 
             if (!string.IsNullOrEmpty(config.CustomName))
             {
-                string overrideKey = "QuackNPC_" + uniqueId;
+                string overrideKey = "QuackNPC_" + config.CustomName;
                 preset.nameKey = overrideKey;
                 LocalizationManager.SetOverrideText(overrideKey, config.CustomName);
             }
@@ -222,7 +232,28 @@ namespace QuackCore.NPC
 
             _clonedPresets.Add(preset);
             _generatedPresetsCache.Add(cacheKey, preset);
+    
+            ModLogger.LogDebug($"[Spawner] 成功创建并缓存 NPC 预制体: {cacheKey}");
             return preset;
+        }
+        
+        private string GetPresetCacheKey(QuackNPCConfig config)
+        {
+            string uniqueId = string.IsNullOrEmpty(config.CustomName) ? "Default" : config.CustomName;
+            return $"{config.BasePresetName}_Quack_{uniqueId}";
+        }
+        
+        public void RemoveCustomPreset(QuackNPCConfig config)
+        {
+            string cacheKey = GetPresetCacheKey(config);
+    
+            if (_generatedPresetsCache.TryGetValue(cacheKey, out var preset) && preset != null)
+            {
+                _clonedPresets.Remove(preset);
+                _generatedPresetsCache.Remove(cacheKey);
+                UnityEngine.Object.Destroy(preset);
+                ModLogger.LogDebug($"[Spawner] 已物理销毁 NPC 预制体缓存: {cacheKey}");
+            }
         }
 
         private void ApplyConfigToPreset(CharacterRandomPreset preset, QuackNPCConfig config)
@@ -316,12 +347,10 @@ namespace QuackCore.NPC
                 QuackReflectionHelper.SetPrivateField(preset, "bulletCountRange", config.BulletCountRange.Value);
 
             // --- 9. 特殊载具 ---
-            // 关键点：如果 config 为空，则保留原版 preset.isVehicle
             if (config.IsVehicle.HasValue) preset.isVehicle = config.IsVehicle.Value;
             if (config.OnlyMoveForward.HasValue) preset.onlyMoveForward = config.OnlyMoveForward.Value;
 
             // --- 10. 背包初始物品注入 ---
-            // 只有当传入了有效的 ID 列表时才重写背包
             if (config.CustomItemIDs != null && config.CustomItemIDs.Count > 0)
             {
                 SetupInventory(preset, config.CustomItemIDs);

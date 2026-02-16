@@ -3,34 +3,34 @@ using System.Linq;
 
 namespace QuackCore.BuffSystem
 {
-    public class QuackBuffRegistry
+    public static class QuackBuffRegistry
     {
-        private static QuackBuffRegistry _instance;
-        public static QuackBuffRegistry Instance => _instance ??= new QuackBuffRegistry();
-
-        private readonly Dictionary<int, QuackBuffDefinition> _definitions = new Dictionary<int, QuackBuffDefinition>();
-        private readonly HashSet<string> _modPrefixes = new HashSet<string>();
-
-        public void Register(QuackBuffDefinition definition)
+        private static readonly Dictionary<int, QuackBuffDefinition> _definitions = new Dictionary<int, QuackBuffDefinition>();
+        
+        public static void Register(string dllPath, QuackBuffDefinition definition, string modId)
         {
+            var template = QuackBuffFactory.CreateTemplate(definition.Config, dllPath, modId);
+
+            if (template == null)
+            {
+                ModLogger.LogError($"Buff ID {definition.Config.ID} 注册失败！");
+                return;
+            }
+
             int id = definition.Config.ID;
-            
             if (_definitions.ContainsKey(id))
             {
                 _definitions[id] = definition;
-                ModLogger.LogDebug($"重新覆盖注册 Buff ID: {id} ({definition.Config.BuffNameKey})");
+                ModLogger.LogWarning($"覆盖注册 Buff ID: {id} ({definition.Config.BuffNameKey})");
             }
             else
             {
                 _definitions.Add(id, definition);
-                ModLogger.LogDebug($"注册自定义 Buff ID: {id}");
+                ModLogger.Log($"成功注册 Buff ID: {id}");
             }
-
-            _modPrefixes.Add(definition.Config.ModID);
-            QuackBuffFactory.GetOrCreateTemplate(definition.Config);
         }
 
-        public void UnregisterAll(string modId)
+        public static void UnregisterAll(string modId)
         {
             var idsToRemove = _definitions
                 .Where(kvp => kvp.Value.Config.ModID == modId)
@@ -39,22 +39,19 @@ namespace QuackCore.BuffSystem
 
             foreach (var id in idsToRemove)
             {
+                QuackBuffFactory.DestroyTemplate(id);
                 _definitions.Remove(id);
             }
-
-            if (!_definitions.Values.Any(d => d.Config.ModID == modId))
-            {
-                _modPrefixes.Remove(modId);
-            }
+            ModLogger.Log($"已完全清理 Mod {modId} 的所有 Buff。");
         }
 
-        public QuackBuffDefinition GetDefinition(int id)
+        public static QuackBuffDefinition GetDefinition(int id)
         {
             _definitions.TryGetValue(id, out var def);
             return def;
         }
 
-        public bool IsQuackModBuff(int id)
+        public static bool IsQuackModBuff(int id)
         {
             return _definitions.ContainsKey(id);
         }

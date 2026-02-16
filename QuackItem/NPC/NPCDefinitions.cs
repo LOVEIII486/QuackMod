@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using QuackCore.NPC;
+using QuackItem.Constants;
 
 namespace QuackItem.NPC
 {
@@ -7,6 +8,7 @@ namespace QuackItem.NPC
     {
         public static readonly QuackNPCDefinition MimicTearAshes = new QuackNPCDefinition(
             "MimicTearAshes",
+            ModConstant.ModId,
             new QuackNPCConfig
             {
                 BasePresetName = QuackCore.Constants.NPCPresetNames.Enemies.Raider,
@@ -28,6 +30,7 @@ namespace QuackItem.NPC
 
         public static readonly QuackNPCDefinition GunTurretBeacon = new QuackNPCDefinition(
             "GunTurretBeacon",
+            ModConstant.ModId,
             new QuackNPCConfig
             {
                 BasePresetName = QuackCore.Constants.NPCPresetNames.Special.GunTurret,

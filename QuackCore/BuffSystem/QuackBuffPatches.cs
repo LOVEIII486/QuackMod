@@ -17,7 +17,7 @@ namespace QuackCore.BuffSystem
             [HarmonyPrefix]
             public static void Prefix(Buff __instance, ref List<Effect> ___effects)
             {
-                if (QuackBuffRegistry.Instance.IsQuackModBuff(__instance.ID))
+                if (QuackBuffRegistry.IsQuackModBuff(__instance.ID))
                 {
                     ___effects.Clear();
                 }
@@ -26,7 +26,7 @@ namespace QuackCore.BuffSystem
             [HarmonyPostfix]
             public static void Postfix(Buff __instance, CharacterBuffManager manager)
             {
-                var def = QuackBuffRegistry.Instance.GetDefinition(__instance.ID);
+                var def = QuackBuffRegistry.GetDefinition(__instance.ID);
                 if (def != null)
                 {
                     _defCache.AddOrUpdate(__instance, def);

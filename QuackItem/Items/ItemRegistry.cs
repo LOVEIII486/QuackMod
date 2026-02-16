@@ -9,17 +9,15 @@ namespace QuackItem.Items
         {
             foreach (var quackItem in ItemDefinitions.AllQuackItems)
             {
-                QuackItemRegistry.Register(modPath, quackItem, ModConstant.ModName);
+                QuackItemRegistry.Register(modPath, quackItem, ModConstant.ModId);
             }
-            
-            ModLogger.Log($"成功注册了 {ItemDefinitions.AllQuackItems.Count} 个物品。");
+            ModLogger.Log($"注册了 {ItemDefinitions.AllQuackItems.Count} 个物品。");
         }
         
         public static void UnregisterAll()
         {
-            QuackItemRegistry.UnregisterAll(ModConstant.ModName);
-            
-            ModLogger.Log($"模组所有物品已注销。");
+            QuackItemRegistry.UnregisterAll(ModConstant.ModId);
+            ModLogger.Log($"注销了 {ItemDefinitions.AllQuackItems.Count} 个物品。");
         }
     }
 }

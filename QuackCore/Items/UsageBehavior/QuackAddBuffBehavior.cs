@@ -16,7 +16,7 @@ namespace QuackCore.Items.UsageBehavior
             {
                 var settings = new DisplaySettingsData { display = true, description = "" };
                 
-                var def = QuackBuffRegistry.Instance.GetDefinition(buffId);
+                var def = QuackBuffRegistry.GetDefinition(buffId);
                 if (def == null)
                 {
                     settings.description = $"ID {buffId} 【Buff 未注册！】";
@@ -50,11 +50,11 @@ namespace QuackCore.Items.UsageBehavior
                 if (Random.Range(0f, 1f) <= chance)
                 {
                     QuackBuffFactory.Apply(character, buffId);
-                    ModLogger.LogDebug($"[QuackAddBuffBehavior] 物品 {item.name} 触发成功：已施加 ID {buffId}");
+                    ModLogger.LogDebug($"物品 {item.name} 触发成功：已施加 ID {buffId}");
                 }
                 else
                 {
-                    ModLogger.LogDebug($"[QuackAddBuffBehavior] 物品 {item.name} 触发失败：未通过几率判定 ({chance * 100}%)");
+                    ModLogger.LogDebug($"物品 {item.name} 触发失败：未通过几率判定 ({chance * 100}%)");
                 }
             }
         }

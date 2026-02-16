@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Duckov.Buffs;
 using UnityEngine;
+using QuackCore.Utils;
 
 namespace QuackCore.BuffSystem
 {
@@ -27,7 +29,7 @@ namespace QuackCore.BuffSystem
             public string BuffDescriptionKey => $"{BuffNameKey}_Desc";
             public string Description;
 
-            public BuffConfig(string modId, string name, int manualId, float duration , string iconPath = null, string displayName = null, string description = null)
+            public BuffConfig(string modId, string name, int manualId, float duration, string iconPath = null, string displayName = null, string description = null)
             {
                 ModID = modId; BuffName = name; ID = manualId; Duration = duration; IconPath = iconPath;
                 DisplayName = displayName;
@@ -47,9 +49,7 @@ namespace QuackCore.BuffSystem
             InitializeReflection();
             if (target == null) return;
 
-            // 优先 Mod 注册表，其次原版资源
-            var def = QuackBuffRegistry.Instance.GetDefinition(buffId);
-            Buff template = (def != null) ? GetOrCreateTemplate(def.Config) : GetVanillaPrefab(buffId);
+            Buff template = GetTemplate(buffId) ?? GetVanillaPrefab(buffId);
 
             if (template == null)
             {
@@ -83,9 +83,16 @@ namespace QuackCore.BuffSystem
             }
         }
 
-        public static Buff GetOrCreateTemplate(BuffConfig config)
+        public static Buff GetTemplate(int buffId)
+        {
+            SharedTemplates.TryGetValue(buffId, out var b);
+            return b;
+        }
+        
+        public static Buff CreateTemplate(BuffConfig config, string dllPath, string modId)
         {
             InitializeReflection();
+            
             if (SharedTemplates.TryGetValue(config.ID, out var b) && b != null) return b;
 
             if (_templateRoot == null)
@@ -109,7 +116,7 @@ namespace QuackCore.BuffSystem
                 
                 if (!string.IsNullOrEmpty(config.IconPath) && _iconField != null)
                 {
-                    Sprite customIcon = QuackCore.Utils.AssetLoader.LoadSprite(config.IconPath);
+                    Sprite customIcon = SpriteLoader.LoadSprite(Path.Combine(dllPath,config.IconPath));
                     if (customIcon != null)
                     {
                         _iconField.SetValue(newBuff, customIcon);
@@ -117,12 +124,23 @@ namespace QuackCore.BuffSystem
                 }
 
                 SharedTemplates[config.ID] = newBuff;
+                ModLogger.Log($"[BuffFactory] 成功创建模板 ID: {config.ID} 来自 Mod: {modId}");
                 return newBuff;
             }
             catch (Exception ex)
             {
                 ModLogger.LogError($"填充模板失败 ID {config.ID}: {ex.Message}");
                 return null;
+            }
+        }
+        
+        public static void DestroyTemplate(int buffId)
+        {
+            if (SharedTemplates.TryGetValue(buffId, out var buff) && buff != null)
+            {
+                UnityEngine.Object.Destroy(buff.gameObject);
+                SharedTemplates.Remove(buffId);
+                ModLogger.LogDebug($"已销毁 Buff 模板 ID: {buffId}");
             }
         }
 

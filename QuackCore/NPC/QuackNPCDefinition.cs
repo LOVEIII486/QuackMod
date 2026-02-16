@@ -3,24 +3,20 @@
 namespace QuackCore.NPC
 {
     /// <summary>
-    /// 自定义 NPC 定义，包含 ID 和对应的配置
+    /// 自定义 NPC 定义
     /// </summary>
     [Serializable]
     public class QuackNPCDefinition
     {
-        /// <summary>
-        /// 唯一标识符，用于在注册表中查找
-        /// </summary>
         public string Id;
+        public string ModId;
 
-        /// <summary>
-        /// NPC 的具体属性配置
-        /// </summary>
         public QuackNPCConfig Config;
 
-        public QuackNPCDefinition(string id, QuackNPCConfig config)
+        public QuackNPCDefinition(string id, string modId, QuackNPCConfig config )
         {
             this.Id = id;
+            this.ModId = modId;
             this.Config = config;
         }
     }

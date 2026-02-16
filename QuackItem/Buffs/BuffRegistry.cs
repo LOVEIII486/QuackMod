@@ -1,16 +1,23 @@
 ﻿using QuackCore.BuffSystem;
+using QuackItem.Constants;
 
 namespace QuackItem.Buffs
 {
     public static class BuffRegistry
     {
-        public static void RegisterAll()
+        public static void RegisterAll(string modPath)
         {
             foreach (var buff in BuffDefinitions.AllBuffs)
             {
-                QuackBuffRegistry.Instance.Register(buff);
+                QuackBuffRegistry.Register(modPath, buff, ModConstant.ModId);
             }
-            ModLogger.Log($"成功注册了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
+            ModLogger.Log($"注册了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
+        }
+        
+        public static void UnregisterAll()
+        {
+            QuackBuffRegistry.UnregisterAll(ModConstant.ModId);
+            ModLogger.Log($"注销了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
         }
     }
 }

@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace QuackCore.Utils
 {
-    public static class AssetLoader
+    public static class SpriteLoader
     {
-        /// <summary>
-        /// 从指定路径加载图片并转换为 Sprite
-        /// </summary>
         public static Sprite LoadSprite(string filePath)
         {
             if (!File.Exists(filePath))
