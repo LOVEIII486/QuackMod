@@ -29,7 +29,6 @@ namespace QuackCore.BuffSystem
                 var def = QuackBuffRegistry.Instance.GetDefinition(CleanName(__instance.name));
                 if (def != null)
                 {
-                    // 存入缓存，供后续 Update 使用
                     _defCache.AddOrUpdate(__instance, def);
                     if (manager?.Master != null)
                         def.ExecuteSetup(__instance, manager.Master);
@@ -71,6 +70,28 @@ namespace QuackCore.BuffSystem
                 {
                     CharacterModifier.ClearAll(target, __instance);
                 }
+            }
+        }
+        
+        [HarmonyPatch(typeof(CharacterBuffManager), "AddBuff")]
+        public static class QuackImmunityAddBuffPatch
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(CharacterBuffManager __instance, Buff buffPrefab)
+            {
+                if (buffPrefab == null) return true;
+
+                var target = __instance.Master;
+                int id = buffPrefab.ID;
+
+                //ModLogger.LogDebug($"[Immunity] 检查 Buff 添加: {buffPrefab.name} (ID: {id})");
+
+                if (target != null && QuackImmunityHandler.IsImmune(target, id))
+                {
+                    //ModLogger.LogDebug($"[Immunity] 成功拦截免疫 Buff: {buffPrefab.name} (ID: {id})");
+                    return false;
+                }
+                return true;
             }
         }
     }
