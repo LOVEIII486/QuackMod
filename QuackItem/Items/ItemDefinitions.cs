@@ -114,11 +114,7 @@ namespace QuackItem.Items
                     useTime = 1.0f,
                     behaviors = new List<UsageBehaviorData>
                     {
-                        new QuackAddBuffData
-                        {
-                            buffName = "QuackItem_LifeFruit_Buff",
-                            chance = 1.0f,
-                        }
+                        new QuackAddBuffData { buffId = 777003, chance = 1.0f }
                     }
                 }
             },
