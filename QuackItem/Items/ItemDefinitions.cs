@@ -184,7 +184,7 @@ namespace QuackItem.Items
                 quality = 5,
                 displayQuality = DisplayQuality.Orange,
                 maxStackCount = 1,
-                maxDurability = 100,
+                maxDurability = 10,
                 tags = new List<string> { },
                 spritePath = "items/MimicTearAshes.png",
                 usages = new UsageData
