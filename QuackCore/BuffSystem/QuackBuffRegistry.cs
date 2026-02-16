@@ -28,7 +28,7 @@ namespace QuackCore.BuffSystem
             else
             {
                 _definitions.Add(id, definition);
-                ModLogger.Log($"成功注册 Buff ID: {id}");
+                ModLogger.Log($"成功注册 Buff ID: {id} ({definition.Config.BuffNameKey}) ({modId})");
             }
         }
 

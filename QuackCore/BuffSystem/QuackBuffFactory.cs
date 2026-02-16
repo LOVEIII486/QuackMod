@@ -124,7 +124,7 @@ namespace QuackCore.BuffSystem
                 }
 
                 SharedTemplates[config.ID] = newBuff;
-                ModLogger.Log($"[BuffFactory] 成功创建模板 ID: {config.ID} 来自 Mod: {modId}");
+                ModLogger.LogDebug($"[BuffFactory] 成功创建模板 ID: {config.ID} 来自 Mod: {modId}");
                 return newBuff;
             }
             catch (Exception ex)
