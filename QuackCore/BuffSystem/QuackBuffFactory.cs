@@ -89,7 +89,7 @@ namespace QuackCore.BuffSystem
             return b;
         }
         
-        public static Buff CreateTemplate(BuffConfig config, string dllPath, string modId)
+        public static Buff CreateTemplate(BuffConfig config, string modPath, string modId)
         {
             InitializeReflection();
             
@@ -116,7 +116,7 @@ namespace QuackCore.BuffSystem
                 
                 if (!string.IsNullOrEmpty(config.IconPath) && _iconField != null)
                 {
-                    Sprite customIcon = SpriteLoader.LoadSprite(Path.Combine(dllPath,config.IconPath));
+                    Sprite customIcon = SpriteLoader.LoadSprite(Path.Combine(modPath,config.IconPath));
                     if (customIcon != null)
                     {
                         _iconField.SetValue(newBuff, customIcon);

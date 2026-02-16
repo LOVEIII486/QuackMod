@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace QuackCore.BuffSystem
@@ -9,7 +10,8 @@ namespace QuackCore.BuffSystem
         
         public static void Register(string dllPath, QuackBuffDefinition definition, string modId)
         {
-            var template = QuackBuffFactory.CreateTemplate(definition.Config, dllPath, modId);
+            string modPath = Path.GetDirectoryName(dllPath);
+            var template = QuackBuffFactory.CreateTemplate(definition.Config, modPath, modId);
 
             if (template == null)
             {

@@ -5,11 +5,11 @@ namespace QuackItem.Buffs
 {
     public static class BuffRegistry
     {
-        public static void RegisterAll(string modPath)
+        public static void RegisterAll(string dllPath)
         {
             foreach (var buff in BuffDefinitions.AllBuffs)
             {
-                QuackBuffRegistry.Register(modPath, buff, ModConstant.ModId);
+                QuackBuffRegistry.Register(dllPath, buff, ModConstant.ModId);
             }
             ModLogger.Log($"注册了 {BuffDefinitions.AllBuffs.Count} 个 Buff");
         }

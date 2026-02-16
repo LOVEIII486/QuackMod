@@ -5,11 +5,11 @@ namespace QuackItem.NPC
 {
     public static class NPCRegistry
     {
-        public static void RegisterAll(string modPath)
+        public static void RegisterAll(string dllPath)
         {
             foreach (var npcDef in NPCDefinitions.AllNpcs)
             {
-                QuackNPCRegistry.Register(modPath, npcDef, ModConstant.ModId);
+                QuackNPCRegistry.Register(dllPath, npcDef, ModConstant.ModId);
             }
             ModLogger.Log($"注册了 {NPCDefinitions.AllNpcs.Count} 个自定义 NPC 配置");
         }
