@@ -264,6 +264,7 @@ namespace QuackCore.Items
             {
                 // 已存在则更新数值
                 SetPrivateField(targetMod, "value", value);
+                SetPrivateField(targetMod, "display", true);
             }
             else
             {

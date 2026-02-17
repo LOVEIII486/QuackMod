@@ -414,7 +414,49 @@ namespace QuackItem.Items
                 { ItemStatsConstants.BodyArmor, 1f },
             }
         };
-
+        
+        public static readonly QuackItemDefinition Item_FishingRodLV4 = new QuackItemDefinition
+        {
+            BaseData = new ItemData
+            {
+                itemId = 777010,
+                order = 100,
+                localizationKey = "Item_FishingRodLV4",
+                localizationDesc = "Item_FishingRodLV4_Desc",
+                weight = 0.4f,
+                value = 6348,
+                quality = 5,
+                displayQuality = DisplayQuality.Orange,
+                maxStackCount = 1,
+                tags = new List<string>
+                {
+                    ItemTagsConstants.Tool,
+                    ItemTagsConstants.Weapon,
+                    ItemTagsConstants.MeleeWeapon,
+                    ItemTagsConstants.Special
+                },
+                spritePath = "items/FishingRodLV4.png",
+                usages = null
+            },
+            Shop = new QuackItemDefinition.ShopConfig
+            {
+                MerchantID = MerchantIDs.Fo,
+                MaxStock = 1,
+                PriceFactor = 1.0f,
+                Probability = 1.0f,
+                ForceUnlock = true
+            },
+            Crafting = null,
+            Decompose = null,
+            BaseItemId = 1096,
+            ResetItemProperties = false,
+            ReplaceExistingSlots = false,
+            PropertyOverrides = new Dictionary<string, float>
+            {
+                { ItemStatsConstants.FishingTime, 0.8f },
+                { ItemStatsConstants.FishingQualityFactor, 5f },
+            }
+        };
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Item_GoldenCarrot,
@@ -425,7 +467,8 @@ namespace QuackItem.Items
             Item_SnowPMCAshes,
             Item_AmmoCase,
             Item_GunTurretBeacon,
-            Item_AGDumbbell
+            Item_AGDumbbell,
+            Item_FishingRodLV4
         };
     }
 }

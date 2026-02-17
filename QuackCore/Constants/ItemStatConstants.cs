@@ -158,9 +158,9 @@
         public const string FlashLight = "FlashLight";
         public const string InventoryCapacity = "InventoryCapacity";
         public const string PetCapcity = "PetCapcity";
-        public const string FishingTime = "FishingTime";
-        public const string FishingQualityFactor = "FishingQualityFactor";
-        public const string FishingDifficulty = "FishingDifficulty";
+        public const string FishingTime = "FishingTime"; // 垂钓能力
+        public const string FishingQualityFactor = "FishingQualityFactor"; // 垂钓运气
+        public const string FishingDifficulty = "FishingDifficulty";  // 决定鱼的稀有度
         public const string WeaponRepairLossFactor = "WeaponRepairLossFactor";
         public const string EquipmentRepairLossFactor = "EquipmentRepairLossFactor";
         public const string Performance = "Performance";
