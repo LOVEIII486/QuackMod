@@ -361,7 +361,6 @@ namespace QuackItem.Items
             Decompose = null
         };
         
-        
         public static readonly QuackItemDefinition Item_AGDumbbell = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -391,7 +390,7 @@ namespace QuackItem.Items
                 MerchantID = MerchantIDs.Mud,
                 MaxStock = 1,
                 PriceFactor = 1.0f,
-                Probability = 0.5f,
+                Probability = 1.0f,
                 ForceUnlock = false
             },
             Crafting = null,
@@ -410,7 +409,7 @@ namespace QuackItem.Items
             },
             PropertyOverrides = new Dictionary<string, float>
             {
-                { ItemStatsConstants.AttackSpeed, 1f }, 
+                { ItemStatsConstants.AttackSpeed, 0.7f }, 
                 { ItemStatsConstants.MoveSpeedMultiplier, 1.1f },
                 { ItemStatsConstants.BodyArmor, 1f },
             }

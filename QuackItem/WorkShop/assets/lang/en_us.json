@@ -26,5 +26,7 @@
   "Item_GunTurretBeacon":"Automatic turret beacon",
   "Item_GunTurretBeacon_Desc":"Can call in a temporary automatic turret for fire support.",
   "Item_AGDumbbell":"Anti-Gravity Dumbbell",
-  "Item_AGDumbbell_Desc":"An experimental anti-gravity training device developed by an undisclosed research division. \n A micro gravitational phase-inversion core is embedded within the weight plates, causing the object to exhibit negative gravitational interaction under standard Earth gravity."
+  "Item_AGDumbbell_Desc":"An experimental anti-gravity training device developed by an undisclosed research division. \n A micro gravitational phase-inversion core is embedded within the weight plates, causing the object to exhibit negative gravitational interaction under standard Earth gravity.",
+  "Quest_AGDumbbell_Name": "The Gravity Paradox",
+  "Quest_AGDumbbell_Desc": "Look, pal. That 'Anti-Gravity Dumbbell' Xiao Ming cooked up nearly flipped the whole lab upside down. The core is a volatile mess right now—he desperately needs 5 units of [Psionic Matter] to act as a phase counter-balance.As your coach, though, I’m telling you: the real trick is the 'Stress Calibration.' We need the rawest physical impact data in the entire region to lock down the parameters. Go hunt down Tagilla. Only the kinetic energy from that psycho's sledgehammer can beat Xiao Ming’s core into total stability. Pull this off, and this physics-defying miracle is yours. From then on, you could be hauling a sack of gold bars, and it’ll feel like you’re just tossing around foam balls."
 }

@@ -73,11 +73,33 @@ namespace QuackItem.Quests
             }
         };
         
+        public static readonly QuestData Quest_AGDumbbell = new QuestData
+        {
+            ID = 777004,
+            displayName = "Quest_AGDumbbell_Name",
+            description = "Quest_AGDumbbell_Desc",
+            questGiver = QuestGiverID.Mud,
+            requireLevel = 1,
+            requireScene = "Level_SnowMilitaryBase_Main",
+            tasks = new List<TaskData>
+            {
+                new TaskKillCount { id = 1, requireAmount = 1, requireEnemy = "Cname_Tagilla" },
+                new TaskRequireItem { id = 2, itemTypeID = 1263, requiredAmount = 5 },
+            },
+            rewards = new List<RewardData>
+            {
+                new RewardEXP { id = 1, amount = 3000 },
+                new RewardGiveItem { id = 2, itemTypeID = 777009, amount = 1 },
+                new RewardUnlockItem { id = 3, itemTypeID = 777009 }
+            }
+        };
+        
         public static readonly List<QuestData> AllQuests = new List<QuestData>
         {
             Quest_GoldenCarrot2,
             Quest_LifeFruit,
-            Quest_AmmoCase
+            Quest_AmmoCase,
+            Quest_AGDumbbell
         };
         
         // 任务关系定义 (ID, before, after)
@@ -86,7 +108,8 @@ namespace QuackItem.Quests
         {
             (777001, -1, -1),
             (777002, -1, -1),
-            (777003, 48, -1)
+            (777003, 48, -1),
+            (777004, 642, -1)
         };
     }
 }
