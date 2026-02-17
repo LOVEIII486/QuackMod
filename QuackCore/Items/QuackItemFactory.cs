@@ -90,12 +90,13 @@ namespace QuackCore.Items
         private static Item CreateFromOriginal(string modPath, QuackItemDefinition def)
         {
             Item originalPrefab = ItemAssetsCollection.GetPrefab(def.BaseItemId);
+            
             if (originalPrefab == null) return null;
-
             Item item = UnityEngine.Object.Instantiate(originalPrefab);
             UnityEngine.Object.DontDestroyOnLoad(item);
-
+            
             SetPrivateField(item, "typeID", def.BaseData.itemId);
+            item.name = $"CustomItem_{def.BaseData.itemId}";
 
             if (def.ResetItemProperties)
             {
