@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Duckov.Buffs;
+using Duckov.Utilities;
 using UnityEngine;
 using QuackCore.Utils;
 
@@ -36,7 +38,59 @@ namespace QuackCore.BuffSystem
                 Description = description;
             }
         }
+        
+        public static void InitializeFactory()
+        {
+            if (_initialized) return;
 
+            try
+            {
+                InitializeReflection();
+                var buffsField = typeof(GameplayDataSettings.BuffsData).GetField("allBuffs", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                var buffsList = buffsField?.GetValue(GameplayDataSettings.Buffs) as List<Buff>;
+
+                if (buffsList != null)
+                {
+                    VanillaCache.Clear();
+                    foreach (var buff in buffsList)
+                    {
+                        if (buff != null && !VanillaCache.ContainsKey(buff.ID))
+                        {
+                            VanillaCache.Add(buff.ID, buff);
+                        }
+                    }
+                    ModLogger.LogDebug($"[QuackBuffFactory] 成功缓存 {VanillaCache.Count} 个原生 Buff 信息。");
+                }
+                else
+                {
+                    ModLogger.LogWarning("[QuackBuffFactory] 无法从 GameplayDataSettings 获取 Buff 列表。");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModLogger.LogError($"[QuackBuffFactory] 初始化异常: {ex.Message}");
+            }
+        }
+        
+        public static Buff GetBuff(int id)
+        {
+            if (!_initialized) InitializeFactory();
+
+            if (VanillaCache.TryGetValue(id, out var buff))
+            {
+                return buff;
+            }
+
+            ModLogger.LogWarning($"[QuackBuffFactory] 未能找到 ID 为 {id} 的 Buff。");
+            return null;
+        }
+
+        public static List<Buff> GetAllBuffs()
+        {
+            if (!_initialized) InitializeFactory();
+            return VanillaCache.Values.ToList();
+        }
+        
         /// <summary>
         /// 统一的 Buff 施加接口。
         /// </summary>
@@ -49,7 +103,7 @@ namespace QuackCore.BuffSystem
             InitializeReflection();
             if (target == null) return;
 
-            Buff template = GetTemplate(buffId) ?? GetVanillaPrefab(buffId);
+            Buff template = GetTemplate(buffId) ?? GetBuff(buffId);
 
             if (template == null)
             {
@@ -149,22 +203,6 @@ namespace QuackCore.BuffSystem
             if (_limitedLifeTimeField == null || _totalLifeTimeField == null) return;
             _limitedLifeTimeField.SetValue(buff, duration > 0);
             _totalLifeTimeField.SetValue(buff, duration);
-        }
-
-        private static Buff GetVanillaPrefab(int id)
-        {
-            if (VanillaCache.TryGetValue(id, out var cached) && cached != null) return cached;
-
-            var allBuffs = Resources.FindObjectsOfTypeAll<Buff>();
-            foreach (var b in allBuffs)
-            {
-                if (b.ID == id && !b.name.Contains("(Clone)"))
-                {
-                    VanillaCache[id] = b;
-                    return b;
-                }
-            }
-            return null;
         }
 
         private static void InitializeReflection()

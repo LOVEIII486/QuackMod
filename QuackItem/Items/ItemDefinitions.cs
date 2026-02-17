@@ -375,7 +375,7 @@ namespace QuackItem.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 1,
-                tags = new List<string> { "Daily", "Luxury" },
+                tags = new List<string> { "Daily", "Luxury", "MeleeWeapon" },
                 spritePath = "items/AGDumbbell.png",
                 usages = null
             },
@@ -388,7 +388,14 @@ namespace QuackItem.Items
                 ForceUnlock = false
             },
             Crafting = null,
-            Decompose = null
+            Decompose = null,
+            BaseItemId = 1175,
+            Melee = new QuackItemDefinition.MeleeConfig
+            {
+                Damage = 999f,        // 自定义伤害值
+                AttackRange = 10f,   // 自定义攻击距离
+                Element = "poison"    // 元素属性：physics, fire, poison, electricity, space, ghost, ice
+            },
         };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>

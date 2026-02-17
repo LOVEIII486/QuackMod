@@ -4,6 +4,7 @@ using HarmonyLib;
 using QuackCore.AttributeModifier;
 using QuackCore.BuffSystem;
 using QuackCore.Constants;
+using QuackCore.Items;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -38,6 +39,7 @@ namespace QuackCore
             }
 
             InitializeHarmony();
+            InitFactory();
         }
 
         protected override void OnAfterSetup()
@@ -90,6 +92,12 @@ namespace QuackCore
             {
                 ModLogger.LogError($"Harmony 补丁注入失败: {ex.Message}");
             }
+        }
+        
+        private void InitFactory()
+        {
+            QuackBuffFactory.InitializeFactory();
+            QuackItemFactory.InitializeFactory();
         }
         
         private void Cleanup()

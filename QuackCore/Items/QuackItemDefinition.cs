@@ -6,6 +6,7 @@ namespace QuackCore.Items
 {
     public class QuackItemDefinition
     {
+        public int BaseItemId { get; set; }
         public ItemData BaseData { get; set; }
 
         public ShopConfig Shop { get; set; }
@@ -14,10 +15,15 @@ namespace QuackCore.Items
 
         public DecomposeConfig Decompose { get; set; }
         
+        public Dictionary<string, float> PropertyOverrides { get; set; } = new Dictionary<string, float>();
+        
         public List<SlotConfig> Slots { get; set; }
+        
+        public GunConfig Gun { get; set; }
 
-        #region 子配置类定义
-
+        public MeleeConfig Melee { get; set; }
+        
+        
         public class ShopConfig
         {
             public string MerchantID { get; set; } = MerchantIDs.Normal;
@@ -33,7 +39,7 @@ namespace QuackCore.Items
             public long MoneyCost { get; set; } = 0L;
             public List<(int itemId, long count)> Materials { get; set; } = new List<(int, long)>();
             public int ResultCount { get; set; } = 1;
-            public string[] Workbenches { get; set; } = [ WorkbenchIDs.WorkBenchAdvanced ];
+            public string[] Workbenches { get; set; } = [WorkbenchIDs.WorkBenchAdvanced];
             public string RequirePerk { get; set; } = "";
             public bool UnlockByDefault { get; set; } = true;
             public bool HideInIndex { get; set; } = false;
@@ -45,14 +51,29 @@ namespace QuackCore.Items
             public long MoneyGain { get; set; } = 0L;
             public List<(int itemId, long count)> Results { get; set; } = new List<(int, long)>();
         }
-        
+
         public class SlotConfig
         {
-            public string Key { get; set; } 
+            public string Key { get; set; }
             public List<string> RequireTags { get; set; } = new List<string>();
             public List<string> ExcludeTags { get; set; } = new List<string>();
         }
 
-        #endregion
+        public class GunConfig
+        {
+            public float? Damage { get; set; }
+            public float? ShootSpeed { get; set; }
+            public int? Capacity { get; set; }
+            public string Element { get; set; }
+            public float? ReloadTime { get; set; }
+            public int? BuffID { get; set; }
+        }
+
+        public class MeleeConfig
+        {
+            public float? Damage { get; set; }
+            public string Element { get; set; }
+            public float? AttackRange { get; set; }
+        }
     }
 }

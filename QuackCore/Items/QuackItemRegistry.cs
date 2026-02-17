@@ -8,37 +8,31 @@ namespace QuackCore.Items
     public static class QuackItemRegistry
     {
         /// <summary>
-        /// 智能注册入口，负责注册物品本体、商店、合成配方和分解配方。
-        /// 自动检测 Slots 配置，若存在则使用复杂构建模式。
+        /// 负责注册物品本体、商店、合成配方和分解配方。
         /// </summary>
         public static void Register(string dllPath, QuackItemDefinition def, string modId)
         {
             if (def.BaseData == null) return;
 
-            if (def.Slots != null && def.Slots.Count > 0)
+            // 判断是否需要调用复杂构建框架
+            bool isComplex = def.BaseItemId > 0 || 
+                             (def.Slots != null && def.Slots.Count > 0) || 
+                             def.Gun != null || 
+                             def.Melee != null;
+
+            if (isComplex)
             {
                 Item complexItem = QuackItemFactory.CreateComplexItem(dllPath, def);
-                ItemUtils.RegisterItem(complexItem, modId);
+                if (complexItem != null)
+                {
+                    ItemUtils.RegisterItem(complexItem, modId); // 需要手动注册
+                }
             }
             else
             {
-                ItemUtils.CreateCustomItem(dllPath, def.BaseData, modId);
+                ItemUtils.CreateCustomItem(dllPath, def.BaseData, modId); // 内部会自动注册
             }
 
-            RegisterExtraData(def, modId);
-        }
-        
-        /// <summary>
-        /// 独立的复杂物品注册函数。
-        /// 绕过 FML 的简易构建流程，支持自定义槽位。
-        /// </summary>
-        public static void RegisterComplex(string dllPath, QuackItemDefinition def, string modId)
-        {
-            if (def.BaseData == null) return;
-
-            Item complexItem = QuackItemFactory.CreateComplexItem(dllPath, def);
-            // 仅使用 FML 进行最终的系统挂载注册
-            ItemUtils.RegisterItem(complexItem, modId);
             RegisterExtraData(def, modId);
         }
         
