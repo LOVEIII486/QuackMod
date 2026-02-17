@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using FastModdingLib;
+using ItemStatsSystem;
+using ItemStatsSystem.Stats;
 using QuackCore.Constants;
 
 namespace QuackCore.Items
@@ -19,6 +21,8 @@ namespace QuackCore.Items
         public DecomposeConfig Decompose { get; set; }
         
         public Dictionary<string, float> PropertyOverrides { get; set; } = new Dictionary<string, float>();
+        
+        public List<ModifierConfig> Modifiers { get; set; } = new List<ModifierConfig>();
         
         public List<SlotConfig> Slots { get; set; }
         
@@ -65,20 +69,20 @@ namespace QuackCore.Items
 
         public class GunConfig
         {
-            public string? TriggerMode { get; set; } // 0:auto, 1:semi, 2:bolt
-            public string? ReloadMode { get; set; }  // 0:fullMag, 1:singleBullet
+            public ItemSetting_Gun.TriggerModes? TriggerMode { get; set; } 
+            public ItemSetting_Gun.ReloadModes? ReloadMode { get; set; }
             public bool? AutoReload { get; set; }
             public bool? CanControlMind { get; set; }
             public string ShootKey { get; set; }
             public string ReloadKey { get; set; }
-            public string Element { get; set; }
+            public ElementTypes? Element { get; set; }
             public int? BuffID { get; set; }
         }
 
         public class MeleeConfig
         {
             public bool? DealExplosionDamage { get; set; }
-            public string Element { get; set; }
+            public ElementTypes? Element { get; set; }
             public float? BuffChance { get; set; }
             public int? BuffID { get; set; }
         }
@@ -87,6 +91,18 @@ namespace QuackCore.Items
         {
             public string AdsAimMarkerKey { get; set; }
             public bool AutoSetMarker { get; set; } = true;
+        }
+        
+        public class ModifierConfig
+        {
+            public string Key { get; set; }
+            public float Value { get; set; }
+            public ModifierType Type { get; set; } = ModifierType.Add;
+            public ModifierTarget? Target { get; set; } = null; 
+            public bool EnableInInventory { get; set; } = false;
+            public bool Display { get; set; } = true;
+            public bool OverrideOrder { get; set; } = false;
+            public int Order { get; set; } = 0;
         }
     }
 }

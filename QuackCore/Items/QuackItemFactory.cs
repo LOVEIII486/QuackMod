@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using Duckov.ItemBuilders;
+using Duckov.Utilities;
 using FastModdingLib;
 using ItemStatsSystem;
 using ItemStatsSystem.Items;
@@ -16,7 +17,7 @@ namespace QuackCore.Items
     {
         #region 初始化
 
-        private static Dictionary<string, Projectile> _elementBulletCache = new Dictionary<string, Projectile>();
+        private static Dictionary<ElementTypes, Projectile> _elementBulletCache = new Dictionary<ElementTypes, Projectile>();
 
         /// <summary>
         /// 初始化工厂
@@ -30,25 +31,27 @@ namespace QuackCore.Items
         {
             _elementBulletCache.Clear();
 
-            var bulletSourceMap = new Dictionary<int, string>
+            var bulletSourceMap = new Dictionary<int, ElementTypes>
             {
-                { 915, ItemElementConstants.Space },
-                { 862, ItemElementConstants.Fire },
-                { 1302, ItemElementConstants.Ice },
-                { 733, ItemElementConstants.Electricity },
-                { 1238, ItemElementConstants.Poison }
+                { 915, ElementTypes.space },
+                { 862, ElementTypes.fire },
+                { 1302, ElementTypes.ice },
+                { 733, ElementTypes.electricity },
+                { 1238, ElementTypes.poison }
             };
 
             foreach (var kvp in bulletSourceMap)
             {
                 int itemId = kvp.Key;
-                string elementKey = kvp.Value;
+                ElementTypes type = kvp.Value; 
+        
                 var original = ItemAssetsCollection.GetPrefab(itemId);
                 if (original == null) continue;
+        
                 var gun = original.GetComponent<ItemSetting_Gun>();
                 if (gun != null && gun.bulletPfb != null)
                 {
-                    _elementBulletCache[elementKey] = gun.bulletPfb;
+                    _elementBulletCache[type] = gun.bulletPfb;
                 }
             }
 
@@ -157,7 +160,11 @@ namespace QuackCore.Items
             OverrideItemSettingGun(item, def);
             OverrideItemSettingMeleeWeapon(item, def);
             OverrideItemSettingAccessory(item, def);
-
+            
+            // 现应用手动配置的modifier列表
+            ApplyCustomModifiers(item, def);
+            
+            // 如果开发者没有写modifier，而是直接写在PropertyOverrides中，由AutoSetItemProperty自动判断
             if (def.PropertyOverrides != null)
             {
                 foreach (var kvp in def.PropertyOverrides)
@@ -173,18 +180,12 @@ namespace QuackCore.Items
             if (gun == null || def.Gun == null) return;
             var gDef = def.Gun;
 
-            if (!string.IsNullOrEmpty(gDef.TriggerMode))
-                gun.triggerMode = (ItemSetting_Gun.TriggerModes)ParseTriggerModes(gDef.TriggerMode);
-
-            if (!string.IsNullOrEmpty(gDef.ReloadMode))
-                gun.reloadMode = (ItemSetting_Gun.ReloadModes)ParseReloadModes(gDef.ReloadMode);
-
+            if (gDef.TriggerMode.HasValue) gun.triggerMode = gDef.TriggerMode.Value;
+            if (gDef.ReloadMode.HasValue) gun.reloadMode = gDef.ReloadMode.Value;
             if (gDef.AutoReload.HasValue) gun.autoReload = gDef.AutoReload.Value;
-
             if (gDef.CanControlMind.HasValue) gun.CanControlMind = gDef.CanControlMind.Value;
-
+            
             if (!string.IsNullOrEmpty(gDef.ShootKey)) gun.shootKey = gDef.ShootKey;
-
             if (!string.IsNullOrEmpty(gDef.ReloadKey)) gun.reloadKey = gDef.ReloadKey;
 
             if (gDef.BuffID.HasValue)
@@ -192,11 +193,10 @@ namespace QuackCore.Items
                 gun.buff = QuackBuffFactory.GetBuff(gDef.BuffID.Value);
             }
 
-            if (!string.IsNullOrEmpty(gDef.Element))
+            if (gDef.Element.HasValue)
             {
-                string el = gDef.Element.ToLower();
-                gun.element = (ElementTypes)ParseElementIndex(el);
-                if (_elementBulletCache.TryGetValue(el, out var bullet))
+                gun.element = gDef.Element.Value;
+                if (_elementBulletCache.TryGetValue(gDef.Element.Value, out var bullet))
                 {
                     gun.bulletPfb = bullet;
                 }
@@ -219,9 +219,9 @@ namespace QuackCore.Items
                 melee.buff = QuackBuffFactory.GetBuff(mDef.BuffID.Value);
             }
 
-            if (!string.IsNullOrEmpty(mDef.Element))
+            if (mDef.Element.HasValue)
             {
-                melee.element = (ElementTypes)ParseElementIndex(mDef.Element.ToLower());
+                melee.element = mDef.Element.Value;
             }
         }
 
@@ -238,6 +238,7 @@ namespace QuackCore.Items
 
         public static void AutoSetItemProperty(Item item, string key, float value)
         {
+            // 1. 原生 Stat
             var stat = item.GetStat(key.GetHashCode());
             if (stat != null)
             {
@@ -245,13 +246,34 @@ namespace QuackCore.Items
                 return;
             }
 
-            ApplySingleModifier(item, key, value);
+            // 2. 是否已存在 Modifier
+            var modifiersList = GetModifiersList(item);
+            if (modifiersList != null && modifiersList.Any(m => m.Key == key))
+            {
+                // 此时内部会自动覆盖已有 Modifier 的数值，不会影响修改类型
+                ApplyDefaultAddModifier(item, key, value);
+                return;
+            }
 
-            if (item.Constants != null) item.Constants.SetFloat(key, value, true);
-            if (item.Variables != null) item.Variables.SetFloat(key, value, true);
+            // 3. 是否为已有的 Constant
+            if (item.Constants != null && item.Constants.GetEntry(key) != null)
+            {
+                item.Constants.SetFloat(key, value);
+                return;
+            }
+
+            // 4. 是否为已有的 Variable
+            if (item.Variables != null && item.Variables.GetEntry(key) != null)
+            {
+                item.Variables.SetFloat(key, value);
+                return;
+            }
+
+            // 5. 视为新的 Modifier
+            ApplyDefaultAddModifier(item, key, value);
         }
 
-        private static void ApplySingleModifier(Item item, string key, float value)
+        private static void ApplyDefaultAddModifier(Item item, string key, float value)
         {
             if (item.Modifiers == null) return;
 
@@ -281,49 +303,45 @@ namespace QuackCore.Items
             targetMod.ReapplyModifier(item.Modifiers);
         }
 
-        private static void ApplyAccessoryModifiers(Item item, QuackItemDefinition def)
+        private static void ApplyCustomModifiers(Item item, QuackItemDefinition def)
         {
-            if (item.Modifiers == null || def.PropertyOverrides == null) return;
+            if (def.Modifiers == null || def.Modifiers.Count == 0) return;
+
             List<ModifierDescription> modifiersList = GetModifiersList(item);
             if (modifiersList == null) return;
 
-            ModifierDescriptionCollection collection = item.Modifiers;
-
-            foreach (var kvp in def.PropertyOverrides)
+            foreach (var config in def.Modifiers)
             {
-                ModifierDescription targetMod = null;
-                foreach (var mod in modifiersList)
-                {
-                    if (mod.Key == kvp.Key)
-                    {
-                        targetMod = mod;
-                        break;
-                    }
-                }
+                if (string.IsNullOrEmpty(config.Key)) continue;
 
-                if (targetMod != null)
+                ModifierTarget target;
+                if (config.Target.HasValue)
                 {
-                    SetPrivateField(targetMod, "value", kvp.Value);
-                    SetPrivateField(targetMod, "display", true);
+                    target = config.Target.Value;
                 }
                 else
                 {
-                    targetMod = new ModifierDescription(
-                        ModifierTarget.Parent,
-                        kvp.Key,
-                        ModifierType.Add,
-                        kvp.Value,
-                        false,
-                        0
-                    );
-                    SetPrivateField(targetMod, "display", true);
-                    modifiersList.Add(targetMod);
+                    target = item.GetComponent<ItemSetting_Accessory>() != null
+                        ? ModifierTarget.Parent
+                        : ModifierTarget.Character;
                 }
 
-                targetMod.ReapplyModifier(collection);
-            }
+                var modDesc = new ModifierDescription(
+                    target, 
+                    config.Key, 
+                    config.Type,
+                    config.Value, 
+                    config.OverrideOrder, 
+                    config.Order
+                );
 
-            ModLogger.LogDebug($"[QuackFactory] 已成功应用 {def.PropertyOverrides.Count} 个配件修正器。");
+                SetPrivateField(modDesc, "enableInInventory", config.EnableInInventory);
+                SetPrivateField(modDesc, "display", config.Display);
+                modifiersList.Add(modDesc);
+                modDesc.ReapplyModifier(item.Modifiers);
+            }
+            
+            ModLogger.LogDebug($"[QuackFactory] 已应用 {def.Modifiers.Count} 个自定义详细修改器。");
         }
         
         private static void AddAdditionalSlots(Item item, QuackItemDefinition def)
@@ -428,25 +446,7 @@ namespace QuackCore.Items
                 typeof(ModifierDescriptionCollection).GetField("list", BindingFlags.Instance | BindingFlags.NonPublic);
             return field?.GetValue(item.Modifiers) as List<ModifierDescription>;
         }
-
-        private static int ParseElementIndex(string el)
-        {
-            return el switch
-            {
-                "fire" => 1, "poison" => 2, "electricity" => 3, "space" => 4, "ghost" => 5, "ice" => 6, _ => 0
-            };
-        }
-
-        private static int ParseTriggerModes(string triggerMode)
-        {
-            return triggerMode switch { "auto" => 0, "semi" => 1, "bolt" => 2, };
-        }
-
-        private static int ParseReloadModes(string triggerMode)
-        {
-            return triggerMode switch { "fullMag" => 0, "singleBullet" => 1 };
-        }
-
+        
         private static void SetPrivateField(object target, string fieldName, object value)
         {
             Type type = target.GetType();

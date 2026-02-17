@@ -1,169 +1,671 @@
 ﻿namespace QuackCore.Constants
 {
     /// <summary>
-    /// 物品标签(Tags)常量定义。
-    /// 包含所有原版及扩展系统使用的标签 Key。
+    /// 物品标签常量定义
     /// </summary>
     public static class ItemTagsConstants
     {
-        #region 1. 枪械专用配件 (Weapon Specific Accessories)
-        public const string Acc_AHBow = "Acc_AHBow"; // 反曲弓专用
-        public const string Acc_ArcadeGun = "Acc_ArcadeGun"; // 玩具枪专用
-        public const string Acc_Aug = "Acc_Aug"; // StG 77专用
-        public const string Acc_Candy = "Acc_Candy"; // 糖果枪专用
-        public const string Acc_CubeGun = "Acc_CubeGun"; // 能量枪专用
-        public const string Acc_Glick = "Acc_Glick"; // 格力克专用
-        public const string Acc_M14 = "Acc_M14"; // M14专用
-        public const string Acc_Mosin = "Acc_Mosin"; // Mosin-Nagant专用
-        public const string Acc_PP19Bizon = "Acc_PP19Bizon"; // Bizon-2专用
-        public const string Acc_RPD = "Acc_RPD"; // RPD专用
-        public const string Acc_SKS = "Acc_SKS"; // SKS-45专用
-        public const string Acc_Balett = "Acc_Balett"; // M107专属
-        public const string Acc_Hand = "Acc_Hand"; // 土制猎枪专属
-        public const string Acc_LightSaber = "Acc_LightSaber"; // 伞柄军刀专属
-        public const string Acc_M700 = "Acc_M700"; // M700专属
-        public const string Acc_NMGun = "Acc_NMGun"; // 纳米枪专属
-        public const string Acc_ShitGun = "Acc_ShitGun"; // 粑粑枪专用
-        public const string Acc_SnowBoss = "Acc_SnowBoss"; // BSG专属
-        public const string Acc_SnowGun = "Acc_SnowGun"; // 雪球枪专用
-        public const string Acc_TecSniper = "Acc_TecSniper"; // TS-128专属
-        public const string Acc_UZI = "Acc_UZI"; // UZI专属
-        #endregion
-
-        #region 2. 装备与护甲 (Equipment & Armor)
-        public const string Accessory = "Accessory"; // 配件
-        public const string SpecialAcc = "SpecialAcc"; // 特殊配件
-        public const string Armor = "Armor"; // 身体护甲
-        public const string Backpack = "Backpack"; // 背包
-        public const string FaceMask = "FaceMask"; // 面部
-        public const string Helmat = "Helmat"; // 头部
-        public const string Headset = "Headset"; // 耳机
-        public const string Equipment = "Equipment"; // 装备
-        public const string DecorateEquipment = "DecorateEquipment"; // 装饰性装备
-        public const string Repairable = "Repairable"; // 可维修
-        public const string DontDropOnDeadInSlot = "DontDropOnDeadInSlot"; // 绑定装备
-        #endregion
-
-        #region 3. 武器与枪械分类 (Weapons & Gun Types)
-        public const string Weapon = "Weapon"; // 武器
-        public const string Weapon_LV1 = "Weapon_LV1"; // 低级武器
-        public const string Gun = "Gun"; // 枪械
-        public const string MeleeWeapon = "MeleeWeapon"; // 近战武器
-        public const string Explosive = "Explosive"; // 爆炸物
-        public const string GunType_AR = "GunType_AR"; // 步枪
-        public const string GunType_ARR = "GunType_ARR"; // 弓箭
-        public const string GunType_BR = "GunType_BR"; // 战斗步枪
-        public const string GunType_MAG = "GunType_MAG"; // 马格南
-        public const string GunType_PST = "GunType_PST"; // 手枪
-        public const string GunType_PWS = "GunType_PWS"; // 小能量枪
-        public const string GunType_Rifle = "GunType_Rifle"; // 步枪
-        public const string GunType_Rocket = "GunType_Rocket"; // 火箭筒
-        public const string GunType_Shot = "GunType_Shot"; // 霰弹枪
-        public const string GunType_SHT = "GunType_SHT"; // 霰弹枪
-        public const string GunType_SMG = "GunType_SMG"; // 冲锋枪
-        public const string GunType_Sniper = "GunType_Sniper"; // 狙击枪
-        public const string GunType_SNP = "GunType_SNP"; // 狙击枪
-        #endregion
-
-        #region 4. 改装组件 (Gun Parts)
-        public const string Grip = "Grip"; // 握把
-        public const string Muzzle = "Muzzle"; // 枪口
-        public const string Magazine = "Magazine"; // 弹夹
-        public const string Scope = "Scope"; // 瞄具
-        public const string Stock = "Stock"; // 枪托
-        public const string TecEquip = "TecEquip"; // 战术装备
-        #endregion
-
-        #region 5. 消耗品与医疗 (Consumables & Medical)
-        public const string Food = "Food"; // 食物
-        public const string Drink = "Drink"; // 饮品
-        public const string Medic = "Medic"; // 医疗用品
-        public const string Healing = "Healing"; // 治疗
-        public const string Injector = "Injector"; // 注射器
-        public const string Bullet = "Bullet"; // 子弹
-        #endregion
-
-        #region 6. 钓鱼与生物 (Fishing & Biology)
-        public const string Fish = "Fish"; // 鱼
-        public const string Bait = "Bait"; // 鱼饵
-        public const string Earthworm = "Earthworm"; // 蚯蚓
-        public const string Fish_OnlyDay = "Fish_OnlyDay"; // 仅白天可钓
-        public const string Fish_OnlyNight = "Fish_OnlyNight"; // 仅晚上可钓
-        public const string Fish_OnlyRainDay = "Fish_OnlyRainDay"; // 仅雨天可钓
-        public const string Fish_OnlyStorm = "Fish_OnlyStorm"; // 仅风暴可钓
-        public const string Fish_OnlySunDay = "Fish_OnlySunDay"; // 仅晴天可钓
-        public const string Fish_Other = "Fish_Other"; // 其他鱼类
-        public const string Fish_Special = "Fish_Special"; // 特殊鱼类
-        public const string Pelt = "Pelt"; // 毛皮
-        #endregion
-
-        #region 7. 配方与功能 (Formulas & Function)
-        public const string Formula = "Formula"; // 配方
-        public const string Formula_Blueprint = "Formula_Blueprint"; // 高级蓝图
-        public const string Formula_Cook = "Formula_Cook"; // 菜谱
-        public const string Formula_Medic = "Formula_Medic"; // 医疗配方
-        public const string Formula_Normal = "Formula_Normal"; // 工作台配方
-        public const string Formula_Printer = "Formula_Printer"; // 3D打印设计图
-        public const string Seed = "Seed"; // 种子
-        public const string Crop = "Crop"; // 作物
-        public const string Tool = "Tool"; // 工具
-        #endregion
-
-        #region 8. 电子产品与电脑 (Electronics & Computer)
-        public const string Electric = "Electric"; // 电子产品
-        public const string Computer = "Computer"; // 电脑配件
-        public const string ComputerParts_GPU = "ComputerParts_GPU"; // 显卡
-        public const string GamingConsole = "GamingConsole"; // 游戏主机
-        public const string Cartridge = "Cartridge"; // 游戏卡带
-        public const string Monitor = "Monitor"; // 显示器
-        public const string FcController = "FcController"; // 控制器
-        #endregion
-
-        #region 9. 系统逻辑与特殊 (System & Logic)
-        public const string AdvancedDebuffMode = "AdvancedDebuffMode"; // 高级Debuff模式
-        public const string Cash = "Cash"; // 现金
-        public const string Character = "Character"; // 角色
-        public const string Continer = "Continer"; // 容器
-        public const string DestroyInBase = "DestroyInBase"; // 无法带出
-        public const string DestroyOnLootBox = "DestroyOnLootBox"; // 玩家不可见
-        public const string DogTag = "DogTag"; // 狗牌
-        public const string Information = "Information"; // 情报物品
-        public const string Key = "Key"; // 钥匙
-        public const string SpecialKey = "SpecialKey"; // 特殊钥匙(无法录入)
-        public const string LockInDemo = "LockInDemo"; // Demo锁定
-        public const string NotForSell = "NotForSell"; // 不可出售
-        public const string NotSellable = "NotSellable"; // 不可出售
-        public const string NotNested = "NotNested"; // 不可嵌套
-        public const string Quest = "Quest"; // 任务物品
-        public const string Sticky = "Sticky"; // 受保护(绑定)
-        public const string Totem = "Totem"; // 图腾
-        public const string SnowLand = "SnowLand"; // 雪地
-        public const string Western = "Western"; // 西方
-        public const string MiniGame = "MiniGame"; // 小游戏
-        public const string JLab = "JLab"; // J实验室
-        #endregion
-
-        #region 10. 杂物与收藏 (Misc & Collections)
-        public const string Daily = "Daily"; // 日常用品
-        public const string Luxury = "Luxury"; // 奢侈品
-        public const string Material = "Material"; // 材料
-        public const string Misc = "Misc"; // 杂物
-        public const string Collection = "Collection"; // 收藏品
-        public const string ColorCard = "ColorCard"; // 颜色卡
-        public const string Gem = "Gem"; // 宝石
-        public const string Gem_Armor_Fleeze = "Gem_Armor_Fleeze"; // 蓝色圆球
-        public const string Gem_Armor_Igny = "Gem_Armor_Igny"; // 红色圆球
-        public const string SoulCube = "SoulCube"; // 蓝色方块
-        public const string Special = "Special"; // 特殊
-        public const string Shit = "Shit"; // 粑粑
-        public const string SnowBall = "SnowBall"; // 雪球
-        public const string Pelt_Pelt = "Pelt"; // 皮毛
-        public const string ShowCase = "ShowCase"; // 展示品
-        #endregion
-
-        #region 11. 基地与装修 (Base & Deco)
-        public const string Base_Deco = "Base_Deco"; // 基地装饰
-        public const string Base_WallPaper = "Base_WallPaper"; // 基地墙纸
-        #endregion
+        /// <summary>
+        /// UI中可见的标签
+        /// </summary>
+        public static class Visible
+        {
+            /// <summary>
+            /// 反曲弓专用
+            /// <para>*Tag_Acc_AHBow_Desc*</para>
+            /// </summary>
+            public const string Acc_AHBow = "Acc_AHBow";
+            /// <summary>
+            /// 玩具枪专用
+            /// <para>*Tag_Acc_ArcadeGun_Desc*</para>
+            /// </summary>
+            public const string Acc_ArcadeGun = "Acc_ArcadeGun";
+            /// <summary>
+            /// StG 77专用
+            /// <para>*Tag_Acc_Aug_Desc*</para>
+            /// </summary>
+            public const string Acc_Aug = "Acc_Aug";
+            /// <summary>
+            /// M107专属
+            /// <para>*Tag_Acc_Balett_Desc*</para>
+            /// </summary>
+            public const string Acc_Balett = "Acc_Balett";
+            /// <summary>
+            /// 糖果枪专用
+            /// <para>*Tag_Acc_Candy_Desc*</para>
+            /// </summary>
+            public const string Acc_Candy = "Acc_Candy";
+            /// <summary>
+            /// 能量枪专用
+            /// <para>*Tag_Acc_CubeGun_Desc*</para>
+            /// </summary>
+            public const string Acc_CubeGun = "Acc_CubeGun";
+            /// <summary>
+            /// 格力克专用
+            /// <para>*Tag_Acc_Glick_Desc*</para>
+            /// </summary>
+            public const string Acc_Glick = "Acc_Glick";
+            /// <summary>
+            /// 土制猎枪专属
+            /// <para>*Tag_Acc_Hand_Desc*</para>
+            /// </summary>
+            public const string Acc_Hand = "Acc_Hand";
+            /// <summary>
+            /// 伞柄军刀专属
+            /// <para>*Tag_Acc_LightSaber_Desc*</para>
+            /// </summary>
+            public const string Acc_LightSaber = "Acc_LightSaber";
+            /// <summary>
+            /// M14专用
+            /// <para>*Tag_Acc_M14_Desc*</para>
+            /// </summary>
+            public const string Acc_M14 = "Acc_M14";
+            /// <summary>
+            /// M700专属
+            /// <para>*Tag_Acc_M700_Desc*</para>
+            /// </summary>
+            public const string Acc_M700 = "Acc_M700";
+            /// <summary>
+            /// Mosin-Nagant专用
+            /// <para>*Tag_Acc_Mosin_Desc*</para>
+            /// </summary>
+            public const string Acc_Mosin = "Acc_Mosin";
+            /// <summary>
+            /// 纳米枪专属
+            /// <para>*Tag_Acc_NMGun_Desc*</para>
+            /// </summary>
+            public const string Acc_NMGun = "Acc_NMGun";
+            /// <summary>
+            /// Bizon-2专用
+            /// <para>*Tag_Acc_PP19Bizon_Desc*</para>
+            /// </summary>
+            public const string Acc_PP19Bizon = "Acc_PP19Bizon";
+            /// <summary>
+            /// RPD专用
+            /// <para>*Tag_Acc_RPD_Desc*</para>
+            /// </summary>
+            public const string Acc_RPD = "Acc_RPD";
+            /// <summary>
+            /// SKS-45专用
+            /// <para>*Tag_Acc_SKS_Desc*</para>
+            /// </summary>
+            public const string Acc_SKS = "Acc_SKS";
+            /// <summary>
+            /// 粑粑枪专用
+            /// <para>*Tag_Acc_ShitGun_Desc*</para>
+            /// </summary>
+            public const string Acc_ShitGun = "Acc_ShitGun";
+            /// <summary>
+            /// BSG专属
+            /// <para>*Tag_Acc_SnowBoss_Desc*</para>
+            /// </summary>
+            public const string Acc_SnowBoss = "Acc_SnowBoss";
+            /// <summary>
+            /// *Tag_Acc_SnowGun*
+            /// <para>*Tag_Acc_SnowGun_Desc*</para>
+            /// </summary>
+            public const string Acc_SnowGun = "Acc_SnowGun";
+            /// <summary>
+            /// TS-128专属
+            /// <para>*Tag_Acc_TecSniper_Desc*</para>
+            /// </summary>
+            public const string Acc_TecSniper = "Acc_TecSniper";
+            /// <summary>
+            /// UZI专属
+            /// <para>*Tag_Acc_UZI_Desc*</para>
+            /// </summary>
+            public const string Acc_UZI = "Acc_UZI";
+            /// <summary>
+            /// 配件
+            /// <para>可安装配件。</para>
+            /// </summary>
+            public const string Accessory = "Accessory";
+            /// <summary>
+            /// 背包
+            /// <para>*Tag_Backpack_Desc*</para>
+            /// </summary>
+            public const string Backpack = "Backpack";
+            /// <summary>
+            /// 基地装饰
+            /// <para>*Tag_Base_Deco_Desc*</para>
+            /// </summary>
+            public const string Base_Deco = "Base_Deco";
+            /// <summary>
+            /// 基地墙纸
+            /// <para>*Tag_Base_WallPaper_Desc*</para>
+            /// </summary>
+            public const string Base_WallPaper = "Base_WallPaper";
+            /// <summary>
+            /// 子弹
+            /// <para>*Tag_Bullet_Desc*</para>
+            /// </summary>
+            public const string Bullet = "Bullet";
+            /// <summary>
+            /// 显卡
+            /// <para>显卡！</para>
+            /// </summary>
+            public const string ComputerParts_GPU = "ComputerParts_GPU";
+            /// <summary>
+            /// 无法带出
+            /// <para>回到地堡时，此物品会消失。</para>
+            /// </summary>
+            public const string DestroyInBase = "DestroyInBase";
+            /// <summary>
+            /// 狗牌
+            /// <para>*Tag_DogTag_Desc*</para>
+            /// </summary>
+            public const string DogTag = "DogTag";
+            /// <summary>
+            /// 绑定装备
+            /// <para>装备在身上时，不会掉落。</para>
+            /// </summary>
+            public const string DontDropOnDeadInSlot = "DontDropOnDeadInSlot";
+            /// <summary>
+            /// 面部
+            /// <para>*Tag_FaceMask_Desc*</para>
+            /// </summary>
+            public const string FaceMask = "FaceMask";
+            /// <summary>
+            /// 鱼
+            /// <para>*Tag_Fish_Desc*</para>
+            /// </summary>
+            public const string Fish = "Fish";
+            /// <summary>
+            /// 食物
+            /// <para>*Tag_Food_Desc*</para>
+            /// </summary>
+            public const string Food = "Food";
+            /// <summary>
+            /// 高级工作台蓝图
+            /// <para>在高级工作台制造物品的蓝图。</para>
+            /// </summary>
+            public const string Formula_Blueprint = "Formula_Blueprint";
+            /// <summary>
+            /// 菜谱
+            /// <para>做菜的方法。</para>
+            /// </summary>
+            public const string Formula_Cook = "Formula_Cook";
+            /// <summary>
+            /// 医疗站配方
+            /// <para>在医疗站生产药剂的配方。</para>
+            /// </summary>
+            public const string Formula_Medic = "Formula_Medic";
+            /// <summary>
+            /// 工作台配方
+            /// <para>在工作台制作物品的配方。</para>
+            /// </summary>
+            public const string Formula_Normal = "Formula_Normal";
+            /// <summary>
+            /// 3D打印设计图
+            /// <para>在3D打印机打印物品的设计图。</para>
+            /// </summary>
+            public const string Formula_Printer = "Formula_Printer";
+            /// <summary>
+            /// 宝石
+            /// <para>*Tag_Gem_Desc*</para>
+            /// </summary>
+            public const string Gem = "Gem";
+            /// <summary>
+            /// 蓝色圆球
+            /// <para>*Tag_Gem_Armor_Fleeze_Desc*</para>
+            /// </summary>
+            public const string Gem_Armor_Fleeze = "Gem_Armor_Fleeze";
+            /// <summary>
+            /// 红色圆球
+            /// <para>*Tag_Gem_Armor_Igny_Desc*</para>
+            /// </summary>
+            public const string Gem_Armor_Igny = "Gem_Armor_Igny";
+            /// <summary>
+            /// 握把
+            /// <para>*Tag_Grip_Desc*</para>
+            /// </summary>
+            public const string Grip = "Grip";
+            /// <summary>
+            /// 步枪
+            /// <para>*Tag_GunType_AR_Desc*</para>
+            /// </summary>
+            public const string GunType_AR = "GunType_AR";
+            /// <summary>
+            /// 弓箭
+            /// <para>*Tag_GunType_ARR_Desc*</para>
+            /// </summary>
+            public const string GunType_ARR = "GunType_ARR";
+            /// <summary>
+            /// 战斗步枪
+            /// <para>*Tag_GunType_BR_Desc*</para>
+            /// </summary>
+            public const string GunType_BR = "GunType_BR";
+            /// <summary>
+            /// 马格南
+            /// <para>*Tag_GunType_MAG_Desc*</para>
+            /// </summary>
+            public const string GunType_MAG = "GunType_MAG";
+            /// <summary>
+            /// 手枪
+            /// <para>*Tag_GunType_PST_Desc*</para>
+            /// </summary>
+            public const string GunType_PST = "GunType_PST";
+            /// <summary>
+            /// 小能量枪
+            /// <para>*Tag_GunType_PWS_Desc*</para>
+            /// </summary>
+            public const string GunType_PWS = "GunType_PWS";
+            /// <summary>
+            /// 步枪
+            /// <para>*Tag_GunType_Rifle_Desc*</para>
+            /// </summary>
+            public const string GunType_Rifle = "GunType_Rifle";
+            /// <summary>
+            /// 火箭筒
+            /// <para>*Tag_GunType_Rocket_Desc*</para>
+            /// </summary>
+            public const string GunType_Rocket = "GunType_Rocket";
+            /// <summary>
+            /// 霰弹枪
+            /// <para>*Tag_GunType_SHT_Desc*</para>
+            /// </summary>
+            public const string GunType_SHT = "GunType_SHT";
+            /// <summary>
+            /// 冲锋枪
+            /// <para>*Tag_GunType_SMG_Desc*</para>
+            /// </summary>
+            public const string GunType_SMG = "GunType_SMG";
+            /// <summary>
+            /// 狙击枪
+            /// <para>*Tag_GunType_SNP_Desc*</para>
+            /// </summary>
+            public const string GunType_SNP = "GunType_SNP";
+            /// <summary>
+            /// 霰弹枪
+            /// <para>*Tag_GunType_Shot_Desc*</para>
+            /// </summary>
+            public const string GunType_Shot = "GunType_Shot";
+            /// <summary>
+            /// 狙击枪
+            /// <para>*Tag_GunType_Sniper_Desc*</para>
+            /// </summary>
+            public const string GunType_Sniper = "GunType_Sniper";
+            /// <summary>
+            /// 耳机
+            /// <para>*Tag_Headset_Desc*</para>
+            /// </summary>
+            public const string Headset = "Headset";
+            /// <summary>
+            /// 治疗
+            /// <para>*Tag_Healing_Desc*</para>
+            /// </summary>
+            public const string Healing = "Healing";
+            /// <summary>
+            /// 头部
+            /// <para>*Tag_Helmat_Desc*</para>
+            /// </summary>
+            public const string Helmat = "Helmat";
+            /// <summary>
+            /// 情报物品
+            /// <para>*Tag_Information_Desc*</para>
+            /// </summary>
+            public const string Information = "Information";
+            /// <summary>
+            /// 注射器
+            /// <para>*Tag_Injector_Desc*</para>
+            /// </summary>
+            public const string Injector = "Injector";
+            /// <summary>
+            /// 钥匙
+            /// <para>*Tag_Key_Desc*</para>
+            /// </summary>
+            public const string Key = "Key";
+            /// <summary>
+            /// 弹夹
+            /// <para>*Tag_Magazine_Desc*</para>
+            /// </summary>
+            public const string Magazine = "Magazine";
+            /// <summary>
+            /// 材料
+            /// <para>*Tag_Material_Desc*</para>
+            /// </summary>
+            public const string Material = "Material";
+            /// <summary>
+            /// 特大号
+            /// <para>*Tag_Matryoshka_1_Desc*</para>
+            /// </summary>
+            public const string Matryoshka_1 = "Matryoshka_1";
+            /// <summary>
+            /// 大号
+            /// <para>*Tag_Matryoshka_2_Desc*</para>
+            /// </summary>
+            public const string Matryoshka_2 = "Matryoshka_2";
+            /// <summary>
+            /// 中号
+            /// <para>*Tag_Matryoshka_3_Desc*</para>
+            /// </summary>
+            public const string Matryoshka_3 = "Matryoshka_3";
+            /// <summary>
+            /// 小号
+            /// <para>*Tag_Matryoshka_4_Desc*</para>
+            /// </summary>
+            public const string Matryoshka_4 = "Matryoshka_4";
+            /// <summary>
+            /// 特小号
+            /// <para>*Tag_Matryoshka_5_Desc*</para>
+            /// </summary>
+            public const string Matryoshka_5 = "Matryoshka_5";
+            /// <summary>
+            /// 医疗用品
+            /// <para>*Tag_Medic_Desc*</para>
+            /// </summary>
+            public const string Medic = "Medic";
+            /// <summary>
+            /// 近战武器
+            /// <para>*Tag_MeleeWeapon_Desc*</para>
+            /// </summary>
+            public const string MeleeWeapon = "MeleeWeapon";
+            /// <summary>
+            /// 杂物
+            /// <para>*Tag_Misc_Desc*</para>
+            /// </summary>
+            public const string Misc = "Misc";
+            /// <summary>
+            /// 枪口
+            /// <para>*Tag_Muzzle_Desc*</para>
+            /// </summary>
+            public const string Muzzle = "Muzzle";
+            /// <summary>
+            /// 不可出售
+            /// <para>*Tag_NotSellable_Desc*</para>
+            /// </summary>
+            public const string NotSellable = "NotSellable";
+            /// <summary>
+            /// 可维修
+            /// <para>可以在高级工作台进行维修。</para>
+            /// </summary>
+            public const string Repairable = "Repairable";
+            /// <summary>
+            /// 瞄具
+            /// <para>*Tag_Scope_Desc*</para>
+            /// </summary>
+            public const string Scope = "Scope";
+            /// <summary>
+            /// 种子
+            /// <para>*Tag_Seed_Desc*</para>
+            /// </summary>
+            public const string Seed = "Seed";
+            /// <summary>
+            /// 展示品
+            /// <para>*Tag_ShowCase_Desc*</para>
+            /// </summary>
+            public const string ShowCase = "ShowCase";
+            /// <summary>
+            /// 蓝色方块
+            /// <para>*Tag_SoulCube_Desc*</para>
+            /// </summary>
+            public const string SoulCube = "SoulCube";
+            /// <summary>
+            /// 特殊
+            /// <para>*Tag_Special_Desc*</para>
+            /// </summary>
+            public const string Special = "Special";
+            /// <summary>
+            /// 特殊配件
+            /// <para>*Tag_SpecialAcc_Desc*</para>
+            /// </summary>
+            public const string SpecialAcc = "SpecialAcc";
+            /// <summary>
+            /// 钥匙（无法录入）
+            /// <para>*Tag_SpecialKey_Desc*</para>
+            /// </summary>
+            public const string SpecialKey = "SpecialKey";
+            /// <summary>
+            /// 受保护
+            /// <para>无法出售、无法丢弃。</para>
+            /// </summary>
+            public const string Sticky = "Sticky";
+            /// <summary>
+            /// 枪托
+            /// <para>*Tag_Stock_Desc*</para>
+            /// </summary>
+            public const string Stock = "Stock";
+            /// <summary>
+            /// 工具
+            /// <para>*Tag_Tool_Desc*</para>
+            /// </summary>
+            public const string Tool = "Tool";
+        }
+        /// <summary>
+        /// 隐藏的内部标签
+        /// </summary>
+        public static class Hidden
+        {
+            /// <summary>
+            /// *Tag_AdvancedDebuffMode*
+            /// <para>*Tag_AdvancedDebuffMode_Desc*</para>
+            /// </summary>
+            public const string AdvancedDebuffMode = "AdvancedDebuffMode";
+            /// <summary>
+            /// 身体
+            /// <para>*Tag_Armor_Desc*</para>
+            /// </summary>
+            public const string Armor = "Armor";
+            /// <summary>
+            /// 鱼饵
+            /// <para>*Tag_Bait_Desc*</para>
+            /// </summary>
+            public const string Bait = "Bait";
+            /// <summary>
+            /// 游戏卡带
+            /// <para>*Tag_Cartridge_Desc*</para>
+            /// </summary>
+            public const string Cartridge = "Cartridge";
+            /// <summary>
+            /// *Tag_Cash*
+            /// <para>*Tag_Cash_Desc*</para>
+            /// </summary>
+            public const string Cash = "Cash";
+            /// <summary>
+            /// 角色
+            /// <para>*Tag_Character_Desc*</para>
+            /// </summary>
+            public const string Character = "Character";
+            /// <summary>
+            /// 收藏品
+            /// <para>*Tag_Collection_Desc*</para>
+            /// </summary>
+            public const string Collection = "Collection";
+            /// <summary>
+            /// 颜色卡
+            /// <para>*Tag_ColorCard_Desc*</para>
+            /// </summary>
+            public const string ColorCard = "ColorCard";
+            /// <summary>
+            /// 电脑配件
+            /// <para>*Tag_Computer_Desc*</para>
+            /// </summary>
+            public const string Computer = "Computer";
+            /// <summary>
+            /// 容器
+            /// <para>*Tag_Continer_Desc*</para>
+            /// </summary>
+            public const string Continer = "Continer";
+            /// <summary>
+            /// 作物
+            /// <para>*Tag_Crop_Desc*</para>
+            /// </summary>
+            public const string Crop = "Crop";
+            /// <summary>
+            /// 日常用品
+            /// <para>*Tag_Daily_Desc*</para>
+            /// </summary>
+            public const string Daily = "Daily";
+            /// <summary>
+            /// 装饰性装备
+            /// <para>*Tag_DecorateEquipment_Desc*</para>
+            /// </summary>
+            public const string DecorateEquipment = "DecorateEquipment";
+            /// <summary>
+            /// 玩家不可见
+            /// <para>*Tag_DestroyOnLootBox_Desc*</para>
+            /// </summary>
+            public const string DestroyOnLootBox = "DestroyOnLootBox";
+            /// <summary>
+            /// 饮品
+            /// <para>*Tag_Drink_Desc*</para>
+            /// </summary>
+            public const string Drink = "Drink";
+            /// <summary>
+            /// *Tag_Earthworm*
+            /// <para>*Tag_Earthworm_Desc*</para>
+            /// </summary>
+            public const string Earthworm = "Earthworm";
+            /// <summary>
+            /// 电子产品
+            /// <para>*Tag_Electric_Desc*</para>
+            /// </summary>
+            public const string Electric = "Electric";
+            /// <summary>
+            /// 元素
+            /// <para>*Tag_Element_Desc*</para>
+            /// </summary>
+            public const string Element = "Element";
+            /// <summary>
+            /// 装备
+            /// <para>*Tag_Equipment_Desc*</para>
+            /// </summary>
+            public const string Equipment = "Equipment";
+            /// <summary>
+            /// 爆炸物
+            /// <para>*Tag_Explosive_Desc*</para>
+            /// </summary>
+            public const string Explosive = "Explosive";
+            /// <summary>
+            /// 控制器
+            /// <para>*Tag_FcController_Desc*</para>
+            /// </summary>
+            public const string FcController = "FcController";
+            /// <summary>
+            /// *Tag_Fish_OnlyDay*
+            /// <para>*Tag_Fish_OnlyDay_Desc*</para>
+            /// </summary>
+            public const string Fish_OnlyDay = "Fish_OnlyDay";
+            /// <summary>
+            /// *Tag_Fish_OnlyNight*
+            /// <para>*Tag_Fish_OnlyNight_Desc*</para>
+            /// </summary>
+            public const string Fish_OnlyNight = "Fish_OnlyNight";
+            /// <summary>
+            /// *Tag_Fish_OnlyRainDay*
+            /// <para>*Tag_Fish_OnlyRainDay_Desc*</para>
+            /// </summary>
+            public const string Fish_OnlyRainDay = "Fish_OnlyRainDay";
+            /// <summary>
+            /// *Tag_Fish_OnlyStorm*
+            /// <para>*Tag_Fish_OnlyStorm_Desc*</para>
+            /// </summary>
+            public const string Fish_OnlyStorm = "Fish_OnlyStorm";
+            /// <summary>
+            /// *Tag_Fish_OnlySunDay*
+            /// <para>*Tag_Fish_OnlySunDay_Desc*</para>
+            /// </summary>
+            public const string Fish_OnlySunDay = "Fish_OnlySunDay";
+            /// <summary>
+            /// *Tag_Fish_Other*
+            /// <para>*Tag_Fish_Other_Desc*</para>
+            /// </summary>
+            public const string Fish_Other = "Fish_Other";
+            /// <summary>
+            /// *Tag_Fish_Special*
+            /// <para>*Tag_Fish_Special_Desc*</para>
+            /// </summary>
+            public const string Fish_Special = "Fish_Special";
+            /// <summary>
+            /// 配方
+            /// <para>用于制造的配方或图纸。</para>
+            /// </summary>
+            public const string Formula = "Formula";
+            /// <summary>
+            /// 游戏主机
+            /// <para>*Tag_GamingConsole_Desc*</para>
+            /// </summary>
+            public const string GamingConsole = "GamingConsole";
+            /// <summary>
+            /// 枪械
+            /// <para>*Tag_Gun_Desc*</para>
+            /// </summary>
+            public const string Gun = "Gun";
+            /// <summary>
+            /// *Tag_JLab*
+            /// <para>*Tag_JLab_Desc*</para>
+            /// </summary>
+            public const string JLab = "JLab";
+            /// <summary>
+            /// *Tag_LockInDemo*
+            /// <para>*Tag_LockInDemo_Desc*</para>
+            /// </summary>
+            public const string LockInDemo = "LockInDemo";
+            /// <summary>
+            /// 奢侈品
+            /// <para>*Tag_Luxury_Desc*</para>
+            /// </summary>
+            public const string Luxury = "Luxury";
+            /// <summary>
+            /// *Tag_MiniGame*
+            /// <para>*Tag_MiniGame_Desc*</para>
+            /// </summary>
+            public const string MiniGame = "MiniGame";
+            /// <summary>
+            /// 显示器
+            /// <para>*Tag_Monitor_Desc*</para>
+            /// </summary>
+            public const string Monitor = "Monitor";
+            /// <summary>
+            /// *Tag_NotForSell*
+            /// <para>*Tag_NotForSell_Desc*</para>
+            /// </summary>
+            public const string NotForSell = "NotForSell";
+            /// <summary>
+            /// *Tag_NotNested*
+            /// <para>*Tag_NotNested_Desc*</para>
+            /// </summary>
+            public const string NotNested = "NotNested";
+            /// <summary>
+            /// *Tag_Pelt*
+            /// <para>*Tag_Pelt_Desc*</para>
+            /// </summary>
+            public const string Pelt = "Pelt";
+            /// <summary>
+            /// 任务物品
+            /// <para>*Tag_Quest_Desc*</para>
+            /// </summary>
+            public const string Quest = "Quest";
+            /// <summary>
+            /// *Tag_Shit*
+            /// <para>*Tag_Shit_Desc*</para>
+            /// </summary>
+            public const string Shit = "Shit";
+            /// <summary>
+            /// *Tag_SnowBall*
+            /// <para>*Tag_SnowBall_Desc*</para>
+            /// </summary>
+            public const string SnowBall = "SnowBall";
+            /// <summary>
+            /// *Tag_SnowLand*
+            /// <para>*Tag_SnowLand_Desc*</para>
+            /// </summary>
+            public const string SnowLand = "SnowLand";
+            /// <summary>
+            /// 战术
+            /// <para>*Tag_TecEquip_Desc*</para>
+            /// </summary>
+            public const string TecEquip = "TecEquip";
+            /// <summary>
+            /// 图腾
+            /// <para>*Tag_Totem_Desc*</para>
+            /// </summary>
+            public const string Totem = "Totem";
+            /// <summary>
+            /// 武器
+            /// <para>*Tag_Weapon_Desc*</para>
+            /// </summary>
+            public const string Weapon = "Weapon";
+        }
     }
 }

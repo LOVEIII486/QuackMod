@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FastModdingLib;
 using ItemStatsSystem;
+using ItemStatsSystem.Stats;
 using QuackCore.Constants;
 using QuackCore.Items;
 using QuackCore.Items.UsageData;
@@ -32,8 +33,8 @@ namespace QuackItem.Items
                     useTime = 1.0f,
                     behaviors = new List<UsageBehaviorData>
                     {
-                        new QuackSpawnNPCData 
-                        { 
+                        new QuackSpawnNPCData
+                        {
                             basePresetName = NPCPresetNames.Vehicle.VehicleTest,
                         }
                     }
@@ -50,7 +51,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_GoldenCarrot2 = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -73,8 +74,8 @@ namespace QuackItem.Items
                     useTime = 1.0f,
                     behaviors = new List<UsageBehaviorData>
                     {
-                        new QuackSpawnNPCData 
-                        { 
+                        new QuackSpawnNPCData
+                        {
                             basePresetName = NPCPresetNames.Vehicle.VehicleTest2,
                         }
                     }
@@ -91,7 +92,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Food_LifeFruit = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -129,7 +130,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_ReturnOrb = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -170,7 +171,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_MimicTearAshes = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -215,7 +216,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_SnowPMCAshes = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -241,8 +242,8 @@ namespace QuackItem.Items
                     durabilityUsage = 1,
                     behaviors = new List<UsageBehaviorData>
                     {
-                        new QuackSpawnNPCData 
-                        { 
+                        new QuackSpawnNPCData
+                        {
                             basePresetName = NPCPresetNames.Special.SnowPMC,
                         },
                         new ReturnItemData
@@ -279,7 +280,7 @@ namespace QuackItem.Items
             },
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_AmmoCase = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -315,7 +316,7 @@ namespace QuackItem.Items
                 ForceUnlock = false
             }
         };
-        
+
         public static readonly QuackItemDefinition Item_GunTurretBeacon = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -341,8 +342,8 @@ namespace QuackItem.Items
                     durabilityUsage = 1,
                     behaviors = new List<UsageBehaviorData>
                     {
-                        new QuackSpawnNPCData 
-                        { 
+                        new QuackSpawnNPCData
+                        {
                             basePresetName = NPCPresetNames.Special.GunTurret,
                             npcConfigId = "GunTurretBeacon"
                         },
@@ -360,7 +361,7 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null
         };
-        
+
         public static readonly QuackItemDefinition Item_AGDumbbell = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -376,11 +377,11 @@ namespace QuackItem.Items
                 maxStackCount = 1,
                 tags = new List<string>
                 {
-                    ItemTagsConstants.Daily,
-                    ItemTagsConstants.MeleeWeapon,
-                    ItemTagsConstants.Luxury,
-                    ItemTagsConstants.DontDropOnDeadInSlot,
-                    ItemTagsConstants.ShowCase
+                    ItemTagsConstants.Hidden.Daily,
+                    ItemTagsConstants.Visible.MeleeWeapon,
+                    ItemTagsConstants.Hidden.Luxury,
+                    ItemTagsConstants.Visible.DontDropOnDeadInSlot,
+                    ItemTagsConstants.Visible.ShowCase
                 },
                 spritePath = "items/AGDumbbell.png",
                 usages = null
@@ -400,21 +401,31 @@ namespace QuackItem.Items
             ReplaceExistingSlots = false,
             Slots = new List<QuackItemDefinition.SlotConfig>
             {
-                new() { Key = "0", RequireTags = new List<string> { ItemTagsConstants.Gem } },
-                new() { Key = "1", RequireTags = new List<string> { ItemTagsConstants.Gem } },
+                new() { Key = "0", RequireTags = new List<string> { ItemTagsConstants.Visible.Gem } },
+                new() { Key = "1", RequireTags = new List<string> { ItemTagsConstants.Visible.Gem } },
             },
             Melee = new QuackItemDefinition.MeleeConfig
             {
-                Element = ItemElementConstants.Space
+                Element = ElementTypes.space
             },
             PropertyOverrides = new Dictionary<string, float>
             {
-                { ItemStatsConstants.AttackSpeed, 0.7f }, 
-                { ItemStatsConstants.MoveSpeedMultiplier, 1.1f },
-                { ItemStatsConstants.BodyArmor, 1f },
+                { ItemPropertyConstants.Stats.AttackSpeed, 0.7f },
+                { ItemPropertyConstants.Stats.BodyArmor, 1f },
+            },
+            Modifiers = new List<QuackItemDefinition.ModifierConfig>
+            {
+                new()
+                {
+                    Key = ItemPropertyConstants.Stats.MoveSpeedMultiplier,
+                    Value = 1.5f,
+                    Type = ModifierType.PercentageAdd,
+                    Target = ModifierTarget.Character,
+                    Display = true
+                },
             }
         };
-        
+
         public static readonly QuackItemDefinition Item_FishingRodLV4 = new QuackItemDefinition
         {
             BaseData = new ItemData
@@ -430,10 +441,10 @@ namespace QuackItem.Items
                 maxStackCount = 1,
                 tags = new List<string>
                 {
-                    ItemTagsConstants.Tool,
-                    ItemTagsConstants.Weapon,
-                    ItemTagsConstants.MeleeWeapon,
-                    ItemTagsConstants.Special
+                    ItemTagsConstants.Visible.Tool,
+                    ItemTagsConstants.Hidden.Weapon,
+                    ItemTagsConstants.Visible.MeleeWeapon,
+                    ItemTagsConstants.Visible.Special
                 },
                 spritePath = "items/FishingRodLV4.png",
                 usages = null
@@ -453,10 +464,11 @@ namespace QuackItem.Items
             ReplaceExistingSlots = false,
             PropertyOverrides = new Dictionary<string, float>
             {
-                { ItemStatsConstants.FishingTime, 0.8f },
-                { ItemStatsConstants.FishingQualityFactor, 5f },
+                { ItemPropertyConstants.Stats.FishingTime, 0.8f },
+                { ItemPropertyConstants.Stats.FishingQualityFactor, 5f },
             }
         };
+
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
         {
             Item_GoldenCarrot,
