@@ -61,19 +61,22 @@ namespace QuackCore.Items
 
         public class GunConfig
         {
-            public float? Damage { get; set; }
-            public float? ShootSpeed { get; set; }
-            public int? Capacity { get; set; }
+            public string? TriggerMode { get; set; } // 0:auto, 1:semi, 2:bolt
+            public string? ReloadMode { get; set; }  // 0:fullMag, 1:singleBullet
+            public bool? AutoReload { get; set; }
+            public bool? CanControlMind { get; set; }
+            public string ShootKey { get; set; }
+            public string ReloadKey { get; set; }
             public string Element { get; set; }
-            public float? ReloadTime { get; set; }
             public int? BuffID { get; set; }
         }
 
         public class MeleeConfig
         {
-            public float? Damage { get; set; }
+            public bool? DealExplosionDamage { get; set; }
             public string Element { get; set; }
-            public float? AttackRange { get; set; }
+            public float? BuffChance { get; set; }
+            public int? BuffID { get; set; }
         }
     }
 }

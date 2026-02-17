@@ -392,9 +392,7 @@ namespace QuackItem.Items
             BaseItemId = 1175,
             Melee = new QuackItemDefinition.MeleeConfig
             {
-                Damage = 999f,        // 自定义伤害值
-                AttackRange = 10f,   // 自定义攻击距离
-                Element = "poison"    // 元素属性：physics, fire, poison, electricity, space, ghost, ice
+                Element = "poison"
             },
         };
 
