@@ -7,6 +7,8 @@ namespace QuackCore.Items
     public class QuackItemDefinition
     {
         public int BaseItemId { get; set; }
+        public bool ResetItemProperties { get; set; } = false;
+            
         public ItemData BaseData { get; set; }
 
         public ShopConfig Shop { get; set; }
@@ -23,6 +25,7 @@ namespace QuackCore.Items
 
         public MeleeConfig Melee { get; set; }
         
+        public AccessoryConfig Accessory { get; set; }
         
         public class ShopConfig
         {
@@ -77,6 +80,12 @@ namespace QuackCore.Items
             public string Element { get; set; }
             public float? BuffChance { get; set; }
             public int? BuffID { get; set; }
+        }
+        
+        public class AccessoryConfig
+        {
+            public string AdsAimMarkerKey { get; set; }
+            public bool AutoSetMarker { get; set; } = true;
         }
     }
 }

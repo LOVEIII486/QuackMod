@@ -375,7 +375,12 @@ namespace QuackItem.Items
                 quality = 4,
                 displayQuality = DisplayQuality.Purple,
                 maxStackCount = 1,
-                tags = new List<string> { "Daily", "Luxury", "MeleeWeapon" },
+                tags = new List<string>
+                {
+                    ItemTagsConstants.Daily,
+                    ItemTagsConstants.MeleeWeapon,
+                    ItemTagsConstants.Luxury
+                },
                 spritePath = "items/AGDumbbell.png",
                 usages = null
             },
@@ -390,10 +395,21 @@ namespace QuackItem.Items
             Crafting = null,
             Decompose = null,
             BaseItemId = 1175,
+            ResetItemProperties = false,
             Melee = new QuackItemDefinition.MeleeConfig
             {
-                Element = "poison"
+                Element = ItemElementConstants.Poison
             },
+            PropertyOverrides = new Dictionary<string, float>
+            {
+                { ItemStatsConstants.Damage, 100f },
+                { ItemStatsConstants.AttackRange, 100f },
+                { ItemStatsConstants.ArmorPiercing, 100f },
+                { ItemStatsConstants.CritRate, 1f },
+                { ItemStatsConstants.MoveSpeedMultiplier, 2f },
+                { ItemStatsConstants.BodyArmor, 100f },
+                
+            }
         };
 
         public static readonly List<QuackItemDefinition> AllQuackItems = new List<QuackItemDefinition>
