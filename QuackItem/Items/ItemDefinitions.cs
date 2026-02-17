@@ -372,14 +372,16 @@ namespace QuackItem.Items
                 localizationDesc = "Item_AGDumbbell_Desc",
                 weight = -46.0f,
                 value = 31321,
-                quality = 4,
-                displayQuality = DisplayQuality.Purple,
+                quality = 6,
+                displayQuality = DisplayQuality.Red,
                 maxStackCount = 1,
                 tags = new List<string>
                 {
                     ItemTagsConstants.Daily,
                     ItemTagsConstants.MeleeWeapon,
-                    ItemTagsConstants.Luxury
+                    ItemTagsConstants.Luxury,
+                    ItemTagsConstants.DontDropOnDeadInSlot,
+                    ItemTagsConstants.ShowCase
                 },
                 spritePath = "items/AGDumbbell.png",
                 usages = null
@@ -394,21 +396,23 @@ namespace QuackItem.Items
             },
             Crafting = null,
             Decompose = null,
-            BaseItemId = 1175,
+            BaseItemId = 1423,
             ResetItemProperties = false,
+            ReplaceExistingSlots = false,
+            Slots = new List<QuackItemDefinition.SlotConfig>
+            {
+                new() { Key = "0", RequireTags = new List<string> { ItemTagsConstants.Gem } },
+                new() { Key = "1", RequireTags = new List<string> { ItemTagsConstants.Gem } },
+            },
             Melee = new QuackItemDefinition.MeleeConfig
             {
-                Element = ItemElementConstants.Poison
+                Element = ItemElementConstants.Space
             },
             PropertyOverrides = new Dictionary<string, float>
             {
-                { ItemStatsConstants.Damage, 100f },
-                { ItemStatsConstants.AttackRange, 100f },
-                { ItemStatsConstants.ArmorPiercing, 100f },
-                { ItemStatsConstants.CritRate, 1f },
-                { ItemStatsConstants.MoveSpeedMultiplier, 2f },
-                { ItemStatsConstants.BodyArmor, 100f },
-                
+                { ItemStatsConstants.AttackSpeed, 1f }, 
+                { ItemStatsConstants.MoveSpeedMultiplier, 1.1f },
+                { ItemStatsConstants.BodyArmor, 1f },
             }
         };
 

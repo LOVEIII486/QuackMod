@@ -15,10 +15,10 @@ namespace QuackCore.Items
             if (def.BaseData == null) return;
 
             // 判断是否需要调用复杂构建框架
-            bool isComplex = def.BaseItemId > 0 || 
-                             (def.Slots != null && def.Slots.Count > 0) || 
-                             def.Gun != null || 
-                             def.Melee != null;
+            bool isComplex = def.BaseItemId > 0 || (def.Slots != null && def.Slots.Count > 0) 
+                                                || def.Gun != null 
+                                                || def.Melee != null
+                                                || def.Accessory != null;
 
             if (isComplex)
             {

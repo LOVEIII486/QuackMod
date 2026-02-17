@@ -5,6 +5,7 @@ using System.Linq;
 using Duckov.ItemBuilders;
 using FastModdingLib;
 using ItemStatsSystem;
+using ItemStatsSystem.Items;
 using ItemStatsSystem.Stats;
 using QuackCore.BuffSystem;
 using QuackCore.Constants;
@@ -68,10 +69,11 @@ namespace QuackCore.Items
             if (def.BaseItemId > 0)
             {
                 item = CreateFromOriginal(modPath, def);
+                AddAdditionalSlots(item, def);
             }
             else
             {
-                item = CreateSlotItem(modPath, def);
+                item = CreateItemFromItemBuilder(modPath, def);
                 SetExtendedItemProperties(item, def);
             }
 
@@ -113,7 +115,7 @@ namespace QuackCore.Items
         /// <summary>
         /// 使用 ItemBuilder 从零构建物品
         /// </summary>
-        private static Item CreateSlotItem(string modPath, QuackItemDefinition def)
+        private static Item CreateItemFromItemBuilder(string modPath, QuackItemDefinition def)
         {
             var config = def.BaseData;
 
@@ -321,7 +323,61 @@ namespace QuackCore.Items
 
             ModLogger.LogDebug($"[QuackFactory] 已成功应用 {def.PropertyOverrides.Count} 个配件修正器。");
         }
+        
+        private static void AddAdditionalSlots(Item item, QuackItemDefinition def)
+        {
+            if (def.Slots == null || def.Slots.Count == 0) return;
 
+            try
+            {
+                if (item.gameObject.GetComponent<SlotCollection>() == null)
+                {
+                    item.CreateSlotsComponent();
+                }
+
+                if (def.ReplaceExistingSlots)
+                {
+                    item.Slots.Clear();
+                }
+
+                for (int i = 0; i < def.Slots.Count; i++)
+                {
+                    var sDef = def.Slots[i];
+                    
+                    string slotKey = string.Format("{0}_slot_{1}_{2}", item.TypeID, i, sDef.Key);
+                    
+                    Slot newSlot = new Slot(slotKey);
+                    newSlot.Initialize(item.Slots);
+
+                    if (sDef.RequireTags != null)
+                    {
+                        foreach (var tagStr in sDef.RequireTags)
+                        {
+                            var tag = ItemUtils.GetTargetTag(tagStr);
+                            if (tag != null) newSlot.requireTags.Add(tag);
+                        }
+                    }
+
+                    if (sDef.ExcludeTags != null)
+                    {
+                        foreach (var tagStr in sDef.ExcludeTags)
+                        {
+                            var tag = ItemUtils.GetTargetTag(tagStr);
+                            if (tag != null) newSlot.excludeTags.Add(tag);
+                        }
+                    }
+
+                    item.Slots.Add(newSlot);
+                }
+                
+                ModLogger.LogDebug($"[QuackFactory] 物品 {item.name} 槽位配置完成。模式: {(def.ReplaceExistingSlots ? "替换" : "追加")}");
+            }
+            catch (Exception ex)
+            {
+                ModLogger.LogError($"[QuackFactory] 槽位配置失败: {item.TypeID}, {ex.Message}");
+            }
+        }
+        
         public static void SetItemProperty(Item item, string key, float value)
         {
             var stat = item.GetStat(key.GetHashCode());

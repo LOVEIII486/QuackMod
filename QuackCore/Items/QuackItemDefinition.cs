@@ -8,6 +8,7 @@ namespace QuackCore.Items
     {
         public int BaseItemId { get; set; }
         public bool ResetItemProperties { get; set; } = false;
+        public bool ReplaceExistingSlots { get; set; } = false;
             
         public ItemData BaseData { get; set; }
 
